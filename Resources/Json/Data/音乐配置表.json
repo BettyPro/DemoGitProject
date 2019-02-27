@@ -1,0 +1,47 @@
+﻿{ 
+   "1" : { 
+      "Type" : "1", 
+      "FileName" : "BGM/main_menu.mp3", 
+      "描述" : "玩家位于主界面时播放，循环播放"
+   }, 
+   "2" : { 
+      "Type" : "2", 
+      "FileName" : "BGM/search.mp3", 
+      "描述" : "战斗搜索时循环播放"
+   }, 
+   "3" : { 
+      "Type" : "3", 
+      "FileName" : "BGM/battle.mp3", 
+      "描述" : "战斗遇敌后循环播放"
+   }, 
+   "4" : { 
+      "Type" : "4", 
+      "FileName" : "BGM/win_loop.mp3", 
+      "描述" : "战斗胜利时播放，等待胜利音效播放结束后，循环播放此BGM，直至退出战斗"
+   }, 
+   "5" : { 
+      "Type" : "5", 
+      "FileName" : "BGM/boss.mp3", 
+      "描述" : "遇到BOSS时，播放1次"
+   }, 
+   "101" : { 
+      "Type" : "101", 
+      "FileName" : "sound/win.mp3", 
+      "描述" : "战斗胜利时，播放此音效1次"
+   }, 
+   "102" : { 
+      "Type" : "102", 
+      "FileName" : "sound/fight.mp3", 
+      "描述" : "点击进入冒险按钮时播放1次"
+   }, 
+   "103" : { 
+      "Type" : "103", 
+      "FileName" : "sound/enter.mp3", 
+      "描述" : "点击确定、打开按钮是播放1次"
+   }, 
+   "104" : { 
+      "Type" : "104", 
+      "FileName" : "sound/cancel.mp3", 
+      "描述" : "点击取消、退出按钮是播放1次"
+   }
+}
