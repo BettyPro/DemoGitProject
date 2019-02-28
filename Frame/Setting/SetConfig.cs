@@ -32,6 +32,10 @@ public class SetConfig : Singleton<SetConfig> {
 
     public string saveInformationPath = Application.dataPath + "/Resources/saveInformation.txt";
 
+    //Resources Path - SpineEffects
+    public const string spineStrikeBack = "Assets/Resources/SpineEffects";
+    public const string spineStrikeBack1 = "SpineEffects";
+
     //Resources Path - Buff
     public const string skilllbuff = "Prefabs/buff"; //-Me-- Battle界面展示buff显示
 

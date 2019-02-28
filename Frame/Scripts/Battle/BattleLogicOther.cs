@@ -690,4 +690,54 @@ public partial class BattleLogic : MonoBehaviour {
                 // break;
         }
     }
+
+    void StrikeBack () {
+        StartCoroutine(LoadSpineAni());
+        // LoadSpineAni2 ();
+        StartCoroutine(LoadSpineAni1());
+    }
+
+    IEnumerator LoadSpineAni () {
+        GameObject obj = new GameObject ("strikeBack");
+        obj.transform.localScale = new Vector3 (30, 30, 1);
+        obj.transform.SetParent (CreatSkeleton.Instance.roleSkeletonsBattleAniDic[10003].transform);
+        obj.AddComponent<SkeletonAnimation> ().skeletonDataAsset = ADDUIBattle.instance.ResourcesLoadBattleSceneInfos.spineEffectsDic["strikeBack"];
+        // obj.GetComponent<SkeletonAnimation>().AnimationState.AddAnimation(0,"fanji",true,0);
+        obj.GetComponent<SkeletonAnimation> ().AnimationState.SetAnimation (0, "fanji", true);
+        obj.GetComponent<SkeletonAnimation> ().AnimationName = "fanji";
+        // yield return new WaitForSeconds(0.001f);
+        yield return null;
+        // obj.GetComponent<SkeletonAnimation> ().loop = true;
+    }
+
+    IEnumerator LoadSpineAni1 () {
+       GameObject obj = new GameObject ("strikeBack");
+        // obj.transform.localScale = new Vector3 (3, 3, 1);
+        // obj.transform.localScale = new Vector3(15,15,1);
+        // obj.transform.SetParent(CreatSkeleton.Instance.roleSkeletonsBattleAniDic[10003].transform);
+        obj.transform.SetParent (ADDUIBattle.instance.spineEffectsParent);
+        // obj.transform.position = CreatSkeleton.Instance.roleSkeletonsBattleAniDic[10003].transform.localPosition;
+        obj.AddComponent<SkeletonGraphic> ().skeletonDataAsset = ADDUIBattle.instance.ResourcesLoadBattleSceneInfos.spineEffectsDic["strikeBack"];
+        // obj.GetComponent<SkeletonGraphic> ().startingLoop = true;
+        obj.GetComponent<SkeletonGraphic> ().startingAnimation = "fanji";
+        yield return new WaitForSeconds(0.5f);
+        obj.GetComponent<SkeletonGraphic> ().startingLoop = false;
+
+
+    }
+
+    void LoadSpineAni2 () {
+
+        GameObject obj = new GameObject ("strikeBack");
+        obj.transform.localScale = new Vector3 (5, 5, 1);
+        // obj.transform.localScale = new Vector3(15,15,1);
+        // obj.transform.SetParent(CreatSkeleton.Instance.roleSkeletonsBattleAniDic[10003].transform);
+        obj.transform.SetParent (ADDUIBattle.instance.spineEffectsParent);
+        obj.transform.position = CreatSkeleton.Instance.roleSkeletonsBattleAniDic[10003].transform.position;
+        obj.AddComponent<SkeletonGraphic> ().skeletonDataAsset = ADDUIBattle.instance.ResourcesLoadBattleSceneInfos.spineEffectsDic["strikeBack"];
+        obj.GetComponent<SkeletonGraphic> ().startingLoop = true;
+        obj.GetComponent<SkeletonGraphic> ().startingAnimation = "fanji";
+        // obj.GetComponent<SkeletonGraphic> ().startingLoop = false;
+
+    }
 }

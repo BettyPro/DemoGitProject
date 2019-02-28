@@ -4,27 +4,39 @@ using System.IO;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using Spine.Unity;
 using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UI;
 
 public class ResourcesLoadBattleSceneInfos {
-
+    /// <summary>
+    /// 技能
+    /// </summary>
     public Sprite[] skillImages;
     public Dictionary<int, Sprite> skillImageDics;
-
+    /// <summary>
+    /// 行动头像
+    /// </summary>
     public Sprite[] roleActionImages;
     public Dictionary<string, Sprite> roleActionImagesDics;
-
+    /// <summary>
+    /// buff
+    /// </summary>
     public Sprite[] roleBuffImages;
     public Dictionary<string, Sprite> roleBuffImagesDics;
-
+    /// <summary>
+    /// 伤害数字
+    /// </summary>
     public Object[] damageValuesShow; //伤害数字图片
     public Object[] critValuesShow; //伤害数字图片
     public Object[] bloodValuesShows; //伤害数字图片
-    // public Sprite[] bloodValuesShowsSpr; //伤害数字图片
-    public List<GameObject> damageValuesShowList; //伤害数字图片
-    SpriteAtlas aa;
+    /// <summary>
+    /// spine特效
+    /// </summary>
+    public SkeletonDataAsset[] spineEffects;
+    public Dictionary<string, SkeletonDataAsset> spineEffectsDic = new Dictionary<string, SkeletonDataAsset> ();
+    string[] spineEffectNames = { "spineStrikeBack" };
     /// <summary>
     /// 资源读取
     /// </summary>
@@ -34,6 +46,7 @@ public class ResourcesLoadBattleSceneInfos {
         LoadRoleActionImages ();
         LoadBuff ();
         LoadValues ();
+        LoadSpineEffects ();
     }
 
     void LoadSkillImages () {
@@ -81,8 +94,40 @@ public class ResourcesLoadBattleSceneInfos {
         ColorDebug.Instance.ArrayDebug<Object> (bloodValuesShows, false);
     }
 
+    void LoadSpineEffects () {
+        spineEffects = Resources.LoadAll<SkeletonDataAsset>(SetConfig.spineStrikeBack1);
+        if(spineEffects == null)return;
+        for (int i = 0; i < spineEffects.Length; i++) {
+            spineEffectsDic.Add (spineEffects[i].name, spineEffects[i]);
+        }
+        ColorDebug.Instance.DicDebug<string,SkeletonDataAsset>(spineEffectsDic,false);
+    }
+
+    /// <summary>
+    /// tools
+    /// </summary>
+    /// <param name="objs"></param>
+    /// <param name="pathName"></param>
+    /// <returns></returns>
+    Object[] ResourLoadAll (Object[] objs, string pathName) {
+        objs = Resources.LoadAll (pathName);
+        return objs;
+    }
+
+    Object ResourLoad<T> (Object obj, string pathName) {
+        obj = Resources.Load (pathName, typeof (T));
+        return obj;
+    }
+
     Object[] DeleteSomeValue (Object[] objs) {
-        Object[] temp = new Object[objs.Length];
+        Object[] temp = null;
+        if(objs != null)
+            temp = new Object[objs.Length];
+        else
+        {
+            Debug.LogError("资源没有正确加载！");
+            return null;
+        } 
         int k = 0;
         for (int i = 0; i < objs.Length; i++) {
             temp[i] = objs[i];
@@ -94,6 +139,8 @@ public class ResourcesLoadBattleSceneInfos {
         }
         return objs;
     }
+
+    
     void LoadValues1 () {
         DirectoryInfo rootDirInfo = new DirectoryInfo (Application.dataPath + "/Resources/" + SetConfig.bloodValueImagesPath);
         if (rootDirInfo != null) {

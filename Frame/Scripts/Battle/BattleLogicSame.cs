@@ -974,6 +974,7 @@ public partial class BattleLogic : MonoBehaviour {
         // SkillEffect.Instance.canStrikeBack = false;//ceshi
         roleSke = SkillEffect.Instance.CheckIsCanStrikeBack ();
         if (SkillEffect.Instance.canStrikeBack) {
+            StrikeBack();
             Debug.LogError ("开始反击。。。。。。。。。。。。。。。");
             lastAttacker = SkillEffect.Instance.attack_roleIns;
             whichSkill = skill1.gameObject;

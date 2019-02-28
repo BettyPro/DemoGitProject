@@ -48,6 +48,7 @@ public class ADDUIBattle : UIBase
 
     private Transform PlayerPanel;
     public RectTransform bloodParent;
+    public RectTransform spineEffectsParent;
     private GameObject pausepanel;
     private UIBehaviour pausebutton;
     private UIBehaviour backbutton;
@@ -141,7 +142,7 @@ public class ADDUIBattle : UIBase
 
 
 
-                //PlayerPanel = GameObject.Find("CanvasBattle/PlayerPanel").transform;
+                PlayerPanel = GameObject.Find("CanvasBattle/PlayerPanel").transform;
                 MonsterPanel = GameObject.Find("CanvasBattle/MonsterPanel").transform;
                 DialogBoxPanel = GameObject.Find("CanvasBattle/DialogBoxPanel").transform;
 
@@ -154,6 +155,7 @@ public class ADDUIBattle : UIBase
 
 
                 bloodParent = GameObject.Find("CanvasBattle/PlayerPanel/bloodParent").GetComponent<RectTransform>();
+                spineEffectsParent = GameObject.Find("CanvasBattle/PlayerPanel/spineEffectsParent").GetComponent<RectTransform>();
                 pausepanel = GameObject.Find("CanvasBattle/PlayerPanel/pausepanel");
                 pausebutton = GameObject.Find("CanvasBattle/PlayerPanel/pausebutton").AddComponent<UIBehaviour>();
                 backbutton = GameObject.Find("CanvasBattle/PlayerPanel/pausepanel/backbutton")
