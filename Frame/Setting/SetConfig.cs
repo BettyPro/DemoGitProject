@@ -35,6 +35,7 @@ public class SetConfig : Singleton<SetConfig> {
     //Resources Path - SpineEffects
     public const string spineStrikeBack = "Assets/Resources/SpineEffects";
     public const string spineStrikeBack1 = "SpineEffects";
+    public const string spineStrikeBackPre = "Prefabs/spineEffect";
 
     //Resources Path - Buff
     public const string skilllbuff = "Prefabs/buff"; //-Me-- Battle界面展示buff显示

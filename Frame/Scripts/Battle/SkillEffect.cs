@@ -72,7 +72,7 @@ public partial class SkillEffect : Singleton<SkillEffect> {
     public float target_life_old; //血量
     public bool isAll = false;
     public bool isAllAddBlood = false;
-    public List<float> save_target_life_old = new List<float>();
+    public List<float> save_target_life_old = new List<float> ();
 
     //攻击者
     public RoleConfig attack_roleIns; //攻击者身上的
@@ -155,7 +155,7 @@ public partial class SkillEffect : Singleton<SkillEffect> {
     }
 
     //whichSkill 攻击skill
-    void JudgeEffectType ( ) {
+    void JudgeEffectType () {
         // skillDamage = 1;
         // skillCoefficient = 1;
 
@@ -166,14 +166,14 @@ public partial class SkillEffect : Singleton<SkillEffect> {
         }
     }
 
-    void JudgeEffectTypeFun ( ) {
+    void JudgeEffectTypeFun () {
         string str = ReadJsonfiles.Instance.buffDics[(int.Parse (effectId))].effectType;
         switch (int.Parse (str)) {
             case (int) EffectType.one:
                 EffectType_One (BattleLogic.instance.roleconWhole);
                 break;
             case (int) EffectType.two:
-                if(isAll)isAllAddBlood = true;
+                if (isAll) isAllAddBlood = true;
                 EffectType_Two (BattleLogic.instance.roleconWhole);
                 break;
             case (int) EffectType.three:
@@ -382,9 +382,8 @@ public partial class SkillEffect : Singleton<SkillEffect> {
         BattleLogic.instance.addBloodValue = ReturnValue1 (attack_roleIns.m_RoleInfo.life);
         target_life_old = 0;
         target_life_old = target_roleIns.m_RoleInfo.life;
-        if(isAllAddBlood)
-        {
-            save_target_life_old.Add(target_life_old);
+        if (isAllAddBlood) {
+            save_target_life_old.Add (target_life_old);
         }
         target_roleIns.m_RoleInfo.life += ReturnValue1 (attack_roleIns.m_RoleInfo.life);
         if (target_roleIns.m_RoleInfo.life >= ReadJsonfiles.Instance.roleDics[target_roleIns.id].life)
@@ -435,8 +434,8 @@ public partial class SkillEffect : Singleton<SkillEffect> {
     public void EffectType_Nine (RoleConfig roleconWhole) {
         Debug.LogError ("随机魔法钉概率：-- " + Random.Range (1, 101));
         // if (Random.Range (1, 101) < ReadJsonfiles.Instance.buffDics[(int.Parse (effectId))].value1) {
-            isMagicNail = true;
-            checkBools[1] = isMagicNail;
+        isMagicNail = true;
+        checkBools[1] = isMagicNail;
         // }
 
     }
@@ -446,9 +445,9 @@ public partial class SkillEffect : Singleton<SkillEffect> {
         isDizziness = true;
         checkBools[2] = isDizziness;
         if (attack_roleIns.iddif == 0) {
-            RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.dizziness, target_roleIns.iddif));
+            RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.dizziness, target_roleIns.iddif,true));
         } else {
-            MonsterSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) RoleSpineAniId.dizziness, target_roleIns.id));
+            MonsterSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) RoleSpineAniId.dizziness, target_roleIns.id,true));
         }
 
     }
@@ -615,6 +614,7 @@ public partial class SkillEffect : Singleton<SkillEffect> {
         if (cheeckIsStrikeBack) {
             cheeckIsStrikeBack = false;
             ran = Random.Range (1, 101);
+            ran = 10; //ceshi fanji
             if (ran < ReturnOnSetProb ()) {
                 Debug.LogError ("进行反击");
                 canStrikeBack = true;

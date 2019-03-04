@@ -64,7 +64,7 @@ public partial class BattleLogic : MonoBehaviour {
     //测试区
     private int count;
     private bool testBool = true;
-
+    PETimer pt = new PETimer();
     private void Awake () {
         instance = this;
         FindUI ();
@@ -79,6 +79,7 @@ public partial class BattleLogic : MonoBehaviour {
         SpeedLoopNormal ();
         RayTest ();
         BloodsFllow ();
+        pt.Update();
     }
 
     void FindUI () {

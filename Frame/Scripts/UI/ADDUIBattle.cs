@@ -13,8 +13,12 @@ public class ADDUIBattle : UIBase
 {
     //测试
     private UIBehaviour winbutton;
+
     int count = 0;
     public bool beginthethird;
+
+    
+
 
 
     public static ADDUIBattle instance;

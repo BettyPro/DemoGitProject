@@ -43,9 +43,13 @@ public partial class BattleLogic : MonoBehaviour {
     int ge, shi, bai, qian, wan, shiwan = 0;
     int[] values;
 
+    //反击特效
+    SkeletonAnimation strikeBackAni;
+
     //测试区
     float testValue = 10f;
 
+    //血条跟随
     void BloodsFllow () {
 
         if (beginFllow) {
@@ -59,6 +63,10 @@ public partial class BattleLogic : MonoBehaviour {
                 currenBlood.position = cubeV2Pos + new Vector2 (-40, 240);
             }
         }
+    }
+
+    void EffectFollow () {
+
     }
 
     //群体伤害 role and npc
@@ -606,6 +614,7 @@ public partial class BattleLogic : MonoBehaviour {
 
         if (attackIsRole) {
             if (usingSkill.releaseobj == (int) TargetType.singleEnemy) {
+                // if(SkillEffect.Instance.target_roleIns.m_RoleInfo.isDizziness)return;
                 RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", false, false));
             } else if (usingSkill.releaseobj == (int) TargetType.allEnemy) {
                 RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", true, false));
@@ -640,13 +649,13 @@ public partial class BattleLogic : MonoBehaviour {
         // }
         if (attackIsRole) {
             if (usingSkill.releaseobj == (int) TargetType.singleEnemy) {
-                RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.idle, target_roleIns.iddif, "normal", false, false));
+                RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.idle, target_roleIns.iddif, "normal", false, true));
             } else if (usingSkill.releaseobj == (int) TargetType.allEnemy) {
                 RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.idle, target_roleIns.iddif, "normal", true, false));
             }
         } else {
             if (usingSkill.releaseobj == (int) TargetType.singleEnemy) {
-                MonsterSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) RoleSpineAniId.idle, target_roleIns.id, "normal", false, false));
+                MonsterSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) RoleSpineAniId.idle, target_roleIns.id, "normal", false, true));
             } else if (usingSkill.releaseobj == (int) TargetType.allEnemy) {
                 MonsterSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) RoleSpineAniId.idle, target_roleIns.id, "normal", true, false));
             }
@@ -691,53 +700,23 @@ public partial class BattleLogic : MonoBehaviour {
         }
     }
 
-    void StrikeBack () {
-        StartCoroutine(LoadSpineAni());
-        // LoadSpineAni2 ();
-        StartCoroutine(LoadSpineAni1());
+    void StrikeBack (RoleConfig roleImage) {
+        LoadSpineAni();
+       
     }
 
-    IEnumerator LoadSpineAni () {
-        GameObject obj = new GameObject ("strikeBack");
-        obj.transform.localScale = new Vector3 (30, 30, 1);
-        obj.transform.SetParent (CreatSkeleton.Instance.roleSkeletonsBattleAniDic[10003].transform);
-        obj.AddComponent<SkeletonAnimation> ().skeletonDataAsset = ADDUIBattle.instance.ResourcesLoadBattleSceneInfos.spineEffectsDic["strikeBack"];
-        // obj.GetComponent<SkeletonAnimation>().AnimationState.AddAnimation(0,"fanji",true,0);
-        obj.GetComponent<SkeletonAnimation> ().AnimationState.SetAnimation (0, "fanji", true);
-        obj.GetComponent<SkeletonAnimation> ().AnimationName = "fanji";
-        // yield return new WaitForSeconds(0.001f);
-        yield return null;
-        // obj.GetComponent<SkeletonAnimation> ().loop = true;
+    void LoadSpineAni () {
+        if (CreatSkeleton.Instance.roleSkeletonsBattleAniDic[10003].transform.childCount != 0) 
+        {
+            strikeBackAni.AnimationName = "";
+            strikeBackAni.AnimationName = "fanji";
+            return;
+        }
+        strikeBackAni = GameObject.Instantiate (ADDUIBattle.instance.ResourcesLoadBattleSceneInfos.spineEffectsPre);
+
+        strikeBackAni.transform.SetParent (CreatSkeleton.Instance.roleSkeletonsBattleAniDic[10003].transform);
+        strikeBackAni.transform.localPosition = new Vector3 (0, 5, 0);
+        strikeBackAni.transform.localScale = new Vector3 (5, 5, 1);
     }
 
-    IEnumerator LoadSpineAni1 () {
-       GameObject obj = new GameObject ("strikeBack");
-        // obj.transform.localScale = new Vector3 (3, 3, 1);
-        // obj.transform.localScale = new Vector3(15,15,1);
-        // obj.transform.SetParent(CreatSkeleton.Instance.roleSkeletonsBattleAniDic[10003].transform);
-        obj.transform.SetParent (ADDUIBattle.instance.spineEffectsParent);
-        // obj.transform.position = CreatSkeleton.Instance.roleSkeletonsBattleAniDic[10003].transform.localPosition;
-        obj.AddComponent<SkeletonGraphic> ().skeletonDataAsset = ADDUIBattle.instance.ResourcesLoadBattleSceneInfos.spineEffectsDic["strikeBack"];
-        // obj.GetComponent<SkeletonGraphic> ().startingLoop = true;
-        obj.GetComponent<SkeletonGraphic> ().startingAnimation = "fanji";
-        yield return new WaitForSeconds(0.5f);
-        obj.GetComponent<SkeletonGraphic> ().startingLoop = false;
-
-
-    }
-
-    void LoadSpineAni2 () {
-
-        GameObject obj = new GameObject ("strikeBack");
-        obj.transform.localScale = new Vector3 (5, 5, 1);
-        // obj.transform.localScale = new Vector3(15,15,1);
-        // obj.transform.SetParent(CreatSkeleton.Instance.roleSkeletonsBattleAniDic[10003].transform);
-        obj.transform.SetParent (ADDUIBattle.instance.spineEffectsParent);
-        obj.transform.position = CreatSkeleton.Instance.roleSkeletonsBattleAniDic[10003].transform.position;
-        obj.AddComponent<SkeletonGraphic> ().skeletonDataAsset = ADDUIBattle.instance.ResourcesLoadBattleSceneInfos.spineEffectsDic["strikeBack"];
-        obj.GetComponent<SkeletonGraphic> ().startingLoop = true;
-        obj.GetComponent<SkeletonGraphic> ().startingAnimation = "fanji";
-        // obj.GetComponent<SkeletonGraphic> ().startingLoop = false;
-
-    }
 }

@@ -36,7 +36,10 @@ public class ResourcesLoadBattleSceneInfos {
     /// </summary>
     public SkeletonDataAsset[] spineEffects;
     public Dictionary<string, SkeletonDataAsset> spineEffectsDic = new Dictionary<string, SkeletonDataAsset> ();
-    string[] spineEffectNames = { "spineStrikeBack" };
+    /// <summary>
+    /// spine特效Pre
+    /// </summary>
+    public SkeletonAnimation spineEffectsPre;
     /// <summary>
     /// 资源读取
     /// </summary>
@@ -47,6 +50,7 @@ public class ResourcesLoadBattleSceneInfos {
         LoadBuff ();
         LoadValues ();
         LoadSpineEffects ();
+        LoadSpineEffectsPre();
     }
 
     void LoadSkillImages () {
@@ -100,7 +104,16 @@ public class ResourcesLoadBattleSceneInfos {
         for (int i = 0; i < spineEffects.Length; i++) {
             spineEffectsDic.Add (spineEffects[i].name, spineEffects[i]);
         }
-        ColorDebug.Instance.DicDebug<string,SkeletonDataAsset>(spineEffectsDic,false);
+        ColorDebug.Instance.DicDebug<string,SkeletonDataAsset>(spineEffectsDic,true);
+    }
+
+    void LoadSpineEffectsPre () {
+        spineEffectsPre = Resources.Load<SkeletonAnimation>(SetConfig.spineStrikeBackPre);
+        if(spineEffectsPre == null)
+        {
+            Debug.Log("is null");
+            return;
+        }
     }
 
     /// <summary>

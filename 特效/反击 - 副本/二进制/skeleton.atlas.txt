@@ -1,0 +1,104 @@
+
+skeleton.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+fanji_00
+  rotate: false
+  xy: 2, 842
+  size: 457, 418
+  orig: 457, 418
+  offset: 0, 0
+  index: -1
+fanji_01
+  rotate: false
+  xy: 461, 1262
+  size: 457, 418
+  orig: 457, 418
+  offset: 0, 0
+  index: -1
+fanji_02
+  rotate: false
+  xy: 2, 422
+  size: 457, 418
+  orig: 457, 418
+  offset: 0, 0
+  index: -1
+fanji_03
+  rotate: false
+  xy: 461, 842
+  size: 457, 418
+  orig: 457, 418
+  offset: 0, 0
+  index: -1
+fanji_04
+  rotate: false
+  xy: 920, 1262
+  size: 457, 418
+  orig: 457, 418
+  offset: 0, 0
+  index: -1
+fanji_05
+  rotate: false
+  xy: 2, 2
+  size: 457, 418
+  orig: 457, 418
+  offset: 0, 0
+  index: -1
+fanji_06
+  rotate: false
+  xy: 461, 422
+  size: 457, 418
+  orig: 457, 418
+  offset: 0, 0
+  index: -1
+fanji_07
+  rotate: false
+  xy: 920, 842
+  size: 457, 418
+  orig: 457, 418
+  offset: 0, 0
+  index: -1
+fanji_08
+  rotate: false
+  xy: 1379, 1262
+  size: 457, 418
+  orig: 457, 418
+  offset: 0, 0
+  index: -1
+fanji_09
+  rotate: false
+  xy: 461, 2
+  size: 457, 418
+  orig: 457, 418
+  offset: 0, 0
+  index: -1
+fanji_10
+  rotate: false
+  xy: 920, 422
+  size: 457, 418
+  orig: 457, 418
+  offset: 0, 0
+  index: -1
+fanji_11
+  rotate: false
+  xy: 1379, 842
+  size: 457, 418
+  orig: 457, 418
+  offset: 0, 0
+  index: -1
+fanji_12
+  rotate: false
+  xy: 920, 2
+  size: 457, 418
+  orig: 457, 418
+  offset: 0, 0
+  index: -1
+fanji_13
+  rotate: false
+  xy: 2, 1262
+  size: 457, 418
+  orig: 457, 418
+  offset: 0, 0
+  index: -1
