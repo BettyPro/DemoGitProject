@@ -493,8 +493,7 @@ public partial class BattleLogic : MonoBehaviour {
 
         int ran;
         ran = Random.Range (0, ReadJsonfiles.Instance.roleIds.Count - 5);
-        if (ADDUIBattle.instance.beginthethird)
-        {
+        if (ADDUIBattle.instance.beginthethird) {
             // ran = 3; //ceshi
         }
         Debug.Log ("随机值;--" + ran);
@@ -766,7 +765,10 @@ public partial class BattleLogic : MonoBehaviour {
                     // yield return new WaitForSeconds (animationDurationTime - 0.1f);
                     RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) RoleSpineAniId.attack, (ushort) roleconWhole.m_RoleInfo.roleid, "skill3c"));
                 }
-                PassSkiiTargetSendAttacked (attackIsRole);
+
+                // PassSkiiTargetSendAttacked (attackIsRole);
+                PassSkiiTargetSendAttackedFromExl(attackIsRole);
+                // PassSkiiTargetSendAttackedFromExl1(attackIsRole);
                 // RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.attacked, target_roleIns.iddif));
 
             } else {
@@ -781,7 +783,7 @@ public partial class BattleLogic : MonoBehaviour {
                 // MonsterSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) RoleSpineAniId.attacked, target_roleIns.id));
             }
         }
-
+        
         Debug.Log ((ushort) roleconWhole.m_RoleInfo.roleid);
         Debug.Log (roleconWhole.name);
         Debug.Log (roleconWhole.iddif);
@@ -799,17 +801,17 @@ public partial class BattleLogic : MonoBehaviour {
         if (attackIsRole) {
             RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) RoleSpineAniId.jumpback, (ushort) roleconWhole.m_RoleInfo.roleid));
             DOTween.To (() => attacker.transform.position, a => attacker.transform.position = a,
-            attackerOldPos, 0.7f);
+                attackerOldPos, 0.7f);
             yield return new WaitForSeconds (animationDurationTime);
-            RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) RoleSpineAniId.idle, (ushort) roleconWhole.m_RoleInfo.roleid, "normal", false,true));
+            RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) RoleSpineAniId.idle, (ushort) roleconWhole.m_RoleInfo.roleid, "normal", false, true));
             PassSkiiTargetSendIdle (attackIsRole);
             // MonsterSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.idle, target_roleIns.iddif, "normal", false, true));
         } else {
             MonsterSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.jumpback, roleconWhole.iddif));
             DOTween.To (() => attacker.transform.position, a => attacker.transform.position = a,
-            attackerOldPos, 0.7f);
+                attackerOldPos, 0.7f);
             yield return new WaitForSeconds (animationDurationTime);
-            MonsterSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.idle, roleconWhole.iddif, "normal", false,true));
+            MonsterSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.idle, roleconWhole.iddif, "normal", false, true));
             PassSkiiTargetSendIdle (attackIsRole);
             // RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) RoleSpineAniId.idle, (ushort) roleconWhole.m_RoleInfo.roleid, "normal", false));
         }
@@ -910,7 +912,7 @@ public partial class BattleLogic : MonoBehaviour {
         SkillEffect.Instance.attack_roleIns = attacker.GetComponent<RoleConfig> ();
         Debug.Log ("攻击者：-- " + SkillEffect.Instance.attack_roleIns.name);
         Debug.Log ("-- ：-- " + target_roleIns.transform.name);
-        yield return new WaitForSeconds(animationDurationTime);
+        yield return new WaitForSeconds (animationDurationTime);
         RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) RoleSpineAniId.attack, roleconWhole.id, recordSkillName));
         Debug.LogError (animationDurationTime);
 
@@ -981,7 +983,7 @@ public partial class BattleLogic : MonoBehaviour {
         // SkillEffect.Instance.canStrikeBack = true;//ceshi
         roleSke = SkillEffect.Instance.CheckIsCanStrikeBack ();
         if (SkillEffect.Instance.canStrikeBack) {
-            StrikeBack(roleSke);
+            StrikeBack (roleSke);
             Debug.LogError ("开始反击。。。。。。。。。。。。。。。");
             lastAttacker = SkillEffect.Instance.attack_roleIns;
             whichSkill = skill1.gameObject;
@@ -1174,5 +1176,5 @@ public partial class BattleLogic : MonoBehaviour {
             removeMonsterElement = false;
         }
     }
-    
+
 }

@@ -58,7 +58,7 @@ public class MonsterSpineAniMsg : MonsterSpineAniBase {
     public override void ProcessEvent (MsgBase tmpMsg) {
         switch (tmpMsg.msgID) {
             case (ushort) MonsterSpineAniId.idle:
-                ShowAni (tmpMsg.msgID,"",tmpMsg.allAction,tmpMsg.roleID,isLoop:tmpMsg.isLoop);
+                ShowAni (tmpMsg.msgID, "", tmpMsg.allAction, tmpMsg.roleID, isLoop : tmpMsg.isLoop);
                 // ShowAni (tmpMsg.msgID);
                 Debug.Log (tmpMsg.roleID);
                 Debug.Log ("Monster待机动画");
@@ -68,35 +68,35 @@ public class MonsterSpineAniMsg : MonsterSpineAniBase {
                 Debug.Log ("Monster跑步动画");
                 break;
             case (ushort) MonsterSpineAniId.action:
-                ShowAni (tmpMsg.msgID, "",false, tmpMsg.roleID);
+                ShowAni (tmpMsg.msgID, "", false, tmpMsg.roleID);
                 Debug.Log ("Monster行动动画");
                 break;
             case (ushort) MonsterSpineAniId.attack:
-                Debug.LogError("怪物的攻击技能是：" + tmpMsg.attackName);
-                ShowAni (tmpMsg.msgID,tmpMsg.attackName, false, tmpMsg.roleID);
+                Debug.LogError ("怪物的攻击技能是：" + tmpMsg.attackName);
+                ShowAni (tmpMsg.msgID, tmpMsg.attackName, false, tmpMsg.roleID);
                 Debug.Log ("Monster攻击动画");
                 break;
             case (ushort) MonsterSpineAniId.attacked:
-                ShowAni (tmpMsg.msgID, tmpMsg.attackName,tmpMsg.allAction, tmpMsg.roleID,tmpMsg.isLoop);
+                ShowAni (tmpMsg.msgID, tmpMsg.attackName, tmpMsg.allAction, tmpMsg.roleID, tmpMsg.isLoop);
                 Debug.Log ("Monster受击动画");
                 break;
             case (ushort) MonsterSpineAniId.dizziness:
-                ShowAni (tmpMsg.msgID, "",false, tmpMsg.roleID,tmpMsg.isLoop);
+                ShowAni (tmpMsg.msgID, "", false, tmpMsg.roleID, tmpMsg.isLoop);
                 Debug.Log ("Monster眩晕动画");
                 break;
             case (ushort) MonsterSpineAniId.jumpforward:
-                ShowAni (tmpMsg.msgID, "",false, tmpMsg.roleID);
+                ShowAni (tmpMsg.msgID, "", false, tmpMsg.roleID);
                 Debug.Log ("Monster前跳动画");
                 break;
             case (ushort) MonsterSpineAniId.jumpback:
-                Debug.Log("播放后跳--------------------------------------");
-                ShowAni (tmpMsg.msgID, "",false, tmpMsg.roleID);
+                Debug.Log ("播放后跳--------------------------------------");
+                ShowAni (tmpMsg.msgID, "", false, tmpMsg.roleID);
                 Debug.Log ("Monster后跳动画");
                 break;
         }
     }
 
-    void ShowAni (ushort msgID, string attackName = "skill1",bool allAction = true, int monsterID = 1000,bool isLoop = false) {
+    void ShowAni (ushort msgID, string attackName = "skill1", bool allAction = true, int monsterID = 1000, bool isLoop = false) {
         switch (msgID) {
             case (ushort) MonsterSpineAniId.idle:
                 monsterStateInfo = "idle";
@@ -129,8 +129,9 @@ public class MonsterSpineAniMsg : MonsterSpineAniBase {
 
         if (allAction) {
             for (int i = 0; i < CreatSkeleton.Instance.skeletonsMonsterBattleAni.Count; i++) {
-                CreatSkeleton.Instance.skeletonsMonsterBattleAni[i].loop = isLoop;
-                CreatSkeleton.Instance.skeletonsMonsterBattleAni[i].AnimationName = monsterStateInfo;
+                // CreatSkeleton.Instance.skeletonsMonsterBattleAni[i].loop = isLoop;
+                // CreatSkeleton.Instance.skeletonsMonsterBattleAni[i].AnimationName = monsterStateInfo;
+                CreatSkeleton.Instance.skeletonsMonsterBattleAni[i].state.SetAnimation (0, monsterStateInfo, isLoop);
             }
 
             Debug.Log ("单个的ID:-- " + monsterID);
@@ -141,13 +142,17 @@ public class MonsterSpineAniMsg : MonsterSpineAniBase {
             ColorDebug.Instance.DicDebug<int, SkeletonAnimation> (CreatSkeleton.Instance.skeletonsMonsterBattleAniDic, false);
             if (CreatSkeleton.Instance.skeletonsMonsterBattleAniDic.ContainsKey (monsterID)) {
                 CreatSkeleton.Instance.skeletonsMonsterBattleAniDic.TryGetValue (monsterID, out tempSkeleton);
-                tempSkeleton.loop = isLoop;
-                tempSkeleton.AnimationName = monsterStateInfo;
-                // tempSkeleton.state.SetAnimation (0, monsterStateInfo, false);
+                // tempSkeleton.loop = isLoop;
+                // tempSkeleton.AnimationName = monsterStateInfo;
+                tempSkeleton.state.SetAnimation (0, monsterStateInfo, isLoop);
                 Debug.Log ("zhege 个的action:-- " + monsterStateInfo);
+                Debug.Log ("动画时间:-- " + tempSkeleton.state.GetCurrent(0).AnimationTime);
+                Debug.Log ("动画时间:-- " + tempSkeleton.state.GetCurrent(0).AnimationStart);
+
+               
                 switch (monsterStateInfo) {
                     case "hit":
-                        // BattleLogic.instance.animationDurationTime = tempSkeleton.state.Data.SkeletonData.Animations.Items[0].duration;
+                        BattleLogic.instance.animationDurationTime = tempSkeleton.state.Data.SkeletonData.Animations.Items[0].duration;
                         break;
                     case "jumpback":
                         BattleLogic.instance.animationDurationTime = tempSkeleton.state.Data.SkeletonData.Animations.Items[1].duration;
@@ -182,7 +187,7 @@ public class MonsterSpineAniMsg : MonsterSpineAniBase {
                         BattleLogic.instance.animationDurationTime = tempSkeleton.state.Data.SkeletonData.Animations.Items[10].duration;
                         tempSkeleton.loop = false;
                         break;
-                     case "stun":
+                    case "stun":
                         tempSkeleton.loop = true;
                         BattleLogic.instance.animationDurationTime = tempSkeleton.state.Data.SkeletonData.Animations.Items[11].duration;
                         break;

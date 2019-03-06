@@ -74,45 +74,46 @@ public class RoleSpineAniMsg : RoleSpineAniBase {
     public override void ProcessEvent (MsgBase tmpMsg) {
         switch (tmpMsg.msgID) {
             case (ushort) RoleSpineAniId.idle:
-                ShowAni (tmpMsg.msgID,tmpMsg.attackName,tmpMsg.allAction,tmpMsg.roleID,isLoop:tmpMsg.isLoop);
+                ShowAni (tmpMsg.msgID, tmpMsg.attackName, tmpMsg.allAction, tmpMsg.roleID, isLoop : tmpMsg.isLoop);
                 // ShowAni (tmpMsg.msgID);
                 // ShowAni (tmpMsg.msgID,isLoop:tmpMsg.isLoop);
                 Debug.Log ("Role待机动画");
                 break;
             case (ushort) RoleSpineAniId.run:
-                ShowAni (tmpMsg.msgID,tmpMsg.attackName,tmpMsg.allAction,tmpMsg.roleID,tmpMsg.isLoop);
+                ShowAni (tmpMsg.msgID, tmpMsg.attackName, tmpMsg.allAction, tmpMsg.roleID, tmpMsg.isLoop);
                 Debug.Log ("Role跑步动画");
                 break;
             case (ushort) RoleSpineAniId.action:
-                ShowAni (tmpMsg.msgID,"", false, tmpMsg.roleID);
+                ShowAni (tmpMsg.msgID, "", false, tmpMsg.roleID);
                 // ShowAni (tmpMsg.msgID);
                 Debug.Log ("Role行动动画");
                 break;
             case (ushort) RoleSpineAniId.attack:
-                Debug.LogError("攻击的技能是：--" + tmpMsg.attackName);
-                ShowAni (tmpMsg.msgID, tmpMsg.attackName,false, tmpMsg.roleID);
+                Debug.LogError ("攻击的技能是：--" + tmpMsg.attackName);
+                ShowAni (tmpMsg.msgID, tmpMsg.attackName, false, tmpMsg.roleID);
                 Debug.Log ("Role攻击动画");
+                // StartCoroutine(BattleLogic.instance.te());
                 break;
             case (ushort) RoleSpineAniId.attacked:
-                ShowAni (tmpMsg.msgID, tmpMsg.attackName,tmpMsg.allAction, tmpMsg.roleID);
+                ShowAni (tmpMsg.msgID, tmpMsg.attackName, tmpMsg.allAction, tmpMsg.roleID);
                 Debug.Log ("Role受击动画");
                 break;
             case (ushort) RoleSpineAniId.dizziness:
-                ShowAni (tmpMsg.msgID, "",false, tmpMsg.roleID);
+                ShowAni (tmpMsg.msgID, "", false, tmpMsg.roleID);
                 Debug.Log ("Role眩晕动画");
                 break;
             case (ushort) RoleSpineAniId.jumpforward:
-                ShowAni (tmpMsg.msgID, "",false, tmpMsg.roleID);
+                ShowAni (tmpMsg.msgID, "", false, tmpMsg.roleID);
                 Debug.Log ("Role前跳动画");
                 break;
             case (ushort) RoleSpineAniId.jumpback:
-                ShowAni (tmpMsg.msgID, "",false, tmpMsg.roleID);
+                ShowAni (tmpMsg.msgID, "", false, tmpMsg.roleID);
                 Debug.Log ("Role后跳动画");
                 break;
         }
     }
 
-    void ShowAni (ushort msgID, string attackName = "skill1", bool allAction = true, int roleID = 1000,bool isLoop = false) {
+    void ShowAni (ushort msgID, string attackName = "skill1", bool allAction = true, int roleID = 1000, bool isLoop = false) {
         switch (msgID) {
             case (ushort) RoleSpineAniId.idle:
                 roleStateInfo = "idle";
@@ -155,9 +156,10 @@ public class RoleSpineAniMsg : RoleSpineAniBase {
 
             if (CreatSkeleton.Instance.skeletonsBattleAniDic.ContainsKey (roleID)) {
                 CreatSkeleton.Instance.skeletonsBattleAniDic.TryGetValue (roleID, out tempSkeleton);
-                tempSkeleton.loop = isLoop;
-                tempSkeleton.AnimationName = roleStateInfo;
-                // tempSkeleton.state.SetAnimation (0, roleStateInfo, false);
+                // tempSkeleton.loop = isLoop;
+                // tempSkeleton.AnimationName = roleStateInfo;
+                tempSkeleton.state.SetAnimation (0, roleStateInfo, isLoop);
+                // tempSkeleton.AnimationState.Start += delegate { Attack_Start (); };
                 switch (roleStateInfo) {
                     case "hit":
                         // BattleLogic.instance.animationDurationTime = tempSkeleton.state.Data.SkeletonData.Animations.Items[0].duration;
@@ -198,7 +200,7 @@ public class RoleSpineAniMsg : RoleSpineAniBase {
                         BattleLogic.instance.animationDurationTime = tempSkeleton.state.Data.SkeletonData.Animations.Items[11].duration;
                         break;
                 }
-                
+
                 //BattleLogic.instance.Animation_Complete(tempSkeleton);
                 //tempSkeleton.AnimationState.Complete += AnimationState_Complete;
             }
@@ -208,6 +210,9 @@ public class RoleSpineAniMsg : RoleSpineAniBase {
 
     }
 
+    void Attack_Start () {
+       
+    }
     private void AnimationState_Complete (Spine.TrackEntry trackEntry) {
         throw new System.NotImplementedException ();
     }

@@ -17,8 +17,6 @@ public class ADDUIBattle : UIBase
     int count = 0;
     public bool beginthethird;
 
-    
-
 
 
     public static ADDUIBattle instance;

@@ -64,7 +64,7 @@ public partial class BattleLogic : MonoBehaviour {
     //测试区
     private int count;
     private bool testBool = true;
-    PETimer pt = new PETimer();
+    float testValue1;
     private void Awake () {
         instance = this;
         FindUI ();
@@ -79,7 +79,11 @@ public partial class BattleLogic : MonoBehaviour {
         SpeedLoopNormal ();
         RayTest ();
         BloodsFllow ();
-        pt.Update();
+        MyTimerTool.Instance.wtime.Update();
+    }
+
+    private void FixedUpdate() {
+        MyTimerTool.Instance.wtime.FixUpdate();        
     }
 
     void FindUI () {
