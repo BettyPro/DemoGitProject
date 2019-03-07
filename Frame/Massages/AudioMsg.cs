@@ -61,18 +61,6 @@ public class AudioMsg : AudioBase
         RegistSelf(this, msgIDs);
     }
 
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public override void ProcessEvent(MsgBase tmpMsg)
     {
         switch (tmpMsg.msgID)

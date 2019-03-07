@@ -636,42 +636,7 @@ public partial class BattleLogic : MonoBehaviour {
         Skills usingSkill = ReadJsonfiles.Instance.skillDics[int.Parse (whichSkill.name)];
 
         if (attackIsRole) {
-            if (usingSkill.releaseobj == (int) TargetType.singleEnemy) {
-                 Debug.Log (SkillEffect.Instance.attack_roleIns.GetComponent<SkeletonAnimation> ().state.GetCurrent (0).AnimationTime);
-                
-                 MyTimerTool.Instance.wtime.AddFrameTask ((int tid) => {
-                    RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", false, false));
-                    Debug.Log("1-------------------------------1");
-                }, 7,  1);
-                 MyTimerTool.Instance.wtime.AddFrameTask ((int tid) => {
-                    RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", false, false));
-                    Debug.Log("1-------------------------------2");
-
-                }, 15,  1);
-                MyTimerTool.Instance.wtime.AddFrameTask ((int tid) => {
-                   RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", false, false));
-                    Debug.Log("1-------------------------------3");
-
-                }, 27,  1);
-
-            } else if (usingSkill.releaseobj == (int) TargetType.allEnemy) {
-                
-
-                MyTimerTool.Instance.wtime.AddFrameTask ((int tid) => {
-                    RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", true, false));
-                    Debug.Log("1-------------------------------1");
-                }, 7,  1);
-                MyTimerTool.Instance.wtime.AddFrameTask ((int tid) => {
-                    RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", true, false));
-                    Debug.Log("1-------------------------------2");
-
-                }, 15,  1);
-                MyTimerTool.Instance.wtime.AddFrameTask ((int tid) => {
-                   RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", true, false));
-                    Debug.Log("1-------------------------------3");
-
-                }, 27,  1);
-            }
+            FixSpineAni.Instance.FixSpineAniFormFrame(usingSkill,target_roleIns,recordSkillName);
         } else {
             if (usingSkill.releaseobj == (int) TargetType.singleEnemy) {
                 MonsterSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) RoleSpineAniId.attacked, target_roleIns.id, "hit", false, false));
@@ -690,34 +655,34 @@ public partial class BattleLogic : MonoBehaviour {
 
         if (attackIsRole) {
             if (usingSkill.releaseobj == (int) TargetType.singleEnemy) {
-               MyTimerTool.Instance.wtime.AddTimeTask ((int tid) => {
+                MyTimerTool.Instance.wtime.AddTimeTask ((int tid) => {
                     RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", false, false));
-                    Debug.Log("1-------------------------------1");
+                    Debug.Log ("1-------------------------------1");
                 }, 0.28f, WinterTimeUnit.Second, 1);
-                 MyTimerTool.Instance.wtime.AddTimeTask ((int tid) => {
+                MyTimerTool.Instance.wtime.AddTimeTask ((int tid) => {
                     RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", false, false));
-                    Debug.Log("1-------------------------------2");
+                    Debug.Log ("1-------------------------------2");
 
                 }, 0.6f, WinterTimeUnit.Second, 1);
-                 MyTimerTool.Instance.wtime.AddTimeTask ((int tid) => {
-                   RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", false, false));
-                    Debug.Log("1-------------------------------3");
+                MyTimerTool.Instance.wtime.AddTimeTask ((int tid) => {
+                    RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", false, false));
+                    Debug.Log ("1-------------------------------3");
 
                 }, 1.08f, WinterTimeUnit.Second, 1);
 
             } else if (usingSkill.releaseobj == (int) TargetType.allEnemy) {
                 MyTimerTool.Instance.wtime.AddTimeTask ((int tid) => {
                     RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", true, false));
-                    Debug.Log("1-------------------------------1");
+                    Debug.Log ("1-------------------------------1");
                 }, 0.28f, WinterTimeUnit.Second, 1);
-                 MyTimerTool.Instance.wtime.AddTimeTask ((int tid) => {
+                MyTimerTool.Instance.wtime.AddTimeTask ((int tid) => {
                     RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", true, false));
-                    Debug.Log("1-------------------------------2");
+                    Debug.Log ("1-------------------------------2");
 
                 }, 0.6f, WinterTimeUnit.Second, 1);
                 MyTimerTool.Instance.wtime.AddTimeTask ((int tid) => {
-                   RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", true, false));
-                    Debug.Log("1-------------------------------3");
+                    RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", true, false));
+                    Debug.Log ("1-------------------------------3");
 
                 }, 1.08f, WinterTimeUnit.Second, 1);
             }

@@ -146,9 +146,6 @@ public class MonsterSpineAniMsg : MonsterSpineAniBase {
                 // tempSkeleton.AnimationName = monsterStateInfo;
                 tempSkeleton.state.SetAnimation (0, monsterStateInfo, isLoop);
                 Debug.Log ("zhege 个的action:-- " + monsterStateInfo);
-                Debug.Log ("动画时间:-- " + tempSkeleton.state.GetCurrent(0).AnimationTime);
-                Debug.Log ("动画时间:-- " + tempSkeleton.state.GetCurrent(0).AnimationStart);
-
                
                 switch (monsterStateInfo) {
                     case "hit":

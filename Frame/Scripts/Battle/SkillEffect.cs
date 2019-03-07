@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Spine.Unity;
 
 public partial class SkillEffect : Singleton<SkillEffect> {
 
@@ -68,6 +69,7 @@ public partial class SkillEffect : Singleton<SkillEffect> {
 
     //目标
     public RoleConfig target_roleIns; //目标身上的
+    public SkeletonAnimation target_roleInsAni; //目标身上的
     public RoleConfig savetarget_roleIns; //目标身上的,预留区分使用
     public float target_life_old; //血量
     public bool isAll = false;
@@ -76,6 +78,7 @@ public partial class SkillEffect : Singleton<SkillEffect> {
 
     //攻击者
     public RoleConfig attack_roleIns; //攻击者身上的
+    public SkeletonAnimation attack_roleInsAni; //攻击者身上的
     public Transform[] buffCkilds;
     public Transform[] attack_buffCkilds;
     public Transform[] target_buffCkilds;
@@ -458,8 +461,10 @@ public partial class SkillEffect : Singleton<SkillEffect> {
         for (int i = 0; i < ADDUIBattle.instance.battleCurrentAll.Count; i++) {
             roleCon = ADDUIBattle.instance.battleCurrentAll[i].GetComponent<RoleConfig> ();
             if (roleCon.m_RoleInfo.isDizziness && roleCon.iddif == 0) {
+                // roleCon.GetComponent<SkeletonAnimation>().AnimationName = "stun";
                 MonsterSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) RoleSpineAniId.dizziness, roleCon.id, true));
             } else if (roleCon.m_RoleInfo.isDizziness) {
+                // roleCon.GetComponent<SkeletonAnimation>().AnimationName = "stun";
                 RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.dizziness, roleCon.iddif, true));
             }
         }
