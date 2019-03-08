@@ -131,7 +131,9 @@ public class FixSpineAni : Singleton<FixSpineAni> {
                     }, 43, 1);
                     break;
                 default:
+                    Debug.Log("null");
                     break;
+                
             }
 
         } else if (usingSkill.releaseobj == (int) TargetType.allEnemy) {

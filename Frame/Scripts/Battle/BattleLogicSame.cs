@@ -734,6 +734,8 @@ public partial class BattleLogic : MonoBehaviour {
         float z = target_roleIns.transform.position.z;
         Vector3 targetPos;
         Vector3 attackerOldPos = attacker.transform.position;
+        Debug.Log(attacker.transform.position + "-------------gongji--");
+        Debug.Log(target_roleIns.transform.position + "-------------tartget--");
         if (recordSkillName == "skill3a") {
             RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) RoleSpineAniId.attack, (ushort) roleconWhole.m_RoleInfo.roleid, recordSkillName));
             yield return new WaitForSeconds (animationDurationTime);
@@ -743,7 +745,8 @@ public partial class BattleLogic : MonoBehaviour {
             targetPos = new Vector3 (role_x, y, z);
             RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) RoleSpineAniId.jumpforward, (ushort) roleconWhole.m_RoleInfo.roleid));
             // DOTween.To (() => attacker.transform.position, a => attacker.transform.position = a, targetPos, 0.5f);
-            FixDistance.Instance.FixFromFrame (attacker, targetPos, 0.4f, 6);
+            Debug.Log(attacker.name + "------------------ " + targetPos);
+            FixDistance.Instance.FixFromFrame (attacker, targetPos, 0.32f, 6);
             if (recordSkillName == "skill3a") {
                 RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) RoleSpineAniId.attack, (ushort) roleconWhole.m_RoleInfo.roleid, "skill3b"));
                 FixSpineAni.Instance.FixAniRoleToMonsFrame(target_roleIns,15);
@@ -752,7 +755,7 @@ public partial class BattleLogic : MonoBehaviour {
             targetPos = new Vector3 (monster_x, y, z);
             MonsterSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) MonsterSpineAniId.jumpforward, roleconWhole.iddif));
             // DOTween.To (() => attacker.transform.position, a => attacker.transform.position = a, targetPos, 0.5f);
-            FixDistance.Instance.FixFromFrame (attacker, targetPos, 0.4f, 6);
+            FixDistance.Instance.FixFromFrame (attacker, targetPos, 0.32f, 6);
 
             if (recordSkillName == "skill3a") {
 
@@ -761,9 +764,12 @@ public partial class BattleLogic : MonoBehaviour {
         }
 
         yield return new WaitForSeconds (0.5f);
+        Debug.Log("反击时的技能是：" + recordSkillName + "disyance is --:"+Vector3.Distance (attacker.transform.position, target_roleIns.transform.position));
 
         if (Vector3.Distance (attacker.transform.position, target_roleIns.transform.position) < 161f) {
+        // if (Vector3.Distance (SkillEffect.Instance. attack_roleIns.transform.position, SkillEffect.Instance. target_roleIns.transform.position) < 161f) {
             if (attackIsRole) {
+                Debug.Log("反击时的技能是：" + recordSkillName);
                 RoleSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) RoleSpineAniId.attack, (ushort) roleconWhole.m_RoleInfo.roleid, recordSkillName));
                 if (recordSkillName == "skill3a") {
                     Debug.LogError ("等待时间2：--" + animationDurationTime);
@@ -1006,6 +1012,8 @@ public partial class BattleLogic : MonoBehaviour {
             lastAttacker = SkillEffect.Instance.attack_roleIns;
             whichSkill = skill1.gameObject;
             target_roleIns = lastAttacker;
+            attack_roleIns = roleSke;
+            Debug.Log(target_roleIns.transform.position+"+++++++++++++++++++++++++++++");
 
             selectedOutAttackers.Clear ();
             selectedOutAttackersDic.Clear ();
@@ -1023,10 +1031,7 @@ public partial class BattleLogic : MonoBehaviour {
             DealHeadImage (roleImage);
             RoleAttackLogic (roleImage);
             JudgeDistanceShowAni (lastAttacker.gameObject);
-            // lastAttacker = null;
 
-            // SkillEffect.Instance.canStrikeBack = false;
-            // SkillEffect.Instance.strikeBackOver = true;
             return;
         }
 

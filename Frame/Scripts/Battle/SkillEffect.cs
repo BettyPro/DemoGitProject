@@ -460,6 +460,7 @@ public partial class SkillEffect : Singleton<SkillEffect> {
         RoleConfig roleCon;
         for (int i = 0; i < ADDUIBattle.instance.battleCurrentAll.Count; i++) {
             roleCon = ADDUIBattle.instance.battleCurrentAll[i].GetComponent<RoleConfig> ();
+            if(roleCon.GetComponent<SkeletonAnimation>().AnimationName.Equals("stun"))continue;
             if (roleCon.m_RoleInfo.isDizziness && roleCon.iddif == 0) {
                 // roleCon.GetComponent<SkeletonAnimation>().AnimationName = "stun";
                 MonsterSpineAniManager.Instance.SendMsg (ButtonMsg.GetInstance.ChangeInfo ((ushort) RoleSpineAniId.dizziness, roleCon.id, true));
