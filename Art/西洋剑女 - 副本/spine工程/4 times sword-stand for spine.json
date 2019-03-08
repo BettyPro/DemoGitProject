@@ -1,0 +1,202 @@
+{"skeleton":{"images":"images/"},
+"bones":[{"name":"root"}],
+"slots":[
+	{"name":"hudiejie","bone":"root","attachment":"hudiejie"},
+	{"name":"toufa-back-6","bone":"root","attachment":"toufa-back-6"},
+	{"name":"toufa-back-5","bone":"root","attachment":"toufa-back-5"},
+	{"name":"toufa-back-4","bone":"root","attachment":"toufa-back-4"},
+	{"name":"toufa-back-3","bone":"root","attachment":"toufa-back-3"},
+	{"name":"toufa-back-2","bone":"root","attachment":"toufa-back-2"},
+	{"name":"toufa-back-1","bone":"root","attachment":"toufa-back-1"},
+	{"name":"toufa-mid","bone":"root","attachment":"toufa-mid"},
+	{"name":"dabi-R","bone":"root","attachment":"dabi-R"},
+	{"name":"xiuzi back-R","bone":"root","attachment":"xiuzi back-R"},
+	{"name":"xiaobi-R","bone":"root","attachment":"xiaobi-R"},
+	{"name":"wan-R","bone":"root","attachment":"wan-R"},
+	{"name":"xiuzi front-R","bone":"root","attachment":"xiuzi front-R"},
+	{"name":"shou-R","bone":"root","attachment":"shou-R"},
+	{"name":"qunzi-back","bone":"root","attachment":"qunzi-back"},
+	{"name":"xiaotui-R","bone":"root","attachment":"xiaotui-R"},
+	{"name":"jiao-R","bone":"root","attachment":"jiao-R"},
+	{"name":"datui-R","bone":"root","attachment":"datui-R"},
+	{"name":"xiaotui-L","bone":"root","attachment":"xiaotui-L"},
+	{"name":"jiao-L","bone":"root","attachment":"jiao-L"},
+	{"name":"datui-L","bone":"root","attachment":"datui-L"},
+	{"name":"qunzi front-R","bone":"root","attachment":"qunzi front-R"},
+	{"name":"qunzi front-R1","bone":"root","attachment":"qunzi front-R1"},
+	{"name":"qunzi front-R2","bone":"root","attachment":"qunzi front-R2"},
+	{"name":"qunzi front-L","bone":"root","attachment":"qunzi front-L"},
+	{"name":"qunzi front-L1","bone":"root","attachment":"qunzi front-L1"},
+	{"name":"qunzi front-L2","bone":"root","attachment":"qunzi front-L2"},
+	{"name":"qunzi front-M","bone":"root","attachment":"qunzi front-M"},
+	{"name":"qunzipidai-L","bone":"root","attachment":"qunzipidai-L"},
+	{"name":"qunzi pidai-R","bone":"root","attachment":"qunzi pidai-R"},
+	{"name":"shenti","bone":"root","attachment":"shenti"},
+	{"name":"yao","bone":"root","attachment":"yao"},
+	{"name":"xiong-2","bone":"root","attachment":"xiong-2"},
+	{"name":"xiong-1","bone":"root","attachment":"xiong-1"},
+	{"name":"xiuzi back-L","bone":"root","attachment":"xiuzi back-L"},
+	{"name":"wan-L","bone":"root","attachment":"wan-L"},
+	{"name":"xiuzi front-L","bone":"root","attachment":"xiuzi front-L"},
+	{"name":"dabi-L","bone":"root","attachment":"dabi-L"},
+	{"name":"xiaobi-L","bone":"root","attachment":"xiaobi-L"},
+	{"name":"wuqi","bone":"root","attachment":"wuqi"},
+	{"name":"tou","bone":"root","attachment":"tou"},
+	{"name":"lian","bone":"root","attachment":"lian"},
+	{"name":"eye","bone":"root","attachment":"eye"},
+	{"name":"eye close","bone":"root","attachment":"eye close"},
+	{"name":"hair front-1","bone":"root","attachment":"hair front-1"},
+	{"name":"hair front-2","bone":"root","attachment":"hair front-2"},
+	{"name":"hair front-3","bone":"root","attachment":"hair front-3"},
+	{"name":"hair front-4","bone":"root","attachment":"hair front-4"}
+],
+"skins":{
+	"default":{
+		"hudiejie":{
+			"hudiejie":{"x":415.5,"y":-257,"width":135,"height":134}
+		},
+		"toufa-back-6":{
+			"toufa-back-6":{"x":572,"y":-420.5,"width":116,"height":355}
+		},
+		"toufa-back-5":{
+			"toufa-back-5":{"x":610.5,"y":-411,"width":55,"height":286}
+		},
+		"toufa-back-4":{
+			"toufa-back-4":{"x":539.5,"y":-414.5,"width":121,"height":369}
+		},
+		"toufa-back-3":{
+			"toufa-back-3":{"x":509,"y":-408,"width":94,"height":378}
+		},
+		"toufa-back-2":{
+			"toufa-back-2":{"x":467,"y":-400.5,"width":78,"height":369}
+		},
+		"toufa-back-1":{
+			"toufa-back-1":{"x":451.5,"y":-394,"width":81,"height":358}
+		},
+		"toufa-mid":{
+			"toufa-mid":{"x":548,"y":-232,"width":216,"height":170}
+		},
+		"dabi-R":{
+			"dabi-R":{"x":465,"y":-413,"width":108,"height":106}
+		},
+		"xiuzi back-R":{
+			"xiuzi back-R":{"x":447,"y":-518.5,"width":48,"height":85}
+		},
+		"xiaobi-R":{
+			"xiaobi-R":{"x":437,"y":-478,"width":76,"height":100}
+		},
+		"wan-R":{
+			"wan-R":{"x":455.5,"y":-523.5,"width":39,"height":47}
+		},
+		"xiuzi front-R":{
+			"xiuzi front-R":{"x":446.5,"y":-518.5,"width":47,"height":85}
+		},
+		"shou-R":{
+			"shou-R":{"x":466,"y":-565.5,"width":64,"height":77}
+		},
+		"qunzi-back":{
+			"qunzi-back":{"x":569.5,"y":-714,"width":363,"height":344}
+		},
+		"xiaotui-R":{
+			"xiaotui-R":{"x":470,"y":-864,"width":100,"height":226}
+		},
+		"jiao-R":{
+			"jiao-R":{"x":435.5,"y":-968.5,"width":99,"height":79}
+		},
+		"datui-R":{
+			"datui-R":{"x":502,"y":-692,"width":100,"height":194}
+		},
+		"xiaotui-L":{
+			"xiaotui-L":{"x":626.5,"y":-870.5,"width":71,"height":223}
+		},
+		"jiao-L":{
+			"jiao-L":{"x":626,"y":-970,"width":70,"height":78}
+		},
+		"datui-L":{
+			"datui-L":{"x":600,"y":-686,"width":100,"height":194}
+		},
+		"qunzi front-R":{
+			"qunzi front-R":{"x":433,"y":-652.5,"width":92,"height":217}
+		},
+		"qunzi front-R1":{
+			"qunzi front-R1":{"x":428.5,"y":-659,"width":57,"height":92}
+		},
+		"qunzi front-R2":{
+			"qunzi front-R2":{"x":439.5,"y":-606.5,"width":79,"height":125}
+		},
+		"qunzi front-L":{
+			"qunzi front-L":{"x":664.5,"y":-636.5,"width":173,"height":245}
+		},
+		"qunzi front-L1":{
+			"qunzi front-L1":{"x":630,"y":-661,"width":40,"height":82}
+		},
+		"qunzi front-L2":{
+			"qunzi front-L2":{"x":613,"y":-615,"width":74,"height":156}
+		},
+		"qunzi front-M":{
+			"qunzi front-M":{"x":516,"y":-577,"width":146,"height":130}
+		},
+		"qunzipidai-L":{
+			"qunzipidai-L":{"x":582,"y":-567.5,"width":18,"height":49}
+		},
+		"qunzi pidai-R":{
+			"qunzi pidai-R":{"x":476,"y":-564,"width":22,"height":46}
+		},
+		"shenti":{
+			"shenti":{"x":560.5,"y":-393,"width":143,"height":138}
+		},
+		"yao":{
+			"yao":{"x":542.5,"y":-498.5,"width":141,"height":107}
+		},
+		"xiong-2":{
+			"xiong-2":{"x":509.5,"y":-414.5,"width":65,"height":73}
+		},
+		"xiong-1":{
+			"xiong-1":{"x":555.5,"y":-417.5,"width":79,"height":71}
+		},
+		"xiuzi back-L":{
+			"xiuzi back-L":{"x":710.5,"y":-521.5,"width":59,"height":55}
+		},
+		"wan-L":{
+			"wan-L":{"x":721,"y":-528,"width":78,"height":76}
+		},
+		"xiuzi front-L":{
+			"xiuzi front-L":{"x":706,"y":-515,"width":66,"height":68}
+		},
+		"dabi-L":{
+			"dabi-L":{"x":641,"y":-415.5,"width":76,"height":121}
+		},
+		"xiaobi-L":{
+			"xiaobi-L":{"x":670,"y":-466,"width":102,"height":98}
+		},
+		"wuqi":{
+			"wuqi":{"x":827.5,"y":-394,"width":227,"height":496}
+		},
+		"tou":{
+			"tou":{"x":558,"y":-260,"width":174,"height":190}
+		},
+		"lian":{
+			"lian":{"x":579,"y":-300.5,"width":96,"height":85}
+		},
+		"eye":{
+			"eye":{"x":575,"y":-295,"width":124,"height":40}
+		},
+		"eye close":{
+			"eye close":{"x":570.5,"y":-304.5,"width":109,"height":15}
+		},
+		"hair front-1":{
+			"hair front-1":{"x":506,"y":-258.5,"width":56,"height":95}
+		},
+		"hair front-2":{
+			"hair front-2":{"x":543.5,"y":-237,"width":73,"height":76}
+		},
+		"hair front-3":{
+			"hair front-3":{"x":578.5,"y":-238,"width":37,"height":70}
+		},
+		"hair front-4":{
+			"hair front-4":{"x":616.5,"y":-234.5,"width":55,"height":89}
+		}
+	}
+},
+"animations":{"animation":{}}
+}
