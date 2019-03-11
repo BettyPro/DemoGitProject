@@ -3,54 +3,54 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AndroidDebug : MonoBehaviour {
-
-    static bool mRayDebug = false;
-    static List<string> mLines = new List<string>();
-    static AndroidDebug mInstance = null;
-
-    /// <summary>
-    /// Set by UICamera. Can be used to show/hide raycast information.
-    /// </summary>
-
-    static public bool debugRaycast
+namespace WinterDebug
+{
+    public class AndroidDebug : MonoBehaviour
     {
-        get
+
+        static bool mRayDebug = false;
+        static List<string> mLines = new List<string>();
+        static AndroidDebug mInstance = null;
+
+        /// <summary>
+        /// Set by UICamera. Can be used to show/hide raycast information.
+        /// </summary>
+
+        static public bool debugRaycast
         {
-            return mRayDebug;
-        }
-        set
-        {
-            if (Application.isPlaying)
+            get { return mRayDebug; }
+            set
             {
-                mRayDebug = value;
-                if (value) CreateInstance();
+                if (Application.isPlaying)
+                {
+                    mRayDebug = value;
+                    if (value) CreateInstance();
+                }
             }
         }
-    }
 
-    /// <summary>
-    /// Ensure we have an instance present.
-    /// </summary>
+        /// <summary>
+        /// Ensure we have an instance present.
+        /// </summary>
 
-    static public void CreateInstance()
-    {
-        if (mInstance == null)
+        static public void CreateInstance()
         {
-            GameObject go = new GameObject("_Android Debug");
-            mInstance = go.AddComponent<AndroidDebug>();
-            DontDestroyOnLoad(go);
+            if (mInstance == null)
+            {
+                GameObject go = new GameObject("_Android Debug");
+                mInstance = go.AddComponent<AndroidDebug>();
+                DontDestroyOnLoad(go);
+            }
         }
-    }
 
-    /// <summary>
-    /// Add a new on-screen log entry.
-    /// </summary>
+        /// <summary>
+        /// Add a new on-screen log entry.
+        /// </summary>
 
-    static void LogString(string text)
-    {
+        static void LogString(string text)
+        {
 #if UNITY_EDITOR
-        Debug.Log(text);
+            Debug.Log(text);
 #else
 		if (Application.isPlaying)
 		{
@@ -60,67 +60,72 @@ public class AndroidDebug : MonoBehaviour {
 		}
 		else Debug.Log(text);
 #endif
-    }
+        }
 
-    /// <summary>
-    /// Add a new log entry, printing all of the specified parameters.
-    /// </summary>
+        /// <summary>
+        /// Add a new log entry, printing all of the specified parameters.
+        /// </summary>
 
-    static public void Log(bool isDebug = true, params object[] objs)
-    {
-        string text = "";
-        if (isDebug)
+        static public void Log(bool isDebug = true, params object[] objs)
         {
-            for (int i = 0; i < objs.Length; ++i)
+            string text = "";
+            if (isDebug && SetConfig.controleAndroidDebug)
             {
-                if (i == 0)
+                for (int i = 0; i < objs.Length; ++i)
                 {
-                    text += objs[i].ToString();
+                    if (i == 0)
+                    {
+                        text += objs[i].ToString();
+                    }
+                    else
+                    {
+                        text += ", " + objs[i].ToString();
+                    }
                 }
-                else
-                {
-                    text += ", " + objs[i].ToString();
-                }
+
+                LogString(text);
             }
-            LogString(text);
         }
-    }
 
-    /// <summary>
-    /// Clear the logged text.
-    /// </summary>
+        /// <summary>
+        /// Clear the logged text.
+        /// </summary>
 
-    static public void Clear() { mLines.Clear(); }
-
-    /// <summary>
-    /// Draw bounds immediately. Won't be remembered for the next frame.
-    /// </summary>
-
-    static public void DrawBounds(Bounds b)
-    {
-        Vector3 c = b.center;
-        Vector3 v0 = b.center - b.extents;
-        Vector3 v1 = b.center + b.extents;
-        Debug.DrawLine(new Vector3(v0.x, v0.y, c.z), new Vector3(v1.x, v0.y, c.z), Color.red);
-        Debug.DrawLine(new Vector3(v0.x, v0.y, c.z), new Vector3(v0.x, v1.y, c.z), Color.red);
-        Debug.DrawLine(new Vector3(v1.x, v0.y, c.z), new Vector3(v1.x, v1.y, c.z), Color.red);
-        Debug.DrawLine(new Vector3(v0.x, v1.y, c.z), new Vector3(v1.x, v1.y, c.z), Color.red);
-    }
-
-    void OnGUI()
-    {
-        if (mLines.Count == 0)
+        static public void Clear()
         {
-            //if (mRayDebug && UICamera.hoveredObject != null && Application.isPlaying)
-            //{
-            //    GUILayout.Label("Last Hit: " + NGUITools.GetHierarchy(UICamera.hoveredObject).Replace("\"", ""));
-            //}
+            mLines.Clear();
         }
-        else
+
+        /// <summary>
+        /// Draw bounds immediately. Won't be remembered for the next frame.
+        /// </summary>
+
+        static public void DrawBounds(Bounds b)
         {
-            for (int i = 0, imax = mLines.Count; i < imax; ++i)
+            Vector3 c = b.center;
+            Vector3 v0 = b.center - b.extents;
+            Vector3 v1 = b.center + b.extents;
+            Debug.DrawLine(new Vector3(v0.x, v0.y, c.z), new Vector3(v1.x, v0.y, c.z), Color.red);
+            Debug.DrawLine(new Vector3(v0.x, v0.y, c.z), new Vector3(v0.x, v1.y, c.z), Color.red);
+            Debug.DrawLine(new Vector3(v1.x, v0.y, c.z), new Vector3(v1.x, v1.y, c.z), Color.red);
+            Debug.DrawLine(new Vector3(v0.x, v1.y, c.z), new Vector3(v1.x, v1.y, c.z), Color.red);
+        }
+
+        void OnGUI()
+        {
+            if (mLines.Count == 0)
             {
-                GUILayout.Label(mLines[i]);
+                //if (mRayDebug && UICamera.hoveredObject != null && Application.isPlaying)
+                //{
+                //    GUILayout.Label("Last Hit: " + NGUITools.GetHierarchy(UICamera.hoveredObject).Replace("\"", ""));
+                //}
+            }
+            else
+            {
+                for (int i = 0, imax = mLines.Count; i < imax; ++i)
+                {
+                    GUILayout.Label(mLines[i]);
+                }
             }
         }
     }

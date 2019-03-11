@@ -2,44 +2,53 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPCManager : ManagerBase
+namespace Demo
 {
-    public static NPCManager Instance = null;
+    public class NPCManager : ManagerBase
+    {
+        public static NPCManager Instance = null;
 
-    Dictionary<string,GameObject> sonMembers = new Dictionary<string,GameObject>();
+        Dictionary<string, GameObject> sonMembers = new Dictionary<string, GameObject>();
 
-    void Awake() {
-        Instance = this;
-    }
-
-    public void SendMsg(MsgBase msg) {
-        if (msg.GetManagerID() == ManagerID.NPCManager)
+        void Awake()
         {
-            ProcessEvent(msg);
+            Instance = this;
         }
-        else
-            MsgCenter.Instance.SendToMsg(msg);
-    }
 
-    public void RegistGameObject(string name, GameObject obj) {
-        if (!sonMembers.ContainsKey(name))
+        public void SendMsg(MsgBase msg)
         {
-            sonMembers.Add(name, obj);
+            if (msg.GetManagerID() == ManagerID.NPCManager)
+            {
+                ProcessEvent(msg);
+            }
+            else
+                MsgCenter.Instance.SendToMsg(msg);
         }
-    }
 
-    public GameObject GetGameObject(string name) {
-        if (sonMembers.ContainsKey(name))
+        public void RegistGameObject(string name, GameObject obj)
         {
-            return sonMembers[name];
+            if (!sonMembers.ContainsKey(name))
+            {
+                sonMembers.Add(name, obj);
+            }
         }
-        return null;
-    }
 
-    public void UnRegistGameObject(string name) {
-        if (sonMembers.ContainsKey(name))
+        public GameObject GetGameObject(string name)
         {
-            sonMembers.Remove(name);
+            if (sonMembers.ContainsKey(name))
+            {
+                return sonMembers[name];
+            }
+
+            return null;
+        }
+
+        public void UnRegistGameObject(string name)
+        {
+            if (sonMembers.ContainsKey(name))
+            {
+                sonMembers.Remove(name);
+            }
         }
     }
 }

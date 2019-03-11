@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
-public class SetConfig : Singleton<SetConfig> {
+public class SetConfig : Singleton<SetConfig>
+{
     //Bool
     public bool IsDebug = true;
     public bool isSceneRole = false;
@@ -10,7 +12,9 @@ public class SetConfig : Singleton<SetConfig> {
 
     //Scene
     public const string sceneStartGame = "StartGame";
+
     public const string sceneRole = "Role";
+
     //public const string sceneRole = "RoleTest";
     public const string sceneBattle = "Battle";
     public const string sceneLogin = "Login";
@@ -62,16 +66,16 @@ public class SetConfig : Singleton<SetConfig> {
     public const string damageValueImagesPath1 = "Images/Counts/DamageValue";
 
     //BattlePlace
-    public static Vector3 negativePlace = new Vector3 (-1000f, 179f, 0);
+    public static Vector3 negativePlace = new Vector3(-1000f, 179f, 0);
 
-    public static Vector3 firstPlace = new Vector3 (800f, 179f, 0f);
-    public static Vector3 secondPlace = new Vector3 (1500f, 179f, 0f);
-    public static Vector3 threePlace = new Vector3 (2200f, 179f, 0f);
-    public static Vector3 gameOverPlace = new Vector3 (3000f, 179f, 0f);
+    public static Vector3 firstPlace = new Vector3(800f, 179f, 0f);
+    public static Vector3 secondPlace = new Vector3(1500f, 179f, 0f);
+    public static Vector3 threePlace = new Vector3(2200f, 179f, 0f);
+    public static Vector3 gameOverPlace = new Vector3(3000f, 179f, 0f);
 
-    public static Vector3 firstPlaceCompare = new Vector3 (800f, 179f, 0f);
-    public static Vector3 secondPlaceCompare = new Vector3 (1500f, 179f, 0f);
-    public static Vector3 threePlaceCompare = new Vector3 (2200f, 179f, 0f);
+    public static Vector3 firstPlaceCompare = new Vector3(800f, 179f, 0f);
+    public static Vector3 secondPlaceCompare = new Vector3(1500f, 179f, 0f);
+    public static Vector3 threePlaceCompare = new Vector3(2200f, 179f, 0f);
 
     //消息设置区
     public bool sendIdleMes = true;
@@ -85,6 +89,8 @@ public class SetConfig : Singleton<SetConfig> {
     public static float isSpeedReduce = -0.3f;
 
     //测试区
+    private static bool testBool = false;
+    public static bool controleAndroidDebug = true;
     public bool isTest = true;
     public const string roleSpineShow = "Prefabs/Test/RoleSpineShow"; //-Me-- Role && Battle界面角色展示
     public const string monsterSpineShow = "Prefabs/Test/MonsterSpineShow"; //-Me-- Role && Battle界面角色展示
@@ -95,4 +101,16 @@ public class SetConfig : Singleton<SetConfig> {
     public const float changeAndroidMoveSpeed = 2f;
     public const float changePCMoveSpeed = 50f;
 
+    public static void TestVer(string sign,bool singleTestBool = false, float str = 1f, bool changBool = false,string debugInfo = "ceshi")
+    {
+        if (testBool)
+        {
+            if (singleTestBool)
+            {
+                str = 1f;
+                changBool = true;
+                Debug.Log("测试区的信息是：-----------------------------------"+debugInfo);
+            }
+        }
+    }
 }

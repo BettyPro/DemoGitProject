@@ -4,179 +4,181 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using WinterDebug;
 
-/// <summary>
-/// 把控件的script注册到UIManager中
-/// </summary>
-public class UIBehaviour : MonoBehaviour
+namespace Demo
 {
-    Transform myTrans;
-
-    void Awake()
+    /// <summary>
+    /// 把控件的script注册到UIManager中
+    /// </summary>
+    public class UIBehaviour : MonoBehaviour
     {
-        ColorDebug.Instance.RedDebug(name, ".....", false);
-        UIManager.Instance.RegistGameObject(name, gameObject);
-        myTrans = transform;
+        Transform myTrans;
 
-    }
-
-
-    void Start () {
-        //myTrans = transform;
-    }
-
-    #region UI的监听事件
-
-    public void AddButtonListener(UnityAction action) {
-        if (action != null)
+        void Awake()
         {
-            ColorDebug.Instance.RedDebug(myTrans,"------",false);
-            Button btn = myTrans.GetComponent<Button>();
-            btn.onClick.AddListener(action);
+            ColorDebug.Instance.RedDebug(name, ".....", false);
+            UIManager.Instance.RegistGameObject(name, gameObject);
+            myTrans = transform;
+
         }
-    }
 
-    public void AddButtonListener<T>(UnityAction<T> action, T para)
-    {
-        if (action != null)
+
+        void Start()
         {
-            Button btn = transform.GetComponent<Button>();
-            btn.onClick.AddListener(delegate ()
+            //myTrans = transform;
+        }
+
+        #region UI的监听事件
+
+        public void AddButtonListener(UnityAction action)
+        {
+            if (action != null)
             {
-                action(para);
-            });
+                ColorDebug.Instance.RedDebug(myTrans, "------", false);
+                Button btn = myTrans.GetComponent<Button>();
+                btn.onClick.AddListener(action);
+            }
         }
-    }
 
-    public void AddButtonListener<T>(UnityAction<T,Roles> action, T para, Roles role)
-    {
-        if (action != null)
+        public void AddButtonListener<T>(UnityAction<T> action, T para)
         {
-            Button btn = transform.GetComponent<Button>();
-            btn.onClick.AddListener(delegate ()
+            if (action != null)
             {
-                action(para,role);
-            });
+                Button btn = transform.GetComponent<Button>();
+                btn.onClick.AddListener(delegate() { action(para); });
+            }
         }
-    }
 
-    //public static void AddButtonListener<T>(Button button, UnityAction action,  T param)
-    //{
-    //    if (action != null)
-    //    {
-    //        button.onClick.AddListener(delegate ()
-    //        {
-    //            action(param);
-    //        });
-    //    }
-    //}
-
-    public void RemoveButtonListener<T>(UnityAction<T, Roles> action, T para, Roles role)
-    {
-        if (action != null)
+        public void AddButtonListener<T>(UnityAction<T, Roles> action, T para, Roles role)
         {
-            Button btn = transform.GetComponent<Button>();
-            btn.onClick.AddListener(delegate ()
+            if (action != null)
             {
-                action(para, role);
-            });
+                Button btn = transform.GetComponent<Button>();
+                btn.onClick.AddListener(delegate() { action(para, role); });
+            }
         }
-    }
 
+        //public static void AddButtonListener<T>(Button button, UnityAction action,  T param)
+        //{
+        //    if (action != null)
+        //    {
+        //        button.onClick.AddListener(delegate ()
+        //        {
+        //            action(param);
+        //        });
+        //    }
+        //}
 
-    public void RemoveButtonListener(UnityAction action) {
-        if (action != null)
+        public void RemoveButtonListener<T>(UnityAction<T, Roles> action, T para, Roles role)
         {
-            Button btn = myTrans.GetComponent<Button>();
-            btn.onClick.RemoveListener(action);
+            if (action != null)
+            {
+                Button btn = transform.GetComponent<Button>();
+                btn.onClick.AddListener(delegate() { action(para, role); });
+            }
         }
-    }
 
-    public void AddToggleListener(UnityAction<bool> action) {
-        if (action != null)
+
+        public void RemoveButtonListener(UnityAction action)
         {
-            Toggle btn = myTrans.GetComponent<Toggle>();
-            btn.onValueChanged.AddListener(action);
+            if (action != null)
+            {
+                Button btn = myTrans.GetComponent<Button>();
+                btn.onClick.RemoveListener(action);
+            }
         }
-    }
 
-    public void RemoveToggleListener(UnityAction<bool> action) {
-        if (action != null)
+        public void AddToggleListener(UnityAction<bool> action)
         {
-            Toggle btn = myTrans.GetComponent<Toggle>();
-            btn.onValueChanged.RemoveListener(action);
+            if (action != null)
+            {
+                Toggle btn = myTrans.GetComponent<Toggle>();
+                btn.onValueChanged.AddListener(action);
+            }
         }
-    }
 
-    public void AddSliderListener(UnityAction<float> action) {
-        if (action != null)
+        public void RemoveToggleListener(UnityAction<bool> action)
         {
-            Slider btn = myTrans.GetComponent<Slider>();
-            btn.onValueChanged.AddListener(action);
+            if (action != null)
+            {
+                Toggle btn = myTrans.GetComponent<Toggle>();
+                btn.onValueChanged.RemoveListener(action);
+            }
         }
-    }
 
-    public void RemoveSliderListener(UnityAction<float> action)
-    {
-        if (action != null)
+        public void AddSliderListener(UnityAction<float> action)
         {
-            Slider btn = myTrans.GetComponent<Slider>();
-            btn.onValueChanged.RemoveListener(action);
+            if (action != null)
+            {
+                Slider btn = myTrans.GetComponent<Slider>();
+                btn.onValueChanged.AddListener(action);
+            }
         }
-    }
 
-    public void AddInputListener(UnityAction<string> action) {
-        if (action != null)
+        public void RemoveSliderListener(UnityAction<float> action)
         {
-            InputField btn = myTrans.GetComponent<InputField>();
-            btn.onValueChanged.AddListener(action);
+            if (action != null)
+            {
+                Slider btn = myTrans.GetComponent<Slider>();
+                btn.onValueChanged.RemoveListener(action);
+            }
         }
-    }
 
-    public void RemoveInputListener(UnityAction<string> action) {
-        if (action != null)
+        public void AddInputListener(UnityAction<string> action)
         {
-            InputField btn = myTrans.GetComponent<InputField>();
-            btn.onValueChanged.RemoveListener(action);
+            if (action != null)
+            {
+                InputField btn = myTrans.GetComponent<InputField>();
+                btn.onValueChanged.AddListener(action);
+            }
         }
-    }
 
-    public void AddInputFinishListener(UnityAction<string> action)
-    {
-        if (action != null)
+        public void RemoveInputListener(UnityAction<string> action)
         {
-            Debug.Log(myTrans);
-            InputField btn = myTrans.GetComponent<InputField>();
-            btn.onEndEdit.AddListener(action);
+            if (action != null)
+            {
+                InputField btn = myTrans.GetComponent<InputField>();
+                btn.onValueChanged.RemoveListener(action);
+            }
         }
-    }
 
-    public void RemoveInputFinishListener(UnityAction<string> action)
-    {
-        if (action != null)
+        public void AddInputFinishListener(UnityAction<string> action)
         {
-            InputField btn = myTrans.GetComponent<InputField>();
-            btn.onEndEdit.RemoveListener(action);
+            if (action != null)
+            {
+                Debug.Log(myTrans);
+                InputField btn = myTrans.GetComponent<InputField>();
+                btn.onEndEdit.AddListener(action);
+            }
         }
+
+        public void RemoveInputFinishListener(UnityAction<string> action)
+        {
+            if (action != null)
+            {
+                InputField btn = myTrans.GetComponent<InputField>();
+                btn.onEndEdit.RemoveListener(action);
+            }
+        }
+        
+        //public void OnPointerDown(PointerEventData eventData)
+        //{
+        //    Debug.Log("a按下");
+        //}
+
+        //public void OnPointerUp(PointerEventData eventData)
+        //{
+        //    Debug.Log("a抬起");
+
+        //}
+
+        //public void OnPointerExit(PointerEventData eventData)
+        //{
+        //    Debug.Log("a退出");
+
+        //}
+
+        #endregion
     }
-
-
-    //public void OnPointerDown(PointerEventData eventData)
-    //{
-    //    Debug.Log("a按下");
-    //}
-
-    //public void OnPointerUp(PointerEventData eventData)
-    //{
-    //    Debug.Log("a抬起");
-
-    //}
-
-    //public void OnPointerExit(PointerEventData eventData)
-    //{
-    //    Debug.Log("a退出");
-
-    //}
-
-    #endregion
 }

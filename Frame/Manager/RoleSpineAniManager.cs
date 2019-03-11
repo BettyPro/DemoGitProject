@@ -2,50 +2,54 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoleSpineAniManager : ManagerBase
+namespace Demo
 {
-
-    public static RoleSpineAniManager Instance = null;
-
-    Dictionary<string, GameObject> sonMembers = new Dictionary<string, GameObject>();
-
-    void Awake()
+    public class RoleSpineAniManager : ManagerBase
     {
-        Instance = this;
-    }
 
-    public void SendMsg(MsgBase msg)
-    {
-        if (msg.GetManagerID() == ManagerID.RoleSpineAniManager)
+        public static RoleSpineAniManager Instance = null;
+
+        Dictionary<string, GameObject> sonMembers = new Dictionary<string, GameObject>();
+
+        void Awake()
         {
-            ProcessEvent(msg);
+            Instance = this;
         }
-        else
-            MsgCenter.Instance.SendToMsg(msg);
-    }
 
-    public void RegistGameObject(string name, GameObject obj)
-    {
-        if (!sonMembers.ContainsKey(name))
+        public void SendMsg(MsgBase msg)
         {
-            sonMembers.Add(name, obj);
+            if (msg.GetManagerID() == ManagerID.RoleSpineAniManager)
+            {
+                ProcessEvent(msg);
+            }
+            else
+                MsgCenter.Instance.SendToMsg(msg);
         }
-    }
 
-    public GameObject GetGameObject(string name)
-    {
-        if (sonMembers.ContainsKey(name))
+        public void RegistGameObject(string name, GameObject obj)
         {
-            return sonMembers[name];
+            if (!sonMembers.ContainsKey(name))
+            {
+                sonMembers.Add(name, obj);
+            }
         }
-        return null;
-    }
 
-    public void UnRegistGameObject(string name)
-    {
-        if (sonMembers.ContainsKey(name))
+        public GameObject GetGameObject(string name)
         {
-            sonMembers.Remove(name);
+            if (sonMembers.ContainsKey(name))
+            {
+                return sonMembers[name];
+            }
+
+            return null;
+        }
+
+        public void UnRegistGameObject(string name)
+        {
+            if (sonMembers.ContainsKey(name))
+            {
+                sonMembers.Remove(name);
+            }
         }
     }
 }

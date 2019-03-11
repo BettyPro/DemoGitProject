@@ -2,37 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterSpineAniBase : MonoBase
+namespace Demo
 {
-
-    public ushort[] msgIDs;
-    public void RegistSelf(MonoBase mono, params ushort[] args)
+    public class MonsterSpineAniBase : MonoBase
     {
-        MonsterSpineAniManager.Instance.RegistMsg(mono, args);
-    }
 
-    public void UnRegistSelf(MonoBase mono, params ushort[] args)
-    {
-        MonsterSpineAniManager.Instance.UnRegistMsg(mono, args);
-    }
+        public ushort[] msgIDs;
 
-    public void SendMsg(MsgBase msg)
-    {
-        MonsterSpineAniManager.Instance.SendMsg(msg);
-    }
-
-    public override void ProcessEvent(MsgBase tmpMsg)
-    {
-        Debug.Log(11);
-
-        //throw new System.NotImplementedException();
-    }
-
-    void OnDestory()
-    {
-        if (msgIDs != null)
+        public void RegistSelf(MonoBase mono, params ushort[] args)
         {
-            UnRegistSelf(this, msgIDs);
+            MonsterSpineAniManager.Instance.RegistMsg(mono, args);
+        }
+
+        public void UnRegistSelf(MonoBase mono, params ushort[] args)
+        {
+            MonsterSpineAniManager.Instance.UnRegistMsg(mono, args);
+        }
+
+        public void SendMsg(MsgBase msg)
+        {
+            MonsterSpineAniManager.Instance.SendMsg(msg);
+        }
+
+        public override void ProcessEvent(MsgBase tmpMsg)
+        {
+            Debug.Log(11);
+
+            //throw new System.NotImplementedException();
+        }
+
+        void OnDestory()
+        {
+            if (msgIDs != null)
+            {
+                UnRegistSelf(this, msgIDs);
+            }
         }
     }
 }

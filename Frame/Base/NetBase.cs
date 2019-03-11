@@ -2,35 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// panel 层 用于与其他模块或者脚本通信
-/// </summary>
-public class NetBase : MonoBase
+namespace Demo
 {
-    public ushort[] msgIDs;
-    public void RegistSelf(MonoBase mono, params ushort[] args) {
-        NetManager.Instance.RegistMsg(mono, args);
-    }
-
-    public void UnRegistSelf(MonoBase mono, params ushort[] args) {
-        NetManager.Instance.UnRegistMsg(mono, args);
-    }
-
-    public void SendMsg(MsgBase msg) {
-        NetManager.Instance.SendMsg(msg);
-    }
-
-    public override void ProcessEvent(MsgBase tmpMsg)
+    /// <summary>
+    /// panel 层 用于与其他模块或者脚本通信
+    /// </summary>
+    public class NetBase : MonoBase
     {
-        //throw new System.NotImplementedException();
-        Debug.Log(11);
+        public ushort[] msgIDs;
 
-    }
-
-    void OnDestory() {
-        if (msgIDs != null)
+        public void RegistSelf(MonoBase mono, params ushort[] args)
         {
-            UnRegistSelf(this, msgIDs);
+            NetManager.Instance.RegistMsg(mono, args);
+        }
+
+        public void UnRegistSelf(MonoBase mono, params ushort[] args)
+        {
+            NetManager.Instance.UnRegistMsg(mono, args);
+        }
+
+        public void SendMsg(MsgBase msg)
+        {
+            NetManager.Instance.SendMsg(msg);
+        }
+
+        public override void ProcessEvent(MsgBase tmpMsg)
+        {
+            //throw new System.NotImplementedException();
+            Debug.Log(11);
+
+        }
+
+        void OnDestory()
+        {
+            if (msgIDs != null)
+            {
+                UnRegistSelf(this, msgIDs);
+            }
         }
     }
 }

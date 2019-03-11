@@ -2,34 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// panel 层 用于与其他模块或者脚本通信
-/// </summary>
-public class AudioBase : MonoBase
+namespace Demo
 {
-    public ushort[] msgIDs;
-    public void RegistSelf(MonoBase mono, params ushort[] args) {
-        AudioManager.Instance.RegistMsg(mono, args);
-    }
-
-    public void UnRegistSelf(MonoBase mono, params ushort[] args) {
-        AudioManager.Instance.UnRegistMsg(mono, args);
-    }
-
-    public void SendMsg(MsgBase msg) {
-        AudioManager.Instance.SendMsg(msg);
-    }
-
-    public override void ProcessEvent(MsgBase tmpMsg)
+    /// <summary>
+    /// panel 层 用于与其他模块或者脚本通信
+    /// </summary>
+    public class AudioBase : MonoBase
     {
-        //throw new System.NotImplementedException();
-        Debug.Log(44);
-    }
+        public ushort[] msgIDs;
 
-    void OnDestory() {
-        if (msgIDs != null)
+        public void RegistSelf(MonoBase mono, params ushort[] args)
         {
-            UnRegistSelf(this, msgIDs);
+            AudioManager.Instance.RegistMsg(mono, args);
+        }
+
+        public void UnRegistSelf(MonoBase mono, params ushort[] args)
+        {
+            AudioManager.Instance.UnRegistMsg(mono, args);
+        }
+
+        public void SendMsg(MsgBase msg)
+        {
+            AudioManager.Instance.SendMsg(msg);
+        }
+
+        public override void ProcessEvent(MsgBase tmpMsg)
+        {
+            //throw new System.NotImplementedException();
+            Debug.Log(44);
+        }
+
+        void OnDestory()
+        {
+            if (msgIDs != null)
+            {
+                UnRegistSelf(this, msgIDs);
+            }
         }
     }
 }

@@ -2,36 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EventCSClass : UIBase {
-
-    public override void ProcessEvent(MsgBase tmpMsg)
+namespace Demo
+{
+    public class EventCSClass : UIBase
     {
-        Debug.Log(11);
 
-        switch (tmpMsg.msgID)
+        public override void ProcessEvent(MsgBase tmpMsg)
         {
-            case (ushort)0:
+            Debug.Log(11);
 
-                break;
+            switch (tmpMsg.msgID)
+            {
+                case (ushort) 0:
 
-            default:
-                break;
+                    break;
+
+                default:
+                    break;
+            }
         }
-    }
 
-    void Awake() {
-        msgIDs = new ushort[] { 
-            
-        };
+        void Awake()
+        {
+            msgIDs = new ushort[]
+            {
 
-        RegistSelf(this, msgIDs);
-    }
+            };
 
-    void Start() { 
-        
-    }
+            RegistSelf(this, msgIDs);
+        }
 
-    void Update() { 
-        
+        void Start()
+        {
+
+        }
+
+        void Update()
+        {
+
+        }
     }
 }

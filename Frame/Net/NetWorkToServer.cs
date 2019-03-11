@@ -4,106 +4,121 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NetWorkToServer {
+namespace Demo
+{
+    public class NetWorkToServer
+    {
 
-    private Queue<NetMsgBase> recvMsgPool = null;
-    private Queue<NetMsgBase> sendMsgPool = null;
+        private Queue<NetMsgBase> recvMsgPool = null;
+        private Queue<NetMsgBase> sendMsgPool = null;
 
-    private NetSocket clientSocket;
+        private NetSocket clientSocket;
 
-    private Thread sendThread;
+        private Thread sendThread;
 
-    public NetWorkToServer(string ip, ushort port) {
-        recvMsgPool = new Queue<NetMsgBase>();
-        sendMsgPool = new Queue<NetMsgBase>();
-        clientSocket = new NetSocket();
-        clientSocket.AsynConnect(ip, port, AsynConnectCallback, AsynRecevieCallback);
-    }
-
-    private void AsynConnectCallback(bool success, ErrorSocket error, string exception) {
-        if (success)
+        public NetWorkToServer(string ip, ushort port)
         {
-            if (sendThread == null)
-                sendThread = new Thread(LoopSendMsg);
-            sendThread.Start();
+            recvMsgPool = new Queue<NetMsgBase>();
+            sendMsgPool = new Queue<NetMsgBase>();
+            clientSocket = new NetSocket();
+            clientSocket.AsynConnect(ip, port, AsynConnectCallback, AsynRecevieCallback);
         }
-    }
 
-    #region SendMsg
+        private void AsynConnectCallback(bool success, ErrorSocket error, string exception)
+        {
+            if (success)
+            {
+                if (sendThread == null)
+                    sendThread = new Thread(LoopSendMsg);
+                sendThread.Start();
+            }
+        }
 
-    private void LoopSendMsg() {
-        while (clientSocket != null && clientSocket.IsConnect())
+        #region SendMsg
+
+        private void LoopSendMsg()
+        {
+            while (clientSocket != null && clientSocket.IsConnect())
+            {
+                lock (sendMsgPool)
+                {
+                    while (sendMsgPool.Count > 0)
+                    {
+                        NetMsgBase netMsgBase = sendMsgPool.Dequeue();
+                        clientSocket.AsynSend(netMsgBase.GetNetBytes(), SendCallback);
+                    }
+                }
+
+                Thread.Sleep(100);
+            }
+        }
+
+        private void SendCallback(bool success, ErrorSocket error, string exception)
+        {
+
+        }
+
+        public void PutSendMsgToPool(NetMsgBase netMsgBase)
         {
             lock (sendMsgPool)
             {
-                while (sendMsgPool.Count > 0)
+                sendMsgPool.Enqueue(netMsgBase);
+            }
+        }
+
+        #endregion
+
+        #region ReceiveMsg
+
+        private void AsynRecevieCallback(bool success, ErrorSocket error, string exception, byte[] byteMsg,
+            string strMsg)
+        {
+            if (success)
+            {
+                PutRecvMsgToPool(byteMsg);
+            }
+        }
+
+        private void PutRecvMsgToPool(byte[] recvMsg)
+        {
+            NetMsgBase netMsgBase = new NetMsgBase(recvMsg);
+            recvMsgPool.Enqueue(netMsgBase);
+        }
+
+        public void Update()
+        {
+            if (recvMsgPool != null)
+            {
+                while (recvMsgPool.Count > 0)
                 {
-                    NetMsgBase netMsgBase = sendMsgPool.Dequeue();
-                    clientSocket.AsynSend(netMsgBase.GetNetBytes(), SendCallback);
+                    NetMsgBase netMsgBase = recvMsgPool.Dequeue();
+                    AnalyseData(netMsgBase);
                 }
             }
-            Thread.Sleep(100);
         }
-    }
 
-    private void SendCallback(bool success, ErrorSocket error, string exception)
-    { 
-        
-    }
-
-    public void PutSendMsgToPool(NetMsgBase netMsgBase) {
-        lock (sendMsgPool)
+        private void AnalyseData(NetMsgBase netMsgBase)
         {
-            sendMsgPool.Enqueue(netMsgBase);
+            MsgCenter.Instance.SendToMsg(netMsgBase);
         }
-    }
 
-    #endregion
+        #endregion
 
-    #region ReceiveMsg
+        #region DisConnect
 
-    private void AsynRecevieCallback(bool success, ErrorSocket error, string exception, byte[] byteMsg, string strMsg)
-    {
-        if (success)
+        public void DisConnect()
         {
-            PutRecvMsgToPool(byteMsg);
+            if (clientSocket != null && clientSocket.IsConnect())
+                clientSocket.AsynDisConnect(DisconnectCallback);
+
         }
-    }
 
-    private void PutRecvMsgToPool(byte[] recvMsg) {
-        NetMsgBase netMsgBase = new NetMsgBase(recvMsg);
-        recvMsgPool.Enqueue(netMsgBase);
-    }
-
-    public void Update() {
-        if (recvMsgPool != null)
+        private void DisconnectCallback(bool success, ErrorSocket error, string exception)
         {
-            while (recvMsgPool.Count > 0)
-            {
-                NetMsgBase netMsgBase = recvMsgPool.Dequeue();
-                AnalyseData(netMsgBase);
-            }
+            if (success)
+                sendThread.Abort();
         }
+
+        #endregion
     }
-
-    private void AnalyseData(NetMsgBase netMsgBase) {
-        MsgCenter.Instance.SendToMsg(netMsgBase);
-    }
-
-    #endregion
-
-    #region DisConnect
-
-    public void DisConnect() {
-        if (clientSocket != null && clientSocket.IsConnect())
-            clientSocket.AsynDisConnect(DisconnectCallback);
-
-    }
-
-    private void DisconnectCallback(bool success, ErrorSocket error, string exception) {
-        if (success)
-            sendThread.Abort();
-    }
-
-    #endregion
 }
