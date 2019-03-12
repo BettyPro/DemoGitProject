@@ -5,6 +5,7 @@ using DG.Tweening;
 using Spine.Unity;
 using UnityEngine;
 using UnityEngine.UI;
+using WinterColorDebug;
 using WinterDebug;
 
 namespace Demo
@@ -58,7 +59,8 @@ namespace Demo
         //血条跟随
         void BloodsFllow()
         {
-
+            beginFllow = true;//ceshi
+            
             if (beginFllow)
             {
                 if (SkillEffect.Instance.attack_roleIns.iddif == 0)
@@ -68,7 +70,7 @@ namespace Demo
                     cubeV2Pos = RectTransformUtility.WorldToScreenPoint(Camera.main,
                         SkillEffect.Instance.attack_roleIns.transform.position);
                     currenBlood.position = cubeV2Pos + new Vector2(50, 200);
-                    currenBlood.anchoredPosition3D = cubeV2Pos;
+//                    currenBlood.anchoredPosition3D = cubeV2Pos;
                 }
                 else
                 {
@@ -77,7 +79,7 @@ namespace Demo
                     cubeV2Pos = RectTransformUtility.WorldToScreenPoint(Camera.main,
                         SkillEffect.Instance.attack_roleIns.transform.position);
                     currenBlood.position = cubeV2Pos + new Vector2(-40, 240);
-                    currenBlood.anchoredPosition3D = cubeV2Pos;
+//                    currenBlood.anchoredPosition3D = cubeV2Pos;
                 }
             }
         }

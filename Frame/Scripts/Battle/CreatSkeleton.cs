@@ -135,13 +135,13 @@ namespace Demo
                 if (i == 0)
                     obj.transform.localPosition = new Vector3(x, 0, 0);
                 if (i == 1)
-                    obj.transform.localPosition = new Vector3(x, 100, 50);
+                    obj.transform.localPosition = new Vector3(x, 100, 0);//50
                 if (i == 2)
                     obj.transform.localPosition = new Vector3(x, 50, 0);
                 if (i == 3)
-                    obj.transform.localPosition = new Vector3(x, -100, -50);
+                    obj.transform.localPosition = new Vector3(x, -100, -0);//-50
                 if (i == 4)
-                    obj.transform.localPosition = new Vector3(-200, 0, 50);
+                    obj.transform.localPosition = new Vector3(-200, 0, 0);//50
 
                 //obj.transform.localPosition = new Vector3(x,y,z);
 
@@ -328,8 +328,10 @@ namespace Demo
                     {
                         x = 1600;
                         x = ADDUIBattle.instance.PlayerContrBattle.transform.position.x + 850;
+                        x = ADDUIBattle.instance.PlayerContrBattle.transform.position.x + 750;
                         y = 80;
-                        z = 250;
+//                        z = 250;
+                        z = 0;
                     }
 
                     //obj.transform.localPosition = new Vector3(1600, 80, 250);
@@ -339,7 +341,8 @@ namespace Demo
                         x = ADDUIBattle.instance.PlayerContrBattle.transform.position.x + 650;
 
                         y = 10;
-                        z = 30;
+//                        z = 30;
+                        z = 0;
                     }
 
                     //obj.transform.localPosition = new Vector3(1400, 10, 0);

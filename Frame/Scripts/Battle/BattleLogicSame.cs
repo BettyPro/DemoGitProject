@@ -4,6 +4,7 @@ using DG.Tweening;
 using Spine.Unity;
 using UnityEngine;
 using UnityEngine.UI;
+using WinterColorDebug;
 using WinterDebug;
 
 namespace Demo
@@ -835,7 +836,9 @@ namespace Demo
                 {
                     if (CreatSkeleton.Instance.skeletonsBattleAniDic.TryGetValue(roleconWhole.id, out attacker))
                     {
-                        //RoleMove.instance.mainCamera.GetComponent<ConstrainCamera>().target = attacker.transform;
+//                        RoleMove.instance.mainCamera.GetComponent<ConstrainCamera>().target = attacker.transform;
+//                        RoleMove.instance.mainCamera.GetComponent<ConstrainCamera>().offset = new Vector3(100,130,-620);
+//                        RoleMove.instance.mainCamera.GetComponent<Camera>().fieldOfView = 30f;
                         StartCoroutine(ChangePos(obj, attacker, attackIsRole));
                     }
                     else
@@ -854,7 +857,8 @@ namespace Demo
                     if (CreatSkeleton.Instance.skeletonsMonsterBattleAniDic.TryGetValue(roleconWhole.iddif,
                         out attacker))
                     {
-                        //RoleMove.instance.mainCamera.GetComponent<ConstrainCamera>().target = attacker.transform;
+//                        RoleMove.instance.mainCamera.GetComponent<ConstrainCamera>().target = attacker.transform;
+//                        RoleMove.instance.mainCamera.GetComponent<Camera>().fieldOfView = 30f;
                         StartCoroutine(ChangePos(obj, attacker, attackIsRole));
                     }
                     else
@@ -906,7 +910,7 @@ namespace Demo
                 targetPos = new Vector3(role_x, y, z);
                 RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
                     (ushort) RoleSpineAniId.jumpforward,
-                    (ushort) roleconWhole.m_RoleInfo.roleid));
+                    (ushort) roleconWhole.m_RoleInfo.roleid,"jumpforward",false,false));
                 // DOTween.To (() => attacker.transform.position, a => attacker.transform.position = a, targetPos, 0.5f);
                 Debug.Log(attacker.name + "------------------ " + targetPos);
                 FixDistance.Instance.FixDistanceFromFrame(attacker, targetPos, 0.32f, 6);
@@ -922,7 +926,7 @@ namespace Demo
             {
                 targetPos = new Vector3(monster_x, y, z);
                 MonsterSpineAniManager.Instance.SendMsg(
-                    ButtonMsg.GetInstance.ChangeInfo((ushort) MonsterSpineAniId.jumpforward, roleconWhole.iddif));
+                    ButtonMsg.GetInstance.ChangeInfo((ushort) MonsterSpineAniId.jumpforward, roleconWhole.iddif,"jumpforward",false,false));
                 // DOTween.To (() => attacker.transform.position, a => attacker.transform.position = a, targetPos, 0.5f);
                 FixDistance.Instance.FixDistanceFromFrame(attacker, targetPos, 0.32f, 6);
 
@@ -935,19 +939,18 @@ namespace Demo
                 }
             }
 
-            yield return new WaitForSeconds(0.5f);
-            Debug.Log("反击时的技能是：" + recordSkillName + "disyance is --:" +
-                      Vector3.Distance(attacker.transform.position, target_roleIns.transform.position));
-
+//            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(attacker.state.Data.SkeletonData.Animations.Items[2].duration);
+            Debug.Log(animationDurationTime+"------------这个是时间");
+            Debug.Log(attacker.state.Data.SkeletonData.Animations.Items[2].duration+"------------这个是时间");
             if (Vector3.Distance(attacker.transform.position, target_roleIns.transform.position) < 161f)
             {
                 // if (Vector3.Distance (SkillEffect.Instance. attack_roleIns.transform.position, SkillEffect.Instance. target_roleIns.transform.position) < 161f) {
                 if (attackIsRole)
                 {
-                    Debug.Log("反击时的技能是：" + recordSkillName);
                     RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
                         (ushort) RoleSpineAniId.attack,
-                        (ushort) roleconWhole.m_RoleInfo.roleid, recordSkillName));
+                        (ushort) roleconWhole.m_RoleInfo.roleid, recordSkillName,false,false));
                     if (recordSkillName == "skill3a")
                     {
                         Debug.LogError("等待时间2：--" + animationDurationTime);
@@ -967,7 +970,7 @@ namespace Demo
                     FindWhichSkill();
                     MonsterSpineAniManager.Instance.SendMsg(
                         ButtonMsg.GetInstance.ChangeInfo((ushort) MonsterSpineAniId.attack, roleconWhole.iddif,
-                            recordSkillName));
+                            recordSkillName,false,false));
                     if (recordSkillName == "skill3a")
                     {
                         Debug.LogError("等待时间2：--" + animationDurationTime);
@@ -1000,10 +1003,10 @@ namespace Demo
             if (attackIsRole)
             {
                 RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo((ushort) RoleSpineAniId.jumpback,
-                    (ushort) roleconWhole.m_RoleInfo.roleid));
+                    (ushort) roleconWhole.m_RoleInfo.roleid,"jumpback",false,false));
                 // DOTween.To (() => attacker.transform.position, a => attacker.transform.position = a,
                 //     attackerOldPos, 0.7f);
-                FixDistance.Instance.FixDistanceFromFrame(attacker, attackerOldPos, 0.7f, 10);
+                FixDistance.Instance.FixDistanceFromFrame(attacker, attackerOldPos, 0.32f, 8);
 
                 yield return new WaitForSeconds(animationDurationTime);
                 RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo((ushort) RoleSpineAniId.idle,
@@ -1014,10 +1017,10 @@ namespace Demo
             else
             {
                 MonsterSpineAniManager.Instance.SendMsg(
-                    ButtonMsg.GetInstance.ChangeInfo((ushort) MonsterSpineAniId.jumpback, roleconWhole.iddif));
+                    ButtonMsg.GetInstance.ChangeInfo((ushort) MonsterSpineAniId.jumpback, roleconWhole.iddif,"jumpback",false,false));
                 // DOTween.To (() => attacker.transform.position, a => attacker.transform.position = a,
                 //     attackerOldPos, 0.7f);
-                FixDistance.Instance.FixDistanceFromFrame(attacker, attackerOldPos, 0.7f, 10);
+                FixDistance.Instance.FixDistanceFromFrame(attacker, attackerOldPos, 0.32f, 8);
 
                 yield return new WaitForSeconds(animationDurationTime);
                 MonsterSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
@@ -1029,6 +1032,8 @@ namespace Demo
 
             RoleMove.instance.mainCamera.GetComponent<ConstrainCamera>().target =
                 ADDUIBattle.instance.PlayerContrBattle.transform;
+//            RoleMove.instance.mainCamera.GetComponent<Camera>().fieldOfView = 65f;
+//            RoleMove.instance.mainCamera.GetComponent<ConstrainCamera>().offset = new Vector3(400,180,-620);
 
             //TODO 展示眩晕状态
             SkillEffect.Instance.CheckIsNeedChangeDizzinessState();
@@ -1051,11 +1056,11 @@ namespace Demo
                 {
                     RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
                         (ushort) RoleSpineAniId.attack,
-                        (ushort) roleconWhole.m_RoleInfo.roleid, recordSkillName));
+                        (ushort) roleconWhole.m_RoleInfo.roleid, recordSkillName,false));
                     if (recordSkillName == "skill3a")
                     {
                         RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
-                            (ushort) RoleSpineAniId.attack, (ushort) roleconWhole.m_RoleInfo.roleid, "skill3c"));
+                            (ushort) RoleSpineAniId.attack, (ushort) roleconWhole.m_RoleInfo.roleid, "skill3c",false));
                     }
 
                     PassSkiiTargetSendAttackedFromExl(attackIsRole);
@@ -1065,12 +1070,12 @@ namespace Demo
                     FindWhichSkill();
                     MonsterSpineAniManager.Instance.SendMsg(
                         ButtonMsg.GetInstance.ChangeInfo((ushort) MonsterSpineAniId.attack, roleconWhole.iddif,
-                            recordSkillName));
+                            recordSkillName,false));
                     if (recordSkillName == "skill3a")
                     {
                         MonsterSpineAniManager.Instance.SendMsg(
                             ButtonMsg.GetInstance.ChangeInfo((ushort) MonsterSpineAniId.attack, roleconWhole.iddif,
-                                "skill3c"));
+                                "skill3c",false));
                     }
 
                     PassSkiiTargetSendAttacked(attackIsRole);

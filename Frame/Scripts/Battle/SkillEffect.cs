@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Spine.Unity;
+using WinterColorDebug;
 using WinterDebug;
 
 namespace Demo
@@ -564,6 +565,13 @@ namespace Demo
                     // roleCon.GetComponent<SkeletonAnimation>().AnimationName = "stun";
                     RoleSpineAniManager.Instance.SendMsg(
                         ButtonMsg.GetInstance.ChangeInfo((ushort) MonsterSpineAniId.dizziness, roleCon.iddif, true));
+                }
+                else
+                {
+                    RoleSpineAniManager.Instance.SendMsg(
+                        ButtonMsg.GetInstance.ChangeInfo((ushort) RoleSpineAniId.idle, roleCon.id, true));
+                    MonsterSpineAniManager.Instance.SendMsg(
+                        ButtonMsg.GetInstance.ChangeInfo((ushort) MonsterSpineAniId.idle, roleCon.iddif, true));
                 }
             }
         }

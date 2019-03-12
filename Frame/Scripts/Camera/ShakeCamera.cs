@@ -21,17 +21,24 @@ public class ShakeCamera : MonoBehaviour {
 		MyTimerTool.Instance.wtime.AddTimeTask ((int tid) => {
 			testCount++;
 			Debug.Log(testCount);
+			ShakeEffect(200);
+		}, 0.1, WinterTimeUnit.Second, 1);
+	}
+	void OnEnable () {
+
+	}
+
+	void ShakeEffect(int length = 1)
+	{
+		for (int i = 0; i < length; i++)
+		{
 			isshakeCamera = true;
 			selfCamera = gameObject.GetComponent<Camera> ();
 			shakeTime = setShakeTime;
 			fps = shakeFps;
 			frameTime = 0.03f;
 			shakeDelta = 0.005f;
-		}, 3, WinterTimeUnit.Second, 50);
-	}
-	void OnEnable () {
-
-		
+		}
 	}
 
 	void OnDisable () {
@@ -46,13 +53,18 @@ public class ShakeCamera : MonoBehaviour {
 			if (shakeTime > 0) {
 				shakeTime -= Time.deltaTime;
 				if (shakeTime <= 0) {
-					// enabled = false;
+					enabled = false;
+					selfCamera.rect = new Rect (0,0, 1.0f, 1.0f);
 				} else {
 					frameTime += Time.deltaTime;
 
 					if (frameTime > 1.0 / fps) {
 						frameTime = 0;
-						selfCamera.rect = new Rect (shakeDelta * (-1.0f + shakeLevel * Random.value), shakeDelta * (-1.0f + shakeLevel * Random.value), 1.0f, 1.0f);
+//						selfCamera.rect = new Rect (shakeDelta * (-1.0f + shakeLevel * Random.value), shakeDelta * (-1.0f + shakeLevel * Random.value), 1.0f, 1.0f);
+						selfCamera.rect = new Rect (shakeDelta * (-5.0f + shakeLevel * Random.value * 10), shakeDelta * (1.0f + shakeLevel * Random.value), 1.0f, 1.0f);
+//						selfCamera.rect = new Rect (shakeDelta * (-1.0f + shakeLevel * Random.value), shakeDelta * (1.0f + shakeLevel * Random.value), 1.0f, 1.0f);
+//						selfCamera.rect = new Rect (shakeDelta * (-1.0f + shakeLevel * Random.value), 0, 1.0f, 1.0f);//左右
+//						selfCamera.rect = new Rect (0, shakeDelta * (-0.50f + shakeLevel * Random.value), 1.0f, 1.0f);//上下
 					}
 				}
 			}

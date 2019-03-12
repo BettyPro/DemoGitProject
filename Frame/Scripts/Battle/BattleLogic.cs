@@ -4,6 +4,7 @@ using DG.Tweening;
 using Spine.Unity;
 using UnityEngine;
 using UnityEngine.UI;
+using WinterColorDebug;
 using WinterDebug;
 
 namespace Demo
@@ -400,7 +401,9 @@ namespace Demo
                     DealHeadImage(role);
                     RoleAttackLogic(role);
                     MonsterAttackLogic(role);
-
+                    //TODO 动画混合
+                    FixSpineAni.Instance.FixAniMix(role);
+                    
                     if (selectedOutDistances.Count >= 2)
                     {
                         j = j - 1;
@@ -423,8 +426,10 @@ namespace Demo
                 //正常攻击
                 RoleAttackLogic(selectedOutAttackers[0]);
                 MonsterAttackLogic(selectedOutAttackers[0]);
+                //TODO 动画混合
+                FixSpineAni.Instance.FixAniMix(selectedOutAttackers[0]);
             }
-
+           
             // selectedOutAttackers.Clear();
             // selectedOutAttackersDic.Clear();
             // selectedOutDistances.Clear();

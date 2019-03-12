@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using WinterColorDebug;
 using WinterDebug;
 
 namespace Demo
