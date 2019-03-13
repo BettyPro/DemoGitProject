@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Spine.Unity;
-using WinterColorDebug;
-using WinterDebug;
+using WinterTools;
 
 namespace Demo
 {

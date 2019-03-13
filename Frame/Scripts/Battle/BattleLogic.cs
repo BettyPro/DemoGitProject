@@ -4,8 +4,7 @@ using DG.Tweening;
 using Spine.Unity;
 using UnityEngine;
 using UnityEngine.UI;
-using WinterColorDebug;
-using WinterDebug;
+using WinterTools;
 
 namespace Demo
 {
@@ -673,7 +672,7 @@ namespace Demo
             cancelLoop = true;
             firstLoop = true;
             roleStartAttack = false;
-            beginFllow = false;
+//            beginFllow = false;
 
             SkillEffect.Instance.strikeBackOver = false;
         }

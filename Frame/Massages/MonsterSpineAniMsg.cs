@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Spine.Unity;
+﻿using Spine.Unity;
 using UnityEngine;
-using WinterColorDebug;
-using WinterDebug;
+using WinterTools;
 
 namespace Demo
 {

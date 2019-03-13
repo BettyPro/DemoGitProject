@@ -6,10 +6,7 @@ using UnityEditor;
 #endif
 using Spine.Unity;
 using UnityEngine;
-using UnityEngine.U2D;
-using UnityEngine.UI;
-using WinterColorDebug;
-using WinterDebug;
+using WinterTools;
 
 public class ResourcesLoadBattleSceneInfos {
     /// <summary>
@@ -65,7 +62,7 @@ public class ResourcesLoadBattleSceneInfos {
 
     void LoadRoleActionImages () {
         roleActionImagesDics = new Dictionary<string, Sprite> ();
-        roleActionImages = Resources.LoadAll<Sprite> (SetConfig.roleActionImagesPath); //战斗场景行动头像集合
+        roleActionImages = Resources.LoadAll<Sprite> (SetConfig.actionImagesPath); //战斗场景行动头像集合
         for (int i = 0; i < roleActionImages.Length; i++) {
             roleActionImagesDics.Add (roleActionImages[i].name, roleActionImages[i]);
         }

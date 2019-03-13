@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using WinterTools;
 
 public class SetConfig : Singleton<SetConfig>
 {
@@ -55,7 +56,7 @@ public class SetConfig : Singleton<SetConfig>
     public const string roleImagesPath = "Images/RoleImages";
     public const string allImagesPath = "Images/AllImages";
     public const string skillImagesPath = "Images/SkillImages";
-    public const string roleActionImagesPath = "Images/RoleActionImages";
+    public const string actionImagesPath = "Images/ActionImages";
     public const string roleBuffImagesPath = "Images/BuffImages";
     public const string bloodValueImagesPath = "Assets/Resources/Images/Counts/BloodValue/BloodValue.png";
     public const string critValueImagesPath = "Assets/Resources/Images/Counts/CritValue/CritValue.png";

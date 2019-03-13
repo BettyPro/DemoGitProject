@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
-using WinterColorDebug;
-using WinterDebug;
+using WinterTools;
 
 namespace Demo
 {

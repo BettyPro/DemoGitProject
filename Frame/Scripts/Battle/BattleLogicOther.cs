@@ -5,8 +5,7 @@ using DG.Tweening;
 using Spine.Unity;
 using UnityEngine;
 using UnityEngine.UI;
-using WinterColorDebug;
-using WinterDebug;
+using WinterTools;
 
 namespace Demo
 {
@@ -59,7 +58,7 @@ namespace Demo
         //血条跟随
         void BloodsFllow()
         {
-            beginFllow = true;//ceshi
+//            beginFllow = true;//ceshi
             
             if (beginFllow)
             {

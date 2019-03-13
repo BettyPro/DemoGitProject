@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using LitJson;
-using WinterColorDebug;
-using WinterDebug;
+using WinterTools;
 
 
 public class ReadJsonfiles : Singleton<ReadJsonfiles>
