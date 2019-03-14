@@ -8,8 +8,6 @@ using WinterTools;
 
 namespace Demo
 {
-
-
     public partial class BattleLogic : MonoBehaviour
     {
         public static BattleLogic instance;
@@ -91,7 +89,6 @@ namespace Demo
 
         void Update()
         {
-            //SpeedLoop();
             SpeedLoopNormal();
             RayTest();
             BloodsFllow();
@@ -140,105 +137,6 @@ namespace Demo
             buffshow = GameObject.Find("CanvasBattle/BattlePanel/buffshow").transform;
 
             RegisterEvent();
-        }
-
-        //整体速度比较(不合乎规则)
-        void SpeedLoop()
-        {
-            if (Input.GetMouseButtonDown(1))
-            {
-                testCancel = true;
-                cancelLoop = true;
-                firstLoop = true;
-            }
-
-            if (Input.GetMouseButtonDown(0))
-                Debug.Log(testCancel);
-            if (testCancel)
-            {
-                float addFl = 0f;
-                ReadJsonfiles.Instance.allSpeeds.Sort();
-                ReadJsonfiles.Instance.allSpeeds.Reverse();
-                RoleConfig roleCon;
-
-                if (Input.GetMouseButtonDown(0))
-                    Debug.Log(cancelLoop);
-                while (cancelLoop)
-                {
-                    for (int i = 0; i < ReadJsonfiles.Instance.allSpeeds.Count; i++)
-                    {
-                        roleCon = ADDUIBattle.instance.speedImages[i];
-
-                        if (firstLoop)
-                        {
-                            addFl = 0;
-                            addFl += float.Parse(ADDUIBattle.instance.speedImages[i].m_RoleInfo.speed.ToString()) *
-                                     0.0001f;
-                            savePos_y.Add(addFl);
-                            if (savePos_y.Count > 9)
-                            {
-                                for (int z = 9; z < savePos_y.Count; z++)
-                                {
-                                    savePos_y.RemoveAt(z);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            addFl = savePos_y[i];
-                            addFl += float.Parse(ADDUIBattle.instance.speedImages[i].m_RoleInfo.speed.ToString()) *
-                                     0.0001f;
-                            savePos_y.RemoveAt(i);
-                            savePos_y.Insert(i, addFl);
-                        }
-
-                        if (addFl - roleCon.transform.localPosition.y >= -destination.localPosition.y)
-                        {
-                            selectedOutAttackers.Add(roleCon);
-                            Debug.Log(selectedOutAttackers.Count);
-                            selectedOutAttackersDic.Add(roleCon, addFl - roleCon.transform.localPosition.y);
-                            roleCon.transform.localPosition = new Vector3(roleCon.transform.localPosition.x,
-                                destination.localPosition.y, roleCon.transform.localPosition.z);
-
-                            DealHeadImage(roleCon);
-
-                            cancelLoop = false;
-                            //TODO 攻击展示逻辑
-                            //TheSameArriveDeal();
-                            //RoleAttackLogic(roleCon);
-                            //MonsterAttackLogic(roleCon);
-                        }
-                        else
-                        {
-                            roleCon.transform.localPosition = new Vector3(roleCon.transform.localPosition.x,
-                                -addFl + roleCon.transform.localPosition.y, roleCon.transform.localPosition.z);
-                        }
-
-                        ADDUIBattle.instance.speedImages.RemoveAt(i);
-                        ADDUIBattle.instance.speedImages.Insert(i, roleCon);
-                    }
-
-                    for (int j = 0; j < savePos_y.Count; j++)
-                    {
-                        if (ADDUIBattle.instance.speedImages[j].transform.localPosition.y >=
-                            -destination.localPosition.y)
-                        {
-                            cancelLoop = false;
-                            savePos_y.Clear();
-                            break;
-                        }
-                        else
-                        {
-                            firstLoop = false;
-                            break;
-                        }
-                    }
-                }
-
-                testCancel = false;
-                TheSameArriveDeal();
-                System.GC.Collect();
-            }
         }
 
         //区分了各个遇敌阶段的速度
@@ -311,13 +209,7 @@ namespace Demo
                             else
                                 beginSpecialAttack = true;
 
-                            // DealHeadImage (roleCon);//Old
-
                             cancelLoop = false;
-                            //TODO 攻击展示逻辑
-                            //TheSameArriveDeal();
-                            //RoleAttackLogic(roleCon);
-                            //MonsterAttackLogic(roleCon);
                         }
                         else
                         {
@@ -400,9 +292,7 @@ namespace Demo
                     DealHeadImage(role);
                     RoleAttackLogic(role);
                     MonsterAttackLogic(role);
-                    //TODO 动画混合
-                    FixSpineAni.Instance.FixAniMix(role);
-                    
+
                     if (selectedOutDistances.Count >= 2)
                     {
                         j = j - 1;
@@ -425,14 +315,7 @@ namespace Demo
                 //正常攻击
                 RoleAttackLogic(selectedOutAttackers[0]);
                 MonsterAttackLogic(selectedOutAttackers[0]);
-                //TODO 动画混合
-                FixSpineAni.Instance.FixAniMix(selectedOutAttackers[0]);
             }
-           
-            // selectedOutAttackers.Clear();
-            // selectedOutAttackersDic.Clear();
-            // selectedOutDistances.Clear();
-            // System.GC.Collect();
         }
 
         void DealAttackImageSortShow()
@@ -498,7 +381,7 @@ namespace Demo
                     isRole = true;
                     RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
                         (ushort) RoleSpineAniId.action,
-                        (ushort) roleconWhole.m_RoleInfo.roleid));
+                        (ushort) roleconWhole.m_RoleInfo.roleid,"start",false,false));
                     StartCoroutine(DelaySomeTimeToPlay(1));
 
                     //BUFF检查计算
@@ -590,7 +473,7 @@ namespace Demo
                     else
                     {
                         MonsterSpineAniManager.Instance.SendMsg(
-                            ButtonMsg.GetInstance.ChangeInfo((ushort) MonsterSpineAniId.action, roleconWhole.iddif));
+                            ButtonMsg.GetInstance.ChangeInfo((ushort) MonsterSpineAniId.action, roleconWhole.iddif,"start",false,false));
                         // StartCoroutine (WaitMonsterActionAni (roleCon));
 
                         // //TODO 展示技能UI
@@ -606,7 +489,6 @@ namespace Demo
                         // GetRoleTargetInfos(roleCon.gameObject);
                         MonsterJudgeSkillTargetToSelectAttackMode(roleCon.gameObject);
                     }
-
                     Debug.Log("该谁进行攻击：-- " + roleCon.m_RoleInfo.roleid);
                     break;
                 }
@@ -617,7 +499,7 @@ namespace Demo
         {
             if (roleStartAttack)
             {
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0) && !ADDUIBattle.instance.stopGame)
                 {
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     RaycastHit hit;
@@ -661,20 +543,21 @@ namespace Demo
             else
                 yield return new WaitForSeconds(2f);
 
-            //if (roleconWhole != null)
-            //{
-            roleconWhole.transform.localPosition = new Vector3(roleconWhole.transform.localPosition.x,
-                startpoint.localPosition.y, roleconWhole.transform.localPosition.z);
-            roleconWhole.transform.SetAsFirstSibling();
-            //}
+            if (!isAlreadyWin_delay)
+            {
+                isAlreadyWin_delay = false;
+                roleconWhole.transform.localPosition = new Vector3(roleconWhole.transform.localPosition.x,
+                    startpoint.localPosition.y, roleconWhole.transform.localPosition.z);
+                roleconWhole.transform.SetAsFirstSibling();
 
-            testCancel = true;
-            cancelLoop = true;
-            firstLoop = true;
-            roleStartAttack = false;
+                testCancel = true;
+                cancelLoop = true;
+                firstLoop = true;
+                roleStartAttack = false;
 //            beginFllow = false;
 
-            SkillEffect.Instance.strikeBackOver = false;
+                SkillEffect.Instance.strikeBackOver = false;
+            }
         }
 
         IEnumerator DelaySomeTime(float value)

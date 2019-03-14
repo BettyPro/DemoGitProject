@@ -111,6 +111,7 @@ public class SetConfig : Singleton<SetConfig>
                 str = 1f;
                 changBool = true;
                 Debug.Log("测试区的信息是：-----------------------------------"+debugInfo);
+                
             }
         }
     }

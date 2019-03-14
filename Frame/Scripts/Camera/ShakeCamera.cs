@@ -22,7 +22,7 @@ public class ShakeCamera : MonoBehaviour {
 			testCount++;
 			Debug.Log(testCount);
 			ShakeEffect(200);
-		}, 0.1, WinterTimeUnit.Second, 1);
+		}, 0.1, WinterTimeUnit.Second, 3);
 	}
 	void OnEnable () {
 
@@ -30,15 +30,15 @@ public class ShakeCamera : MonoBehaviour {
 
 	void ShakeEffect(int length = 1)
 	{
-		for (int i = 0; i < length; i++)
-		{
+//		for (int i = 0; i < length; i++)
+//		{
 			isshakeCamera = true;
 			selfCamera = gameObject.GetComponent<Camera> ();
 			shakeTime = setShakeTime;
 			fps = shakeFps;
 			frameTime = 0.03f;
 			shakeDelta = 0.005f;
-		}
+//		}
 	}
 
 	void OnDisable () {
@@ -53,7 +53,7 @@ public class ShakeCamera : MonoBehaviour {
 			if (shakeTime > 0) {
 				shakeTime -= Time.deltaTime;
 				if (shakeTime <= 0) {
-					enabled = false;
+//					enabled = false;
 					selfCamera.rect = new Rect (0,0, 1.0f, 1.0f);
 				} else {
 					frameTime += Time.deltaTime;

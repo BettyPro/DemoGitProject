@@ -80,8 +80,6 @@ namespace Demo
             {
                 case (ushort) RoleSpineAniId.idle:
                     ShowAni(tmpMsg.msgID, tmpMsg.attackName, tmpMsg.allAction, tmpMsg.roleID, isLoop: tmpMsg.isLoop);
-                    // ShowAni (tmpMsg.msgID);
-                    // ShowAni (tmpMsg.msgID,isLoop:tmpMsg.isLoop);
                     Debug.Log("Role待机动画");
                     break;
                 case (ushort) RoleSpineAniId.run:
@@ -153,7 +151,6 @@ namespace Demo
 
             if (allAction)
             {
-                // Debug.Log ("检查长度");
                 for (int i = 0; i < CreatSkeleton.Instance.skeletonsBattleAni.Count; i++)
                 {
                     CreatSkeleton.Instance.skeletonsBattleAni[i].loop = isLoop;
@@ -175,10 +172,6 @@ namespace Demo
 //                    ReturnDurationOne(roleStateInfo,tempSkeleton);//new
                 }
             }
-        }
-
-        void Attack_Start()
-        {
         }
 
         private void AnimationState_Complete(Spine.TrackEntry trackEntry)

@@ -1,17 +1,19 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using DG.Tweening;
 using Spine.Unity;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using WinterTools;
+using WinterTools_Event;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace Demo
 {
-
-
-    public partial class BattleLogic : MonoBehaviour
+    public partial class BattleLogic
     {
 
         ResourcesLoadBattleSceneInfos resourcesLoadBattleSceneInfosInstance = new ResourcesLoadBattleSceneInfos();
@@ -59,8 +61,7 @@ namespace Demo
         void BloodsFllow()
         {
 //            beginFllow = true;//ceshi
-            
-            if (beginFllow)
+            if (beginFllow && !ADDUIBattle.instance.stopGame)
             {
                 if (SkillEffect.Instance.attack_roleIns.iddif == 0)
                 {
@@ -82,11 +83,7 @@ namespace Demo
                 }
             }
         }
-
-        void EffectFollow()
-        {
-        }
-
+        
         //群体伤害 role and npc
         void AllDamage()
         {
@@ -129,20 +126,6 @@ namespace Demo
 
                 saveRoleSkeletonsBattleAni.Clear();
             }
-
-            // if (SkillEffect.Instance.attack_roleIns.tag == "Hero" && isRole) {
-            //     for (int i = 0; i < CreatSkeleton.Instance.monsterSkeletonsMonsterBattleAni.Count; i++) {
-            //         SkillEffect.Instance.target_roleIns = CreatSkeleton.Instance.monsterSkeletonsMonsterBattleAni[i].GetComponent<RoleConfig> ();
-            //         SingleDamage (SkillEffect.Instance.target_roleIns.m_RoleInfo.defense);
-            //         ColculateBoolds (SkillEffect.Instance.target_roleIns);
-            //     }
-            // } else if (SkillEffect.Instance.attack_roleIns.tag != "Hero" && !isRole) {
-            //     for (int i = 0; i < CreatSkeleton.Instance.roleSkeletonsBattleAni.Count; i++) {
-            //         SkillEffect.Instance.target_roleIns = CreatSkeleton.Instance.roleSkeletonsBattleAni[i].GetComponent<RoleConfig> ();
-            //         SingleDamage (SkillEffect.Instance.target_roleIns.m_RoleInfo.defense);
-            //         ColculateBoolds (SkillEffect.Instance.target_roleIns);
-            //     }
-            // }
         }
 
         void SingleDamage(float target_defense)
@@ -278,7 +261,6 @@ namespace Demo
         void BloodChangedShow(RoleConfig target_roleIns, float damage, bool isAll = false)
         {
             GameObject blood;
-            // Transform changedBlood;
             RectTransform changedBlood;
             Text changedBloodText;
             RectTransform managerValue;
@@ -320,7 +302,6 @@ namespace Demo
                             {
                                 // changedBloodText.text = "<color=green>+" + addBloodValue.ToString ("f0") + "</color>";
                                 ValueDealToImage(managerValue, addBloodValue, isAdd);
-
                             }
                             else
                             {
@@ -328,7 +309,6 @@ namespace Demo
                                                     SkillEffect.Instance.target_life_old;
                                 // changedBloodText.text = "<color=green>+" + addRealBloodValue.ToString ("f0") + "</color>";
                                 ValueDealToImage(managerValue, addRealBloodValue, isAdd);
-
                             }
                         }
                     }
@@ -341,7 +321,6 @@ namespace Demo
                         {
                             // changedBloodText.text = "<color=green>+" + addBloodValue.ToString ("f0") + "</color>";
                             ValueDealToImage(managerValue, addBloodValue);
-
                         }
                         else
                         {
@@ -349,7 +328,6 @@ namespace Demo
                                                 SkillEffect.Instance.target_life_old;
                             // changedBloodText.text = "<color=green>+" + addRealBloodValue.ToString ("f0") + "</color>";
                             ValueDealToImage(managerValue, addRealBloodValue);
-
                         }
                     }
                 }
@@ -364,7 +342,6 @@ namespace Demo
                     {
                         // changedBloodText.text = "<color=red>-" + damage.ToString ("f0") + "</color>";
                         ValueDealToImage(managerValue, damage);
-
                     }
                 }
 
@@ -485,7 +462,6 @@ namespace Demo
                         }
                     }
                 }
-
                 managerValue.GetChild(i + 1).GetComponent<Image>().sprite = objs[values[k + i]] as Sprite;
             }
         }
@@ -497,7 +473,6 @@ namespace Demo
                 managerValue.GetChild(i).GetComponent<Image>().sprite = null;
                 managerValue.GetChild(i).gameObject.SetActive(false);
             }
-
             managerValue.gameObject.SetActive(false);
         }
 
@@ -571,7 +546,6 @@ namespace Demo
                     }
                 }
             }
-
         }
 
         //一波胜利后所有buff debuff回合-1
@@ -601,7 +575,6 @@ namespace Demo
                 {
                     SkillEffect.Instance.CompareCalculate(attack_buffCkilds[j].name, 1, attack_roleIns);
                 }
-
                 SkillEffect.Instance.RefreshBuff(attack_roleIns, attack_buffCkilds);
             }
         }
@@ -609,7 +582,6 @@ namespace Demo
         public void DestoryTargetDeBuff()
         {
             // string str = buff.Substring(2,buff.Length-2);
-
             if (SkillEffect.Instance.target_buffCkilds == null) return;
             if (SkillEffect.Instance.target_buffCkilds.Length == 1) return;
             for (int i = 1; i < SkillEffect.Instance.target_buffCkilds.Length; i++)
@@ -660,12 +632,6 @@ namespace Demo
             m_RoleInfo.attack = m_RoleInfo.attack * (passiveValue + attackAdd + attackReduce + 1);
             attackAdd = 0f;
             attackReduce = 0f;
-
-            // if(m_RoleInfo.isAttackAdd)m_RoleInfo.attack += m_RoleInfo.attack*SetConfig.isAttackAdd;
-            // if(m_RoleInfo.isAttackReduce)m_RoleInfo.attack += m_RoleInfo.attack*SetConfig.isAttackReduce;
-            // if(m_RoleInfo.isDefenceAdd)m_RoleInfo.defense += m_RoleInfo.defense*SetConfig.isDefenceAdd;
-            // if(m_RoleInfo.isDefenceReduce)m_RoleInfo.defense += m_RoleInfo.defense*SetConfig.isDefenceReduce;
-            // if(m_RoleInfo.isSpeedReduce)m_RoleInfo.speed += m_RoleInfo.speed*SetConfig.isSpeedReduce;
         }
 
         //防御力计算
@@ -856,7 +822,7 @@ namespace Demo
         /// ceshi 播放受击1
         /// </summary>
         /// <param name="attackIsRole"></param>
-        void PassSkiiTargetSendAttackedFromExl1(bool attackIsRole)
+        void PassSkill2SendAttacked(bool attackIsRole,CallBack<bool> callback)
         {
             Skills usingSkill = ReadJsonfiles.Instance.skillDics[int.Parse(whichSkill.name)];
 
@@ -864,65 +830,22 @@ namespace Demo
             {
                 if (usingSkill.releaseobj == (int) TargetType.singleEnemy)
                 {
-                    MyTimerTool.Instance.wtime.AddTimeTask((int tid) =>
-                    {
-                        RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
-                            (ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", false, false));
-                        Debug.Log("1-------------------------------1");
-                    }, 0.28f, WinterTimeUnit.Second, 1);
-                    MyTimerTool.Instance.wtime.AddTimeTask((int tid) =>
-                    {
-                        RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
-                            (ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", false, false));
-                        Debug.Log("1-------------------------------2");
-
-                    }, 0.6f, WinterTimeUnit.Second, 1);
-                    MyTimerTool.Instance.wtime.AddTimeTask((int tid) =>
-                    {
-                        RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
-                            (ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", false, false));
-                        Debug.Log("1-------------------------------3");
-
-                    }, 1.08f, WinterTimeUnit.Second, 1);
-
+                    callback(false);
                 }
                 else if (usingSkill.releaseobj == (int) TargetType.allEnemy)
                 {
-                    MyTimerTool.Instance.wtime.AddTimeTask((int tid) =>
-                    {
-                        RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
-                            (ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", true, false));
-                        Debug.Log("1-------------------------------1");
-                    }, 0.28f, WinterTimeUnit.Second, 1);
-                    MyTimerTool.Instance.wtime.AddTimeTask((int tid) =>
-                    {
-                        RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
-                            (ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", true, false));
-                        Debug.Log("1-------------------------------2");
-
-                    }, 0.6f, WinterTimeUnit.Second, 1);
-                    MyTimerTool.Instance.wtime.AddTimeTask((int tid) =>
-                    {
-                        RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
-                            (ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", true, false));
-                        Debug.Log("1-------------------------------3");
-
-                    }, 1.08f, WinterTimeUnit.Second, 1);
+                    callback(true);
                 }
             }
             else
             {
                 if (usingSkill.releaseobj == (int) TargetType.singleEnemy)
                 {
-                    MonsterSpineAniManager.Instance.SendMsg(
-                        ButtonMsg.GetInstance.ChangeInfo((ushort) RoleSpineAniId.attacked, target_roleIns.id, "hit",
-                            false, false));
+                    callback(false);
                 }
                 else if (usingSkill.releaseobj == (int) TargetType.allEnemy)
                 {
-                    MonsterSpineAniManager.Instance.SendMsg(
-                        ButtonMsg.GetInstance.ChangeInfo((ushort) RoleSpineAniId.attacked, target_roleIns.id, "hit",
-                            true, false));
+                    callback(true);
                 }
             }
         }
@@ -933,21 +856,7 @@ namespace Demo
             if (usingSkill.releaseobj == (int) TargetType.singleEnemy)
                 if (SkillEffect.Instance.target_roleIns.m_RoleInfo.isDizziness)
                     return;
-            // if(usingSkill.releaseobj == (int) TargetType.allEnemy)
-            // {
-            //     if(attackIsRole)
-            //     {
-            //         for (int i = 0; i < CreatSkeleton.Instance.monsterSkeletonsMonsterBattleAni.Count; i++)
-            //         {
-            //             if(CreatSkeleton.Instance.monsterSkeletonsMonsterBattleAni[i].GetComponent<RoleConfig>().m_RoleInfo.isDizziness)
-            //                 continue;
-            //         }
-            //     }
-            //     else
-            //     {
-
-            //     }
-            // }
+            
             if (attackIsRole)
             {
                 if (usingSkill.releaseobj == (int) TargetType.singleEnemy)

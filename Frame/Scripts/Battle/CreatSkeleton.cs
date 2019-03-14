@@ -7,11 +7,8 @@ using WinterTools;
 
 namespace Demo
 {
-//public class CreatSkeleton : UnitySingleton<CreatSkeleton>
     public class CreatSkeleton : Singleton<CreatSkeleton>
     {
-        //Roles roleUse;
-
         public List<SkeletonGraphic> skeletons = new List<SkeletonGraphic>(); //Role界面的展示人物Spine
         public List<SkeletonGraphic> skeletonsBattle = new List<SkeletonGraphic>(); //战斗界面不用3dSpine时的UISpine
         public List<SkeletonAnimation> skeletonsBattleAni = new List<SkeletonAnimation>(); //战斗界面的人员
@@ -42,7 +39,6 @@ namespace Demo
         public Dictionary<int, Text> monsterBloodsDic = new Dictionary<int, Text>(); //战斗界面血条
 
         public Image moveImage;
-        //public int[] levels = { 2001, 2002, 2003, 2004 };
 
         //Role界面的展示人物Spine
         public void CreatSkeletonInfo(Transform trans, float x = -30f, float y = -140f, float z = 0f)
@@ -118,6 +114,9 @@ namespace Demo
                 skeleon = Resources.LoadAll<SkeletonAnimation>(SetConfig.roleSceneSpineAniShow);
             for (int i = 0; i < skeleon.Length; i++)
             {
+                //TODO 先动画混合
+                FixSpineAni.Instance.FixAniMix(skeleon[i]);
+                
                 SkeletonAnimation obj = SkeletonAnimation.Instantiate<SkeletonAnimation>(skeleon[i], trans);
                 obj.transform.SetParent(trans);
                 obj.name = "skeleon" + (i + 1).ToString();

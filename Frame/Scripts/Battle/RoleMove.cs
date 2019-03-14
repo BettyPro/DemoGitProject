@@ -1,10 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Spine.Unity;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using UnityEngine.EventSystems;
 
 namespace Demo
 {

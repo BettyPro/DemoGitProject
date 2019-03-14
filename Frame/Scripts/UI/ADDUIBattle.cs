@@ -101,6 +101,7 @@ namespace Demo
 
         void Awake()
         {
+            Debug.Log(notUseAni3d);
             instance = this;
             GetBool();
             BindUIBehaviour();
@@ -380,6 +381,8 @@ namespace Demo
                     Debug.Log("通关结束！");
                     //TODO 通关后的处理
                     BattleLogic.instance.isAlreadyFinish = true;
+                    stopGame = true;
+                    
                     RoleMove.instance.canWalk = false;
                     FinishGame();
                     WinButtonClickInfo();

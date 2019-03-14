@@ -5,8 +5,6 @@ using UnityEngine.EventSystems;
 
 namespace Demo
 {
-
-
     /// <summary>
     /// 需要检测长按的按钮的添加此脚本进行通信
     /// </summary>
@@ -62,7 +60,6 @@ namespace Demo
                     LongTimePress();
                 }
             }
-
         }
 
         void SkillShow()
@@ -82,8 +79,6 @@ namespace Demo
             {
                 role.roleUse.skillid1 = int.Parse(role.roleId + "03");
             }
-
-
             role.GiveSkillData(role.roleUse.skillid1);
         }
 
@@ -95,7 +90,6 @@ namespace Demo
         // 当按钮被按下后系统自动调用此方法
         public void OnPointerDown(PointerEventData eventData)
         {
-
             isDown = true;
             //lastIsDownTime = Time.time;
             //Debug.Log("按下按钮");
@@ -116,7 +110,6 @@ namespace Demo
             //     SkillShowInBattle();
             //     ADDUIBattle.instance.LongPressShow();
             // }
-
         }
 
         // 当按钮抬起的时候自动调用此方法
@@ -137,7 +130,6 @@ namespace Demo
         {
             isDown = false;
             //Debug.Log("离开按钮");
-
         }
 
         IEnumerator DelaySomeSeconds()
@@ -156,6 +148,5 @@ namespace Demo
                 isDown = false;
             }
         }
-
     }
 }
