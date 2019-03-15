@@ -79,6 +79,7 @@ namespace WinterTools_Event
         {
             if (eventType == null)
             {
+                
                 m_EventTable.Remove(eventType);
             }
         }
