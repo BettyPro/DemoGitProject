@@ -91,7 +91,6 @@ namespace Demo
         {
             SpeedLoopNormal();
             RayTest();
-            BloodsFllow();
             MyTimerTool.Instance.wtime.Update();
         }
 

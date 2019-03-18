@@ -795,7 +795,7 @@ namespace Demo
             attackIsRoleAll = attackIsRole;
             SkillEffect.Instance.attack_roleIns = attacker.GetComponent<RoleConfig>();
             SkillEffect.Instance.attack_roleInsAni = attacker;
-            attacker.GetComponent<Renderer>().sortingOrder = 1;
+            attacker.GetComponent<Renderer>().sortingOrder = 3;//改变层级
             if (!attackIsRole)
                 yield return new WaitForSeconds(animationDurationTime);
             beginFllow = true;
@@ -940,6 +940,7 @@ namespace Demo
 //            RoleMove.instance.mainCamera.GetComponent<Camera>().fieldOfView = 65f;
 //            RoleMove.instance.mainCamera.GetComponent<ConstrainCamera>().offset = new Vector3(400,180,-620);
 
+            attacker.GetComponent<Renderer>().sortingOrder = 0;
             //TODO 展示眩晕状态
             SkillEffect.Instance.CheckIsNeedChangeDizzinessState();
 
@@ -949,43 +950,7 @@ namespace Demo
                 SkillEffect.Instance.canStrikeBack = false;
                 SkillEffect.Instance.strikeBackOver = true;
             }
-
             AgainAttack();
-        }
-
-        public void ShowAttack(SkeletonAnimation attacker, bool attackIsRole)
-        {
-            if (Vector3.Distance(attacker.transform.position, target_roleIns.transform.position) < 151f)
-            {
-                if (attackIsRole)
-                {
-                    RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
-                        (ushort) RoleSpineAniId.attack,
-                        (ushort) roleconWhole.m_RoleInfo.roleid, recordSkillName, false));
-                    if (recordSkillName == "skill3a")
-                    {
-                        RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
-                            (ushort) RoleSpineAniId.attack, (ushort) roleconWhole.m_RoleInfo.roleid, "skill3c", false));
-                    }
-
-                    PassSkiiTargetSendAttackedFromExl(attackIsRole);
-                }
-                else
-                {
-                    FindWhichSkill();
-                    MonsterSpineAniManager.Instance.SendMsg(
-                        ButtonMsg.GetInstance.ChangeInfo((ushort) MonsterSpineAniId.attack, roleconWhole.iddif,
-                            recordSkillName, false));
-                    if (recordSkillName == "skill3a")
-                    {
-                        MonsterSpineAniManager.Instance.SendMsg(
-                            ButtonMsg.GetInstance.ChangeInfo((ushort) MonsterSpineAniId.attack, roleconWhole.iddif,
-                                "skill3c", false));
-                    }
-
-                    PassSkiiTargetSendAttacked(attackIsRole);
-                }
-            }
         }
 
         //特殊

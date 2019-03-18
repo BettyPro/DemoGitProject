@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.EventSystems;
+using WinterDebug;
 
 namespace Demo
 {
@@ -46,13 +48,12 @@ namespace Demo
         Vector3 velocity = default(Vector3);
         bool isPc = true;
 
-
         void Awake()
         {
             instance = this;
             if (isPc && ADDUIBattle.instance.notUseAni3d)
             {
-                this.gameObject.AddComponent<CharacterController>();
+                gameObject.AddComponent<CharacterController>();
                 controller = GetComponent<CharacterController>();
             }
 
@@ -66,14 +67,10 @@ namespace Demo
             FindUI();
         }
 
-        void Test()
-        {
-            // AndroidDebug.Log(Touch.fingerId);
-        }
-
         // Update is called once per frame
         void Update()
         {
+            BattleLogic.instance.BloodsFllowAll();
 #if UNITY_ANDROID && false
         if (Input.touchCount == 0 || Input.touchCount != 1)
         {
@@ -88,6 +85,7 @@ namespace Demo
             playRun = true;
             AndroidDebug.Log(false, "11---" + Input.touchCount.ToString(),
                 "canwalk:--" + canWalk + "--playrun:--" + playRun);
+            
         }
 
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
@@ -106,13 +104,11 @@ namespace Demo
 #endif
             {
                 AndroidDebug.Log(false, "当前触摸在UI上");
-                ADDUIBattle.instance.clickIsOtherPanel = true;
                 clickIsOtherPanel = true;
             }
             else
             {
                 AndroidDebug.Log(false, "当前没有触摸在UI上");
-                ADDUIBattle.instance.clickIsOtherPanel = false;
                 clickIsOtherPanel = false;
             }
         }
@@ -209,7 +205,6 @@ namespace Demo
                     //动画切换
                     if (changeState)
                     {
-                        CreatSkeleton.Instance.ControlBloodShow(true);
                         RoleSpineAniManager.Instance.SendMsg(
                             ButtonMsg.GetInstance.ChangeInfo((ushort) RoleSpineAniId.idle, "normal"));
                         changeState = false;
@@ -224,8 +219,6 @@ namespace Demo
                         ButtonMsg.GetInstance.ChangeInfo((ushort) RoleSpineAniId.run, true, true));
                 }
             }
-
-            //CreatSkeleton.Instance.ControlBloodShow(false);
         }
         else if (Input.touchCount != 1 && canWalk && !playRun)
         {
@@ -239,16 +232,6 @@ namespace Demo
             }
 
             CreatSkeleton.Instance.ControlBloodShow(true, false);
-        }
-        else if (Input.touchCount != 1)
-        {
-            if (SetConfig.Instance.sendIdleMes)
-            {
-                RoleSpineAniManager.Instance.SendMsg(
-                    ButtonMsg.GetInstance.ChangeInfo((ushort) RoleSpineAniId.idle, "normal"));
-                SetConfig.Instance.sendIdleMes = false;
-                SetConfig.Instance.sendRunMes = true;
-            }
         }
 #endif
 
@@ -301,7 +284,6 @@ namespace Demo
                     }
 
                     ADDUIBattle.instance.goMessage.gameObject.SetActive(false);
-                    //CreatSkeleton.Instance.ControlBloodShow(true);
                     return;
                 }
                 else
@@ -319,8 +301,6 @@ namespace Demo
                 {
                     velocity.x = 0f;
                     CreatSkeleton.Instance.ControlBloodShow(true, false);
-                    //if (startBattle)
-                    //    RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo((ushort)RoleSpineAniId.idle));
                     if (SetConfig.Instance.sendIdleMes)
                     {
                         RoleSpineAniManager.Instance.SendMsg(
@@ -345,15 +325,12 @@ namespace Demo
                 {
                     canWalk = true;
                     letCanWalk = true;
-                    //ADDUIBattle.instance.BattlePanel.GetComponent<RectTransform>().localPosition = new Vector3(-3000, 0, 0);
-
                     for (int i = 0; i < CreatSkeleton.Instance.skeletonsBattleAni.Count; i++)
                     {
                         CreatSkeleton.Instance.skeletonsBattleAni[i].transform.rotation = new Quaternion(0, -180, 0, 0);
                     }
 
                     leftCount = 1;
-
                     ExChangePlayerPosLeft();
 
                     mainCamera.GetComponent<ConstrainCamera>().offset.x = -400f;
@@ -388,15 +365,14 @@ namespace Demo
 
                 if (!ADDUIBattle.instance.stopGame)
                     controller.Move(velocity * dt * SetConfig.changePCMoveSpeed);
-                //controller.SimpleMove(velocity);
             }
         }
 
         void BindCamera()
         {
-            mainCamera = GameObject.Find("Main Camera") as GameObject;
-            mainCamera.GetComponent<ConstrainCamera>().target = this.transform;
-            miniMapCamera = GameObject.Find("MiniMapCamera") as GameObject;
+            mainCamera = GameObject.Find("Main Camera");
+            mainCamera.GetComponent<ConstrainCamera>().target = transform;
+            miniMapCamera = GameObject.Find("MiniMapCamera");
             distance = this.transform.position - miniMapCamera.transform.position;
             miniMapCover = GameObject.Find("MiniMapControl/miniMapCover").transform.GetComponent<Image>();
         }
@@ -428,7 +404,6 @@ namespace Demo
                     CreatSkeleton.Instance.skeletonsBattleAni[0].transform.position = tempPos;
                 }
 
-                //signPlayer.localRotation = Quaternion.Euler(0,0,180);
                 signPlayer.localRotation = Quaternion.Euler(0, 0, -90);
                 signPlayer.localPosition = new Vector3(-200, 204, 0);
 
@@ -456,24 +431,10 @@ namespace Demo
                     CreatSkeleton.Instance.skeletonsBattleAni[0].transform.position = tempPos;
                 }
 
-                //signPlayer.localRotation = Quaternion.Euler(Vector3.zero);
                 signPlayer.localRotation = Quaternion.Euler(0, 0, 90);
                 signPlayer.localPosition = new Vector3(0, 204, 0);
-
-
                 signPlayerRotateRight = false;
                 signPlayerRotateLeft = true;
-            }
-        }
-
-        void ExChangeValue()
-        {
-            if (ADDUIBattle.instance.notUseAni3d)
-            {
-                for (int i = 0; i < CreatSkeleton.Instance.skeletonsBattle.Count; i++)
-                {
-                    //CreatSkeleton.Instance.skeletonsBattleAni.Add(CreatSkeleton.Instance.skeletonsBattle[i]) as SkeletonAnimation;
-                }
             }
         }
     }

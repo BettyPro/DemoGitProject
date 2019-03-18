@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1523927333972250}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.55, y: 0, z: 0}
+  m_LocalPosition: {x: -2.55, y: -1.65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -69,6 +69,7 @@ MeshRenderer:
   - {fileID: 2100000, guid: 13d15e5a250ad3f40a200460d1ec702b, type: 2}
   - {fileID: 2100000, guid: 77a943a79cba2b849911c2022b7281b1, type: 2}
   - {fileID: 2100000, guid: 0cbced8972e1e8144ae82930b827a73d, type: 2}
+  - {fileID: 2100000, guid: 77a943a79cba2b849911c2022b7281b1, type: 2}
   - {fileID: 2100000, guid: 13d15e5a250ad3f40a200460d1ec702b, type: 2}
   - {fileID: 2100000, guid: 0cbced8972e1e8144ae82930b827a73d, type: 2}
   - {fileID: 2100000, guid: 13d15e5a250ad3f40a200460d1ec702b, type: 2}
@@ -227,6 +228,6 @@ MonoBehaviour:
   addNormals: 0
   calculateTangents: 0
   disableRenderingOnOverride: 1
-  _animationName: walk
+  _animationName: normal
   loop: 1
   timeScale: 1

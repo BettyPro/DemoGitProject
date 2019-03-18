@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.IO;
 using UnityEngine.UI;
 using DG.Tweening;
 using Spine.Unity;
@@ -111,11 +110,7 @@ namespace Demo
         {
             CreatDoTweenAnimation();
         }
-
-        void Update()
-        {
-        }
-
+        
         void GetBool()
         {
             SetConfig.GetInstance().isSceneRole = SceneManager.GetActiveScene().name.Equals(SetConfig.sceneRole);
@@ -124,7 +119,7 @@ namespace Demo
 
         void BindUIBehaviour()
         {
-            this.gameObject.AddComponent<BattleLogic>();
+            gameObject.AddComponent<BattleLogic>();
             ResourcesLoadBattleSceneInfos.Inis();
             try
             {
@@ -157,8 +152,6 @@ namespace Demo
                     //skill3 = GameObject.Find("CanvasBattle/BattlePanel/skillshow/skill3").AddComponent<UIBehaviour>();
                     speedshow = GameObject.Find("CanvasBattle/BattlePanel/speedshow").transform;
 
-
-                    bloodParent = GameObject.Find("CanvasBattle/PlayerPanel/bloodParent").GetComponent<RectTransform>();
                     spineEffectsParent = GameObject.Find("CanvasBattle/PlayerPanel/spineEffectsParent")
                         .GetComponent<RectTransform>();
                     pausepanel = GameObject.Find("CanvasBattle/PlayerPanel/pausepanel");
@@ -222,9 +215,9 @@ namespace Demo
             for (int i = 0; i < ResourcesLoadInfos.instance.allImages.Length; i++)
             {
                 GameObject obj =
-                    GameObject.Instantiate(Resources.Load(SetConfig.roleSceneRoleSingleShow)) as GameObject;
+                    Instantiate(Resources.Load(SetConfig.roleSceneRoleSingleShow)) as GameObject;
                 obj.transform.SetParent(trans);
-                obj.name = "rolepre" + i.ToString();
+                obj.name = "rolepre" + i;
                 obj.GetComponent<Image>().sprite = ResourcesLoadInfos.instance.allImages[i];
 
                 obj.transform.localPosition = new Vector3(x, y, z);
@@ -254,9 +247,9 @@ namespace Demo
             for (int i = 0; i < battleCurrentAll.Count; i++)
             {
                 GameObject obj =
-                    GameObject.Instantiate(Resources.Load(SetConfig.roleSceneRoleSingleShow)) as GameObject;
+                    Instantiate(Resources.Load(SetConfig.roleSceneRoleSingleShow)) as GameObject;
                 obj.transform.SetParent(speedshow);
-                obj.name = "rolepre" + i.ToString();
+                obj.name = "rolepre" + i;
 
                 obj.transform.localPosition = new Vector3(x, y, z);
                 obj.transform.localScale = Vector3.one;
@@ -595,8 +588,6 @@ namespace Demo
                 change = true;
                 MiniMapControl.anchoredPosition = new Vector3(640, -360, 0);
             }
-
-            clickIsOtherPanel = true;
         }
 
         void EnterBattleScene()
@@ -679,7 +670,6 @@ namespace Demo
 
         public IEnumerator DelayBackTweenTwo(Transform trans, Text changedBloodText, RectTransform managerValue)
         {
-            // trans.DOPlayForward();
             yield return new WaitForSeconds(1f);
             changedBloodText.text = "";
             trans.DOPlayBackwards();

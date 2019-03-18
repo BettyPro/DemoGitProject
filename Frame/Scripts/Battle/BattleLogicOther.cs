@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using DG.Tweening;
 using Spine.Unity;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 using WinterTools;
 using WinterTools_Event;
@@ -20,6 +17,11 @@ namespace Demo
         RectTransform currenBlood = null;
         Vector2 cubeV2Pos = Vector2.zero;
         private int recordWhickCount = 0; //记录群体加血第几个
+        
+        //用于血条跟随
+        Transform roleTrans;
+        Transform bloodTrans;
+        private RoleConfig config;
 
         //集合
         List<float> monsterSelectLife = new List<float>();
@@ -56,34 +58,27 @@ namespace Demo
 
         //测试区
         float testValue = 10f;
-
-        //血条跟随
-        void BloodsFllow()
+        
+        //血条跟随,全体
+        public void BloodsFllowAll()
         {
-//            beginFllow = true;//ceshi
-            if (beginFllow && !ADDUIBattle.instance.stopGame)
+            for (int i = 0; i < ADDUIBattle.instance.battleCurrentAll.Count; i++)
             {
-                if (SkillEffect.Instance.attack_roleIns.iddif == 0)
+                roleTrans = ADDUIBattle.instance.battleCurrentAll[i].transform;
+                config = roleTrans.gameObject.GetComponent<RoleConfig>();
+                if (config.iddif == 0)
                 {
-                    currenBlood = CreatSkeleton.Instance.BloodsObjDic[SkillEffect.Instance.attack_roleIns.id]
-                        .GetComponent<RectTransform>();
-                    cubeV2Pos = RectTransformUtility.WorldToScreenPoint(Camera.main,
-                        SkillEffect.Instance.attack_roleIns.transform.position);
-                    currenBlood.position = cubeV2Pos + new Vector2(50, 200);
-//                    currenBlood.anchoredPosition3D = cubeV2Pos;
+                    bloodTrans = CreatSkeleton.Instance.BloodsObjDic[roleTrans.gameObject.GetComponent<RoleConfig>().id].transform;
+                    bloodTrans.position = roleTrans.position+ new Vector3(25, 185,0);
                 }
                 else
                 {
-                    currenBlood = CreatSkeleton.Instance.BloodsObjDic[SkillEffect.Instance.attack_roleIns.iddif]
-                        .GetComponent<RectTransform>();
-                    cubeV2Pos = RectTransformUtility.WorldToScreenPoint(Camera.main,
-                        SkillEffect.Instance.attack_roleIns.transform.position);
-                    currenBlood.position = cubeV2Pos + new Vector2(-40, 240);
-//                    currenBlood.anchoredPosition3D = cubeV2Pos;
+                    bloodTrans = CreatSkeleton.Instance.BloodsObjDic[roleTrans.gameObject.GetComponent<RoleConfig>().iddif].transform;
+                    bloodTrans.position = roleTrans.position+ new Vector3(15, 185,0);
                 }
             }
         }
-        
+
         //群体伤害 role and npc
         void AllDamage()
         {
@@ -182,7 +177,6 @@ namespace Demo
                     SkillEffect.Instance.target_roleIns =
                         CreatSkeleton.Instance.roleSkeletonsBattleAni[i].GetComponent<RoleConfig>();
                     Debug.Log(SkillEffect.Instance.target_roleIns.m_RoleInfo.life + "------这个时");
-                    // StartCoroutine(RoleNotChangePos(SkillEffect.Instance.target_roleIns,false));
                     recordWhickCount = i;
                     SingleRoleAddBloodToEnd(SkillEffect.Instance.target_roleIns, false);
                 }
@@ -194,7 +188,6 @@ namespace Demo
                 {
                     SkillEffect.Instance.target_roleIns = CreatSkeleton.Instance.monsterSkeletonsMonsterBattleAni[i]
                         .GetComponent<RoleConfig>();
-                    // StartCoroutine(MonsterNotChangePos(SkillEffect.Instance.target_roleIns,false));
                     recordWhickCount = i;
                     SingleMonsterAddBloodToEnd(SkillEffect.Instance.target_roleIns, false);
                 }
@@ -261,7 +254,7 @@ namespace Demo
         void BloodChangedShow(RoleConfig target_roleIns, float damage, bool isAll = false)
         {
             GameObject blood;
-            RectTransform changedBlood;
+            Transform changedBlood;
             Text changedBloodText;
             RectTransform managerValue;
             Image one;
@@ -277,7 +270,7 @@ namespace Demo
             if (CreatSkeleton.Instance.BloodsDic.ContainsKey(id))
             {
                 CreatSkeleton.Instance.BloodsObjDic.TryGetValue(id, out blood);
-                changedBlood = blood.transform.Find("changedBlood").GetComponent<RectTransform>();
+                changedBlood = blood.transform.Find("changedBlood").GetComponent<Transform>();
                 changedBloodText = blood.transform.Find("changedBlood/changedBloodText").GetComponent<Text>();
                 managerValue = blood.transform.Find("changedBlood/managerValue").GetComponent<RectTransform>();
                 managerValue.gameObject.SetActive(true);
@@ -344,35 +337,14 @@ namespace Demo
                         ValueDealToImage(managerValue, damage);
                     }
                 }
-
-                Debug.Log(changedBlood.position);
-                Debug.Log(changedBlood.localPosition);
-                Debug.Log(changedBlood.anchoredPosition);
-                changedBlood.anchoredPosition = new Vector2(-10, 0);
                 //伤害数字提示
                 // Vector2 cubeV2Pos = RectTransformUtility.WorldToScreenPoint(Camera.main, blood.transform.position);
-                Vector2 cubeV2Pos = Vector2.zero;
-                if (SkillEffect.Instance.canStrikeBack)
-                {
-                    cubeV2Pos = RectTransformUtility.WorldToScreenPoint(Camera.main, lastAttacker.transform.position);
-                }
-                else
-                {
-                    cubeV2Pos = RectTransformUtility.WorldToScreenPoint(Camera.main,
-                        SkillEffect.Instance.target_roleIns.transform.position);
-                }
-
-                Debug.Log(cubeV2Pos);
-                // changedBlood.position = cubeV2Pos + new Vector2 (0, 35);
-                changedBlood.position = cubeV2Pos + new Vector2(-20, 35);
                 Debug.Log(changedBlood.position);
 
-                // tween = changedBlood.DOLocalMove (changedBlood.anchoredPosition3D + new Vector3 (0f, 35f, 0), 0.2f);
-                tween = changedBlood.DOLocalMove(changedBlood.anchoredPosition3D + new Vector3(0f, 205f, 0), 0.2f);
+                tween = changedBlood.DOLocalMove(new Vector3(0, -20f, 0), 0.2f);
                 tween.SetAutoKill(false);
                 //tween.Pause();
                 StartCoroutine(ADDUIBattle.instance.DelayBackTweenTwo(changedBlood, changedBloodText, managerValue));
-
             }
         }
 

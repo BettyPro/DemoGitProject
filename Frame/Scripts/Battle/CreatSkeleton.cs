@@ -35,8 +35,6 @@ namespace Demo
         public List<GameObject> monsterBloods = new List<GameObject>(); //战斗界面NPC血条
         public Dictionary<int, GameObject> BloodsObjDic = new Dictionary<int, GameObject>(); //战斗界面血条(试用中)
         public Dictionary<int, Text> BloodsDic = new Dictionary<int, Text>(); //战斗界面血条(试用中)
-        public Dictionary<int, Text> roleBloodsDic = new Dictionary<int, Text>(); //战斗界面血条
-        public Dictionary<int, Text> monsterBloodsDic = new Dictionary<int, Text>(); //战斗界面血条
 
         public Image moveImage;
 
@@ -116,7 +114,7 @@ namespace Demo
             {
                 //TODO 先动画混合
                 FixSpineAni.Instance.FixAniMix(skeleon[i]);
-                
+
                 SkeletonAnimation obj = SkeletonAnimation.Instantiate<SkeletonAnimation>(skeleon[i], trans);
                 obj.transform.SetParent(trans);
                 obj.name = "skeleon" + (i + 1).ToString();
@@ -135,13 +133,13 @@ namespace Demo
                 if (i == 0)
                     obj.transform.localPosition = new Vector3(x, 0, 0);
                 if (i == 1)
-                    obj.transform.localPosition = new Vector3(x, 100, 0);//50
+                    obj.transform.localPosition = new Vector3(x, 100, 0); //50
                 if (i == 2)
                     obj.transform.localPosition = new Vector3(x, 50, 0);
                 if (i == 3)
-                    obj.transform.localPosition = new Vector3(x, -100, -0);//-50
+                    obj.transform.localPosition = new Vector3(x, -100, -0); //-50
                 if (i == 4)
-                    obj.transform.localPosition = new Vector3(-200, 0, 0);//50
+                    obj.transform.localPosition = new Vector3(-200, 0, 0); //50
 
                 //obj.transform.localPosition = new Vector3(x,y,z);
 
@@ -179,10 +177,9 @@ namespace Demo
         void BloodShow(Transform trans, RoleConfig role, int nameId, int id, List<GameObject> obj, bool isRole = false)
         {
             Text allBlood;
-            ADDUIBattle.instance.bloodParent =
-                GameObject.Find("CanvasBattle/PlayerPanel/bloodParent").GetComponent<RectTransform>();
-            GameObject blood = GameObject.Instantiate(ResourcesLoadInfos.instance.bloodImage.gameObject,
-                ADDUIBattle.instance.bloodParent) as GameObject;
+            RectTransform bloodParent =
+                GameObject.Find("CanvasBlood/PlayerPanel/bloodParent").GetComponent<RectTransform>();
+            GameObject blood = GameObject.Instantiate(ResourcesLoadInfos.instance.bloodImage.gameObject, bloodParent);
             blood.name = "blood" + nameId;
             blood.name = nameId.ToString();
             allBlood = GameObject.Find(blood.name + "/allBlood").GetComponent<Text>();
@@ -193,11 +190,15 @@ namespace Demo
                 Text rankText;
                 rankText = GameObject.Find(blood.name + "/rank/rankText").GetComponent<Text>();
                 rankText.text = ADDUIBattle.instance.deal.Rank(id, isRole);
+                
                 //3D坐标转换为2D坐标，WorldToScreenPoint:世界位置转换为屏幕位置
-                Vector2 cubeV2Pos = RectTransformUtility.WorldToScreenPoint(Camera.main, trans.position);
-                blood.GetComponent<RectTransform>().position = cubeV2Pos + new Vector2(50, 200);
+//                Vector2 cubeV2Pos = RectTransformUtility.WorldToScreenPoint(Camera.main, trans.position);
+//                blood.GetComponent<RectTransform>().position = cubeV2Pos + new Vector2(50, 200);
+//                blood.GetComponent<RectTransform>().position = trans.FindChild("bloodPos").transform.position;
                 //blood.GetComponent<RectTransform>().localPosition = cubeV2Pos + new Vector2(-430, 10);
                 //blood.GetComponent<RectTransform>().anchoredPosition = cubeV2Pos + new Vector2(-430, 10);
+                Vector2 player2DPosition = Camera.main.WorldToScreenPoint(trans.position);
+                blood.GetComponent<RectTransform>().position = player2DPosition + new Vector2(50, 200);
                 BloodsDic.Add(role.id, allBlood);
                 BloodsObjDic.Add(role.id, blood);
             }
@@ -207,6 +208,7 @@ namespace Demo
                 Vector2 cubeV2Pos = RectTransformUtility.WorldToScreenPoint(Camera.main, trans.position);
                 blood.GetComponent<RectTransform>().position = cubeV2Pos + new Vector2(-50, 240);
                 blood.GetComponent<RectTransform>().position = cubeV2Pos + new Vector2(-120, 240);
+//                blood.GetComponent<RectTransform>().position = trans.FindChild("bloodPos").transform.position;
                 //blood.GetComponent<RectTransform>().anchoredPosition = cubeV2Pos + new Vector2(-50, 240);
                 BloodsDic.Add(role.iddif, allBlood);
                 BloodsObjDic.Add(role.iddif, blood);
@@ -222,7 +224,7 @@ namespace Demo
             float z = 0f;
             for (int i = 0; i < roleBloods.Count; i++)
             {
-                roleBloods[i].SetActive(show);
+                //roleBloods[i].SetActive(show);
                 if (left)
                 {
                     x = roleBloods[i].GetComponent<RectTransform>().localPosition.x + 400f;
@@ -237,7 +239,10 @@ namespace Demo
                 }
 
                 if (CreatSkeleton.Instance.skeletonsBattleAni[i].transform.localRotation.y < 0)
-                    roleBloods[i].SetActive(left);
+                {
+                    //roleBloods[i].SetActive(left);
+                }
+
                 //Debug.Log(CreatSkeleton.Instance.skeletonsBattleAni[2].transform.localRotation.y);
             }
         }

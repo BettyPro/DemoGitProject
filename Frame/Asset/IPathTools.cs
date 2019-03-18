@@ -45,7 +45,7 @@ public class IPathTools {
     public static string GetAssetBundlePath() {
         string platFolder = GetPlatformFolderName(Application.platform);
         Debug.Log(Application.platform);
-        string filePath = Path.Combine(GetAppFilePath(), platFolder);
+        string filePath = Path.Combine(GetAppFilePath(), platFolder);//Assets/StreamingAsset/Android  adnroid端是沙河路径
         return filePath;
     }
 
