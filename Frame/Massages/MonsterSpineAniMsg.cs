@@ -54,26 +54,12 @@ namespace Demo
             RegistSelf(this, msgIDs);
         }
 
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
         public override void ProcessEvent(MsgBase tmpMsg)
         {
             switch (tmpMsg.msgID)
             {
                 case (ushort) MonsterSpineAniId.idle:
                     ShowAni(tmpMsg.msgID, "", tmpMsg.allAction, tmpMsg.roleID, isLoop: tmpMsg.isLoop);
-                    // ShowAni (tmpMsg.msgID);
-                    Debug.Log(tmpMsg.roleID);
                     Debug.Log("Monster待机动画");
                     break;
                 case (ushort) MonsterSpineAniId.run:
@@ -224,15 +210,11 @@ namespace Demo
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[11].duration;
                             break;
                     }
-
-                    Debug.Log(monsterID);
-                    Debug.Log(tempSkeleton.name);
                 }
                 else
                 {
                     Debug.Log(monsterID);
                     Debug.Log("不包含");
-
                 }
             }
         }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WinterCamera;
 
 public class ConstrainCamera : MonoBehaviour {
 
@@ -14,6 +15,8 @@ public class ConstrainCamera : MonoBehaviour {
     private void Awake()
     {
         instance = this;
+        CameraEffects.Instance._ConstrainCamera = GetComponent<ConstrainCamera>();
+        CameraEffects.Instance._Camera = GetComponent<Camera>();
     }
 
     // Update is called once per frame

@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using UnityEngine.EventSystems;
-using WinterDebug;
 
 namespace Demo
 {
@@ -67,10 +65,20 @@ namespace Demo
             FindUI();
         }
 
+        private void LateUpdate()
+        {
+            BattleLogic.instance.BloodsFllowAll();
+        }
+
         // Update is called once per frame
         void Update()
         {
-            BattleLogic.instance.BloodsFllowAll();
+            RunInAndroid();
+            RunInPC();
+        }
+
+        void RunInAndroid()
+        {
 #if UNITY_ANDROID && false
         if (Input.touchCount == 0 || Input.touchCount != 1)
         {
@@ -234,7 +242,10 @@ namespace Demo
             CreatSkeleton.Instance.ControlBloodShow(true, false);
         }
 #endif
+        }
 
+        void RunInPC()
+        {
             if (isPc && !BattleLogic.instance.isAlreadyWin)
             {
                 input.x = Input.GetAxis(XAxis);
@@ -387,6 +398,7 @@ namespace Demo
 
         void ExChangePlayerPosLeft()
         {
+            ShowGoMessageLeft();
             if (signPlayerRotateLeft)
             {
                 if (ADDUIBattle.instance.notUseAni3d)
@@ -414,6 +426,7 @@ namespace Demo
 
         void ExChangePlayerPosRight()
         {
+            ShowGoMessageRight();
             if (signPlayerRotateRight && leftCount == 1)
             {
                 if (ADDUIBattle.instance.notUseAni3d)
@@ -436,6 +449,20 @@ namespace Demo
                 signPlayerRotateRight = false;
                 signPlayerRotateLeft = true;
             }
+        }
+
+        void ShowGoMessageRight()
+        {
+            ADDUIBattle.instance.goMessageLeft.gameObject.SetActive(false);
+            ADDUIBattle.instance.goMessage.gameObject.SetActive(true);
+            ADDUIBattle.instance.goMessage.DOPlayForward();
+        }
+
+        void ShowGoMessageLeft()
+        {
+            ADDUIBattle.instance.goMessage.gameObject.SetActive(false);
+            ADDUIBattle.instance.goMessageLeft.gameObject.SetActive(true);
+            ADDUIBattle.instance.goMessageLeft.DOPlayForward();
         }
     }
 }

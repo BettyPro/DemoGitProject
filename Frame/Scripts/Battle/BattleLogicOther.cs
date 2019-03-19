@@ -341,7 +341,7 @@ namespace Demo
                 // Vector2 cubeV2Pos = RectTransformUtility.WorldToScreenPoint(Camera.main, blood.transform.position);
                 Debug.Log(changedBlood.position);
 
-                tween = changedBlood.DOLocalMove(new Vector3(0, -20f, 0), 0.2f);
+                tween = changedBlood.DOLocalMove(new Vector3(0, -110f, 0), 0.2f);
                 tween.SetAutoKill(false);
                 //tween.Pause();
                 StartCoroutine(ADDUIBattle.instance.DelayBackTweenTwo(changedBlood, changedBloodText, managerValue));

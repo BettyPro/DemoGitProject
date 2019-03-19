@@ -17,18 +17,6 @@ namespace Demo
             //gameObject.AddComponent<UIManager>();
         }
 
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
         public void SendToMsg(MsgBase tmpMsg)
         {
             AnasysisMsg(tmpMsg);

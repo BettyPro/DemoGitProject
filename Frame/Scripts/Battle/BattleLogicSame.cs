@@ -3,6 +3,7 @@ using DG.Tweening;
 using Spine.Unity;
 using UnityEngine;
 using UnityEngine.UI;
+using WinterCamera;
 using WinterTools;
 
 namespace Demo
@@ -748,16 +749,12 @@ namespace Demo
         void JudgeDistanceShowAni(GameObject obj, bool attackIsRole = true)
         {
             SkeletonAnimation attacker;
-
             if (attackIsRole)
             {
                 if (CreatSkeleton.Instance.skeletonsBattleAniDic.ContainsKey(roleconWhole.id))
                 {
                     if (CreatSkeleton.Instance.skeletonsBattleAniDic.TryGetValue(roleconWhole.id, out attacker))
                     {
-//                        RoleMove.instance.mainCamera.GetComponent<ConstrainCamera>().target = attacker.transform;
-//                        RoleMove.instance.mainCamera.GetComponent<ConstrainCamera>().offset = new Vector3(100,130,-620);
-//                        RoleMove.instance.mainCamera.GetComponent<Camera>().fieldOfView = 30f;
                         StartCoroutine(ChangePos(obj, attacker, attackIsRole));
                     }
                     else
@@ -795,7 +792,7 @@ namespace Demo
             attackIsRoleAll = attackIsRole;
             SkillEffect.Instance.attack_roleIns = attacker.GetComponent<RoleConfig>();
             SkillEffect.Instance.attack_roleInsAni = attacker;
-            attacker.GetComponent<Renderer>().sortingOrder = 3;//改变层级
+            attacker.GetComponent<Renderer>().sortingOrder = 3; //改变层级
             if (!attackIsRole)
                 yield return new WaitForSeconds(animationDurationTime);
             beginFllow = true;
@@ -811,6 +808,7 @@ namespace Demo
             {
                 RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo((ushort) RoleSpineAniId.attack,
                     (ushort) roleconWhole.m_RoleInfo.roleid, recordSkillName));
+                CameraEffects.Instance._cameraScale.ChangeCameraScaleToAttack();
                 yield return new WaitForSeconds(animationDurationTime);
             }
 
@@ -820,15 +818,18 @@ namespace Demo
                 RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
                     (ushort) RoleSpineAniId.jumpforward,
                     (ushort) roleconWhole.m_RoleInfo.roleid, "jumpforward", false, false));
-                Debug.Log(attacker.name + "------------------ " + targetPos);
                 FixDistance.Instance.FixDistanceFromFrame(attacker, targetPos, 0.32f, 6);
+                CameraEffects.Instance._cameraScale.ChangeCameraScaleToTarget();//相机缩放
                 if (recordSkillName == "skill3a")
                 {
                     RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
                         (ushort) RoleSpineAniId.attack,
                         (ushort) roleconWhole.m_RoleInfo.roleid, "skill3b"));
                     PassSkill2SendAttacked(attackIsRole,
-                        delegate(bool isAllAction) { FixSpineAni.Instance.FixAniRoleToMonsFrame(target_roleIns, 15, isAllAction); });
+                        delegate(bool isAllAction)
+                        {
+                            FixSpineAni.Instance.FixAniRoleToMonsFrame(target_roleIns, 15, isAllAction);
+                        });
                 }
             }
             else
@@ -845,7 +846,10 @@ namespace Demo
                         ButtonMsg.GetInstance.ChangeInfo((ushort) MonsterSpineAniId.attack, roleconWhole.iddif,
                             "skill3b"));
                     PassSkill2SendAttacked(attackIsRole,
-                        delegate(bool isAllAction) { FixSpineAni.Instance.FixAniMonsToRoleFrame(target_roleIns, 15, isAllAction); });
+                        delegate(bool isAllAction)
+                        {
+                            FixSpineAni.Instance.FixAniMonsToRoleFrame(target_roleIns, 15, isAllAction);
+                        });
                 }
             }
 
@@ -869,8 +873,6 @@ namespace Demo
                         //todo 改变3技能释放位置
                         SkillEffect.Instance.attack_roleIns.transform.position -= new Vector3(25, 0, 0);
                     }
-
-                    // PassSkiiTargetSendAttacked (attackIsRole);
                     PassSkiiTargetSendAttackedFromExl(attackIsRole);
                 }
                 else
@@ -887,7 +889,6 @@ namespace Demo
                             ButtonMsg.GetInstance.ChangeInfo((ushort) MonsterSpineAniId.attack, roleconWhole.iddif,
                                 "skill3c"));
                     }
-
                     PassSkiiTargetSendAttacked(attackIsRole);
                 }
             }
@@ -913,6 +914,7 @@ namespace Demo
                 // DOTween.To (() => attacker.transform.position, a => attacker.transform.position = a,
                 //     attackerOldPos, 0.7f);
                 FixDistance.Instance.FixDistanceFromFrame(attacker, attackerOldPos, 0.32f, 8);
+                CameraEffects.Instance._cameraScale.RecoverNormal();
 
                 yield return new WaitForSeconds(animationDurationTime);
                 RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo((ushort) RoleSpineAniId.idle,
@@ -935,12 +937,10 @@ namespace Demo
                 PassSkiiTargetSendIdle(attackIsRole);
             }
 
-            RoleMove.instance.mainCamera.GetComponent<ConstrainCamera>().target =
-                ADDUIBattle.instance.PlayerContrBattle.transform;
-//            RoleMove.instance.mainCamera.GetComponent<Camera>().fieldOfView = 65f;
-//            RoleMove.instance.mainCamera.GetComponent<ConstrainCamera>().offset = new Vector3(400,180,-620);
-
             attacker.GetComponent<Renderer>().sortingOrder = 0;
+            
+
+
             //TODO 展示眩晕状态
             SkillEffect.Instance.CheckIsNeedChangeDizzinessState();
 
@@ -950,6 +950,7 @@ namespace Demo
                 SkillEffect.Instance.canStrikeBack = false;
                 SkillEffect.Instance.strikeBackOver = true;
             }
+
             AgainAttack();
         }
 
@@ -1104,6 +1105,7 @@ namespace Demo
 
         void AgainAttack(bool attackIsRole = false)
         {
+            skillImage.transform.DOPlayBackwards();
             if (!SkillEffect.Instance.strikeBackOver)
             {
                 //TODO 计算技能CD
@@ -1137,6 +1139,7 @@ namespace Demo
                 lastAttacker = SkillEffect.Instance.attack_roleIns;
                 whichSkill = skill1.gameObject;
                 target_roleIns = lastAttacker;
+                SkillEffect.Instance.target_roleIns = lastAttacker;
                 attack_roleIns = roleSke;
 
                 selectedOutAttackers.Clear();

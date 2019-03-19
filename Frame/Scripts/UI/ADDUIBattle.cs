@@ -69,7 +69,8 @@ namespace Demo
         public UIBehaviour mapBottomBackGround;
 
         public Transform promptMessage; //地图前进提示信息1
-        public Transform goMessage; //地图前进提示信息2
+        public Transform goMessage; //地图前进提示信息 右
+        public Transform goMessageLeft; //地图前进提示信息 左
         public Transform winTitle;
         public Transform errorMessage;
         public Text errorMessageText;
@@ -191,6 +192,9 @@ namespace Demo
         {
             promptMessage = GameObject.Find("DialogBoxPanel/promptMessage").transform;
             goMessage = GameObject.Find("DialogBoxPanel/goMessage").transform;
+            goMessageLeft = GameObject.Find("DialogBoxPanel/goMessageLeft").transform;
+            goMessageLeft.gameObject.SetActive(false);
+            
             winTitle = GameObject.Find("DialogBoxPanel/winTitle").transform;
             errorMessage = GameObject.Find("DialogBoxPanel/errorMessage").transform;
             errorMessageText = errorMessage.Find("errorMessageText").GetComponent<Text>();
@@ -636,6 +640,11 @@ namespace Demo
             //tween.Pause();
 
             tween = goMessage.DOLocalMove(new Vector3(550f, -97f, 0f), 0.5f);
+            tween.SetLoops<Tween>(-1, LoopType.Yoyo);
+            tween.SetAutoKill(false);
+            //tween.Pause();
+            
+            tween = goMessageLeft.DOLocalMove(new Vector3(-550f, -97f, 0f), 0.5f);
             tween.SetLoops<Tween>(-1, LoopType.Yoyo);
             tween.SetAutoKill(false);
             //tween.Pause();

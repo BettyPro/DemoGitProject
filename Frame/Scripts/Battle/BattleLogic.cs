@@ -4,6 +4,7 @@ using DG.Tweening;
 using Spine.Unity;
 using UnityEngine;
 using UnityEngine.UI;
+using WinterCamera;
 using WinterTools;
 
 namespace Demo
@@ -71,6 +72,9 @@ namespace Demo
         private Image headImage;
         private Text headImageName;
 
+        private Image skillImage;
+        private Text skillImageName;
+
         //测试区
         private int count;
         private bool testBool = true;
@@ -132,6 +136,8 @@ namespace Demo
             attackroleshow = GameObject.Find("CanvasBattle/BattlePanel/attackroleshow").transform;
             headImage = GameObject.Find("CanvasBattle/BattlePanel/attackroleshow/headImage").GetComponent<Image>();
             headImageName = headImage.transform.Find("headImageName").GetComponent<Text>();
+            skillImage = GameObject.Find("CanvasBattle/BattlePanel/attackroleshow/skillImage").GetComponent<Image>();
+            skillImageName = skillImage.transform.Find("skillImageName").GetComponent<Text>();
 
             buffshow = GameObject.Find("CanvasBattle/BattlePanel/buffshow").transform;
 
@@ -372,7 +378,6 @@ namespace Demo
         void RoleAttackLogic(RoleConfig roleCon)
         {
             roleconWhole = roleCon;
-            Debug.Log(roleconWhole.m_RoleInfo.roleid);
             for (int j = 0; j < ADDUIBattle.instance.roleSpeedImages.Count; j++)
             {
                 if (roleCon.m_RoleInfo.roleid == ADDUIBattle.instance.roleSpeedImages[j].m_RoleInfo.roleid)
@@ -380,15 +385,17 @@ namespace Demo
                     isRole = true;
                     RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
                         (ushort) RoleSpineAniId.action,
-                        (ushort) roleconWhole.m_RoleInfo.roleid,"start",false,false));
+                        (ushort) roleconWhole.m_RoleInfo.roleid, "start", false, false));
+                   
+                    
                     StartCoroutine(DelaySomeTimeToPlay(1));
-
                     //BUFF检查计算
 
                     //TODO 展示技能UI
                     ShowSkillUI(roleCon);
-                    //BUFF检查计算
+                    //TODO BUFF检查计算
                     CheckBeginBuff();
+                   
 
                     //给一个默认的技能
                     GiveRoleDefaultSkill();
@@ -402,7 +409,7 @@ namespace Demo
 
         void ShowSkillUI(RoleConfig roleCon, bool isRole = true)
         {
-            ColorDebug.Instance.DicDebug<int, Sprite>(ADDUIBattle.instance.ResourcesLoadBattleSceneInfos.skillImageDics,
+            ColorDebug.Instance.DicDebug(ADDUIBattle.instance.ResourcesLoadBattleSceneInfos.skillImageDics,
                 false);
             RefreshSkillCD(isRole, roleCon.gameObject);
             Sprite spr;
@@ -453,7 +460,6 @@ namespace Demo
         public void MonsterAttackLogic(RoleConfig roleCon)
         {
             roleconWhole = roleCon;
-            Debug.Log(roleconWhole.iddif);
             if (ADDUIBattle.instance.stopGame)
                 return;
             for (int j = 0; j < ADDUIBattle.instance.monsterSpeedImages.Count; j++)
@@ -472,7 +478,8 @@ namespace Demo
                     else
                     {
                         MonsterSpineAniManager.Instance.SendMsg(
-                            ButtonMsg.GetInstance.ChangeInfo((ushort) MonsterSpineAniId.action, roleconWhole.iddif,"start",false,false));
+                            ButtonMsg.GetInstance.ChangeInfo((ushort) MonsterSpineAniId.action, roleconWhole.iddif,
+                                "start", false, false));
                         // StartCoroutine (WaitMonsterActionAni (roleCon));
 
                         // //TODO 展示技能UI
@@ -488,6 +495,7 @@ namespace Demo
                         // GetRoleTargetInfos(roleCon.gameObject);
                         MonsterJudgeSkillTargetToSelectAttackMode(roleCon.gameObject);
                     }
+
                     Debug.Log("该谁进行攻击：-- " + roleCon.m_RoleInfo.roleid);
                     break;
                 }
@@ -516,6 +524,7 @@ namespace Demo
                                 isSelectSkill = false;
                                 isSelectRightTarget = false;
                                 skillshow.DOPlayBackwards();
+                                DealAttackingSkillImage();
                                 //StartCoroutine(DelayTime());
                                 Debug.Log(hit.collider.gameObject.name);
                             }
@@ -581,8 +590,7 @@ namespace Demo
         void DealHeadImage(RoleConfig roleCon)
         {
             // headImage.sprite = roleCon.GetComponent<Image>().sprite;//攻击者头像展示
-            Debug.Log(roleCon.id);
-            ColorDebug.Instance.DicDebug<string, Sprite>(
+            ColorDebug.Instance.DicDebug(
                 ADDUIBattle.instance.ResourcesLoadBattleSceneInfos.roleActionImagesDics, false);
 
             if (ADDUIBattle.instance.ResourcesLoadBattleSceneInfos.roleActionImagesDics.ContainsKey(
@@ -594,8 +602,19 @@ namespace Demo
 
             headImage.transform.DOPlayBackwards();
             headImage.transform.DOPlayForward();
-
             headImageName.text = roleCon.m_RoleInfo.nickname;
+            skillImageName.text = roleCon.m_RoleInfo.nickname;
+        }
+
+        void DealAttackingSkillImage()
+        {
+            if (ADDUIBattle.instance.ResourcesLoadBattleSceneInfos.skillImageDics.ContainsKey(
+                int.Parse(whichSkill.name)))
+            {
+                skillImage.sprite =
+                    ADDUIBattle.instance.ResourcesLoadBattleSceneInfos.skillImageDics[int.Parse(whichSkill.name)];
+            }
+            skillImage.transform.DOPlayForward();
         }
 
         /// <summary>
@@ -608,6 +627,11 @@ namespace Demo
             tween.Pause();
 
             tween = headImage.transform.DOLocalMove(new Vector3(-80f, 40f, 0f), 0.3f);
+            //tween.SetLoops<Tween>(-1, LoopType.Yoyo);
+            tween.SetAutoKill(false);
+            tween.Pause();
+
+            tween = skillImage.transform.DOLocalMove(new Vector3(-156f, 557f, 0f), 0.3f);
             //tween.SetLoops<Tween>(-1, LoopType.Yoyo);
             tween.SetAutoKill(false);
             tween.Pause();

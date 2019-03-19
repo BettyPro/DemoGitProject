@@ -1,6 +1,7 @@
 ﻿using DG.Tweening;
 using Spine.Unity;
 using UnityEngine;
+using WinterCamera;
 using WinterTools;
 
 namespace Demo
@@ -41,6 +42,7 @@ namespace Demo
             {
                 DOTween.To(() => attacker.transform.position, a => attacker.transform.position = a,
                     attackerOldPos, needTime);
+//                CameraEffects.Instance._cameraScale.ChangeCameraScaleToTarget();
             }, delayFrame, 1);
         }
 
