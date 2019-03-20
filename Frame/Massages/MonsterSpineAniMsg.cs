@@ -154,59 +154,59 @@ namespace Demo
                     // tempSkeleton.AnimationName = monsterStateInfo;
                     tempSkeleton.state.SetAnimation(0, monsterStateInfo, isLoop);
                     Debug.Log("zhege 个的action:-- " + monsterStateInfo);
-
+                    BattleLogic.instance.monsterAniDurationTime = 0f;
                     switch (monsterStateInfo)
                     {
                         case "hit":
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.monsterAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[0].duration;
                             break;
                         case "jumpback":
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.monsterAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[1].duration;
                             break;
                         case "jumpforward":
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.monsterAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[2].duration;
                             break;
                         case "normal":
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.monsterAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[3].duration;
                             tempSkeleton.loop = true;
                             break;
                         case "run":
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.monsterAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[4].duration;
                             tempSkeleton.loop = true;
                             break;
                         case "skill1":
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.monsterAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[5].duration;
                             break;
                         case "skill2":
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.monsterAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[6].duration;
                             break;
                         case "skill3a":
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.monsterAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[7].duration;
                             break;
                         case "skill3b":
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.monsterAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[8].duration;
                             break;
                         case "skill3c":
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.monsterAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[9].duration;
                             break;
                         case "start":
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.monsterAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[10].duration;
                             tempSkeleton.loop = false;
                             break;
                         case "stun":
                             tempSkeleton.loop = true;
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.monsterAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[11].duration;
                             break;
                     }

@@ -117,7 +117,7 @@ namespace Demo
 
                 SkeletonAnimation obj = SkeletonAnimation.Instantiate<SkeletonAnimation>(skeleon[i], trans);
                 obj.transform.SetParent(trans);
-                obj.name = "skeleon" + (i + 1).ToString();
+                obj.name = "skeleon" + (i + 1);
                 //obj.transform.localPosition = new Vector3(x-1*i, (y+(0.2f*i)), z);
                 //obj.transform.localPosition = new Vector3(x - 50 * i, (y + (0.2f * i)), z + (0.2f * i));
                 if (i == 0)
@@ -130,16 +130,27 @@ namespace Demo
                     //z = z + (0.2f * i);
                 }
 
+//                if (i == 0)
+//                    obj.transform.localPosition = new Vector3(x, 0, 0);
+//                if (i == 1)
+//                    obj.transform.localPosition = new Vector3(x, 100, 0); //50
+//                if (i == 2)
+//                    obj.transform.localPosition = new Vector3(x, 50, 0);
+//                if (i == 3)
+//                    obj.transform.localPosition = new Vector3(x, -100, -0); //-50
+//                if (i == 4)
+//                    obj.transform.localPosition = new Vector3(-200, 0, 0); //50
+
                 if (i == 0)
-                    obj.transform.localPosition = new Vector3(x, 0, 0);
+                    obj.transform.localPosition = new Vector3(286, 0, 0);
                 if (i == 1)
-                    obj.transform.localPosition = new Vector3(x, 100, 0); //50
+                    obj.transform.localPosition = new Vector3(171, 21, 0); //50
                 if (i == 2)
-                    obj.transform.localPosition = new Vector3(x, 50, 0);
+                    obj.transform.localPosition = new Vector3(59, -11, 0);
                 if (i == 3)
-                    obj.transform.localPosition = new Vector3(x, -100, -0); //-50
+                    obj.transform.localPosition = new Vector3(-46, 22, -0); //-50
                 if (i == 4)
-                    obj.transform.localPosition = new Vector3(-200, 0, 0); //50
+                    obj.transform.localPosition = new Vector3(-166, 9, 0); //50
 
                 //obj.transform.localPosition = new Vector3(x,y,z);
 
@@ -190,7 +201,7 @@ namespace Demo
                 Text rankText;
                 rankText = GameObject.Find(blood.name + "/rank/rankText").GetComponent<Text>();
                 rankText.text = ADDUIBattle.instance.deal.Rank(id, isRole);
-                
+
                 //3D坐标转换为2D坐标，WorldToScreenPoint:世界位置转换为屏幕位置
 //                Vector2 cubeV2Pos = RectTransformUtility.WorldToScreenPoint(Camera.main, trans.position);
 //                blood.GetComponent<RectTransform>().position = cubeV2Pos + new Vector2(50, 200);
@@ -323,41 +334,48 @@ namespace Demo
                     obj.name = "skeleon" + (i + 1).ToString();
                     if (i == 0)
                     {
-                        x = ADDUIBattle.instance.PlayerContrBattle.transform.position.x + 450;
+                        //                        x = 1208;
+                        x = ADDUIBattle.instance.PlayerContrBattle.transform.position.x + 457;
                         y = 80;
                         z = 0;
+                        y = 7;
                     }
 
                     //obj.transform.localPosition = new Vector3(1300, 80, 0);
                     if (i == 1)
                     {
                         x = 1600;
-                        x = ADDUIBattle.instance.PlayerContrBattle.transform.position.x + 850;
-                        x = ADDUIBattle.instance.PlayerContrBattle.transform.position.x + 750;
+                        x = 1330;
+                        x = ADDUIBattle.instance.PlayerContrBattle.transform.position.x + 579;
+//                        x = ADDUIBattle.instance.PlayerContrBattle.transform.position.x + 750;
                         y = 80;
 //                        z = 250;
                         z = 0;
+                        y = 25;
                     }
 
                     //obj.transform.localPosition = new Vector3(1600, 80, 250);
                     if (i == 2)
                     {
                         x = 1400;
-                        x = ADDUIBattle.instance.PlayerContrBattle.transform.position.x + 650;
+                        x = 1424;
+                        x = ADDUIBattle.instance.PlayerContrBattle.transform.position.x + 673;
 
                         y = 10;
 //                        z = 30;
                         z = 0;
+                        y = 0;
                     }
 
                     //obj.transform.localPosition = new Vector3(1400, 10, 0);
                     if (i == 3)
                     {
                         x = 1600;
-                        x = ADDUIBattle.instance.PlayerContrBattle.transform.position.x + 850;
-
+                        x = 1527;
+                        x = ADDUIBattle.instance.PlayerContrBattle.transform.position.x + 776;
                         y = 30;
                         z = 0;
+                        y = 6;
                     }
                     //obj.transform.localPosition = new Vector3(1600, 30, 0);
 

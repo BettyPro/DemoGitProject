@@ -187,49 +187,49 @@ namespace Demo
                     // BattleLogic.instance.animationDurationTime = tempSkeleton.state.Data.SkeletonData.Animations.Items[0].duration;
                     break;
                 case "jumpback":
-                    BattleLogic.instance.animationDurationTime =
+                    BattleLogic.instance.roleAniDurationTime =
                         tempSkeleton.state.Data.SkeletonData.Animations.Items[1].duration;
                     break;
                 case "jumpforward":
-                    BattleLogic.instance.animationDurationTime =
+                    BattleLogic.instance.roleAniDurationTime =
                         tempSkeleton.state.Data.SkeletonData.Animations.Items[2].duration;
                     break;
                 case "normal":
-                    BattleLogic.instance.animationDurationTime =
+                    BattleLogic.instance.roleAniDurationTime =
                         tempSkeleton.state.Data.SkeletonData.Animations.Items[3].duration;
                     tempSkeleton.loop = true;
                     break;
                 case "run":
-                    BattleLogic.instance.animationDurationTime =
+                    BattleLogic.instance.roleAniDurationTime =
                         tempSkeleton.state.Data.SkeletonData.Animations.Items[4].duration;
                     tempSkeleton.loop = true;
                     break;
                 case "skill1":
-                    BattleLogic.instance.animationDurationTime =
+                    BattleLogic.instance.roleAniDurationTime =
                         tempSkeleton.state.Data.SkeletonData.Animations.Items[5].duration;
                     break;
                 case "skill2":
-                    BattleLogic.instance.animationDurationTime =
+                    BattleLogic.instance.roleAniDurationTime =
                         tempSkeleton.state.Data.SkeletonData.Animations.Items[6].duration;
                     break;
                 case "skill3a":
-                    BattleLogic.instance.animationDurationTime =
+                    BattleLogic.instance.roleAniDurationTime =
                         tempSkeleton.state.Data.SkeletonData.Animations.Items[7].duration;
                     break;
                 case "skill3b":
-                    BattleLogic.instance.animationDurationTime =
+                    BattleLogic.instance.roleAniDurationTime =
                         tempSkeleton.state.Data.SkeletonData.Animations.Items[8].duration;
                     break;
                 case "skill3c":
-                    BattleLogic.instance.animationDurationTime =
+                    BattleLogic.instance.roleAniDurationTime =
                         tempSkeleton.state.Data.SkeletonData.Animations.Items[9].duration;
                     break;
                 case "start":
-                    BattleLogic.instance.animationDurationTime =
+                    BattleLogic.instance.roleAniDurationTime =
                         tempSkeleton.state.Data.SkeletonData.Animations.Items[10].duration;
                     break;
                 case "stun":
-                    BattleLogic.instance.animationDurationTime =
+                    BattleLogic.instance.roleAniDurationTime =
                         tempSkeleton.state.Data.SkeletonData.Animations.Items[11].duration;
                     break;
             }
@@ -242,49 +242,49 @@ namespace Demo
                             // BattleLogic.instance.animationDurationTime = tempSkeleton.state.Data.SkeletonData.Animations.Items[0].duration;
                             break;
                         case "jumpback":
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.roleAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[2].duration;
                             break;
                         case "jumpforward":
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.roleAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[3].duration;
                             break;
                         case "normal":
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.roleAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[4].duration;
                             tempSkeleton.loop = true;
                             break;
                         case "run":
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.roleAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[5].duration;
                             tempSkeleton.loop = true;
                             break;
                         case "skill1":
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.roleAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[6].duration;
                             break;
                         case "skill2":
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.roleAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[7].duration;
                             break;
                         case "skill3a":
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.roleAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[8].duration;
                             break;
                         case "skill3b":
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.roleAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[9].duration;
                             break;
                         case "skill3c":
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.roleAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[10].duration;
                             break;
                         case "start":
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.roleAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[11].duration;
                             break;
                         case "stun":
-                            BattleLogic.instance.animationDurationTime =
+                            BattleLogic.instance.roleAniDurationTime =
                                 tempSkeleton.state.Data.SkeletonData.Animations.Items[12].duration;
                             break;
                     }

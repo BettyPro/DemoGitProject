@@ -3,7 +3,6 @@
 //作者(Author):         #Winter#
 //作用(ToDo:);          #WhatToDo#
 // *****************************************
-
 using Demo;
 using UnityEngine;
 
@@ -11,30 +10,57 @@ namespace WinterCamera
 {
     public class CameraScale
     {
+        private bool beginRecover = false;
+        private bool beginsScale = false;
         public void ChangeCameraScaleToAttack()
         {
+            beginsScale = true;
             //TODO 缩放处理
-            RoleMove.instance.mainCamera.GetComponent<ConstrainCamera>().target = SkillEffect.Instance.attack_roleIns.transform;
-            RoleMove.instance.mainCamera.GetComponent<ConstrainCamera>().offset = new Vector3(-4,84,-620);
-            RoleMove.instance.mainCamera.GetComponent<Camera>().fieldOfView = 40f;
-            
+            CameraEffects.Instance._ConstrainCamera.target = SkillEffect.Instance.attack_roleIns.transform;
+            CameraEffects.Instance._ConstrainCamera.offset = new Vector3(-4, 84, -620);
+            CameraEffects.Instance._ConstrainCamera.smoothing = 3;
         }
-        
+
         public void ChangeCameraScaleToTarget()
         {
+            beginsScale = true;
             //TODO 缩放处理
-            RoleMove.instance.mainCamera.GetComponent<ConstrainCamera>().target = SkillEffect.Instance.target_roleIns.transform;
-            RoleMove.instance.mainCamera.GetComponent<ConstrainCamera>().offset = new Vector3(-89,90,-620);
-            RoleMove.instance.mainCamera.GetComponent<Camera>().fieldOfView = 40f;
+            CameraEffects.Instance._ConstrainCamera.target = SkillEffect.Instance.target_roleIns.transform;
+            CameraEffects.Instance._ConstrainCamera.offset = new Vector3(-89, 90, -620);
+            CameraEffects.Instance._ConstrainCamera.smoothing = 3;
         }
 
         public void RecoverNormal()
         {
+            beginRecover = true;
             //TODO 恢复正常
-            RoleMove.instance.mainCamera.GetComponent<ConstrainCamera>().target =
+            CameraEffects.Instance._ConstrainCamera.target =
                 ADDUIBattle.instance.PlayerContrBattle.transform;
-            RoleMove.instance.mainCamera.GetComponent<Camera>().fieldOfView = 65f;
-            RoleMove.instance.mainCamera.GetComponent<ConstrainCamera>().offset = new Vector3(400, 180, -620);
+            CameraEffects.Instance._ConstrainCamera.smoothing = 5;
+            CameraEffects.Instance._ConstrainCamera.offset = new Vector3(400, 180, -620);
+        }
+
+        public void SmoothChangeFieldOfViewUpdate()
+        {
+            if (beginRecover)
+            {
+                CameraEffects.Instance._Camera.fieldOfView += Time.deltaTime * SetConfig.cameraRecoverValue;
+                if (CameraEffects.Instance._Camera.fieldOfView >= 65)
+                {
+                    CameraEffects.Instance._Camera.fieldOfView = 65;
+                    beginRecover = false;
+                }
+            }
+
+            if (beginsScale)
+            {
+                CameraEffects.Instance._Camera.fieldOfView -= Time.deltaTime * SetConfig.cameraScaleValue;
+                if (CameraEffects.Instance._Camera.fieldOfView <= 40)
+                {
+                    CameraEffects.Instance._Camera.fieldOfView = 40;
+                    beginsScale = false;
+                }
+            }
         }
 
         public void ChangeCameraFollow()

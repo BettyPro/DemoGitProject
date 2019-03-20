@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ShakeCamera : MonoBehaviour {
 
@@ -18,14 +16,11 @@ public class ShakeCamera : MonoBehaviour {
 	int testCount = 0;
 
 	private void Start() {
-		MyTimerTool.Instance.wtime.AddTimeTask ((int tid) => {
+		MyTimerTool.Instance.wtime.AddTimeTask (tid => {
 			testCount++;
 			Debug.Log(testCount);
 			ShakeEffect(200);
 		}, 0.1, WinterTimeUnit.Second, 3);
-	}
-	void OnEnable () {
-
 	}
 
 	void ShakeEffect(int length = 1)

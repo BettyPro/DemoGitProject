@@ -42,7 +42,8 @@ namespace Demo
 
         //结果信息
         public float damage;
-        public float animationDurationTime = 1f; //动画持续的时间
+        public float roleAniDurationTime = 1f; //动画持续的时间
+        public float monsterAniDurationTime = 1f; //动画持续的时间
 
         private SkeletonAnimation attackerAll;
         private bool attackIsRoleAll;
@@ -206,6 +207,8 @@ namespace Demo
                 Debug.Log("人物攻击者：" + roleconWhole.name + "——减去目标" + obj.name);
                 if (isSelectRightTarget)
                 {
+                    Debug.Log("12222222222222222222222222222222222222222222");
+                    playNormalAni = false;
                     RoleJudgeSkillTargetToSelectAttackMode(obj);
                 }
             }
@@ -507,7 +510,7 @@ namespace Demo
             if (!isAlreadyFinish)
             {
                 ADDUIBattle.instance.winTitle.DOPlayBackwards();
-                yield return new WaitForSeconds(3f);
+                yield return new WaitForSeconds(1.5f);
                 ADDUIBattle.instance.winTitle.DOPlayForward();
                 isAlreadyFinish = false;
             }
@@ -735,7 +738,6 @@ namespace Demo
             Debug.Log(CreatSkeleton.Instance.roleBloods.Count);
             if (CreatSkeleton.Instance.roleBloods.Count == 0)
             {
-                beginFllow = false;
                 //TODO失败动画 音乐播放 及其它处理
                 AudioManager.Instance.SendMsg(AudioMsgDetail.GetInstance.ChangeInfo((ushort) AudioId.cancel));
                 Debug.Log("过关失败!");
@@ -794,8 +796,7 @@ namespace Demo
             SkillEffect.Instance.attack_roleInsAni = attacker;
             attacker.GetComponent<Renderer>().sortingOrder = 3; //改变层级
             if (!attackIsRole)
-                yield return new WaitForSeconds(animationDurationTime);
-            beginFllow = true;
+                yield return new WaitForSeconds(monsterAniDurationTime);
             float role_x = target_roleIns.transform.position.x - 150f;
             float monster_x = target_roleIns.transform.position.x + 150f;
             float y = target_roleIns.transform.position.y;
@@ -806,10 +807,11 @@ namespace Demo
             Debug.Log(target_roleIns.transform.position + "-------------tartget--");
             if (recordSkillName == "skill3a")
             {
+                CameraEffects.Instance._cameraScale.ChangeCameraScaleToAttack();
+                yield return new WaitForSeconds(0.5f);
                 RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo((ushort) RoleSpineAniId.attack,
                     (ushort) roleconWhole.m_RoleInfo.roleid, recordSkillName));
-                CameraEffects.Instance._cameraScale.ChangeCameraScaleToAttack();
-                yield return new WaitForSeconds(animationDurationTime);
+                yield return new WaitForSeconds(roleAniDurationTime);
             }
 
             if (attackIsRole)
@@ -831,6 +833,7 @@ namespace Demo
                             FixSpineAni.Instance.FixAniRoleToMonsFrame(target_roleIns, 15, isAllAction);
                         });
                 }
+                yield return new WaitForSeconds(roleAniDurationTime);
             }
             else
             {
@@ -839,7 +842,7 @@ namespace Demo
                     ButtonMsg.GetInstance.ChangeInfo((ushort) MonsterSpineAniId.jumpforward, roleconWhole.iddif,
                         "jumpforward", false, false));
                 FixDistance.Instance.FixDistanceFromFrame(attacker, targetPos, 0.32f, 6);
-
+                CameraEffects.Instance._cameraScale.ChangeCameraScaleToTarget();//相机缩放
                 if (recordSkillName == "skill3a")
                 {
                     MonsterSpineAniManager.Instance.SendMsg(
@@ -851,12 +854,10 @@ namespace Demo
                             FixSpineAni.Instance.FixAniMonsToRoleFrame(target_roleIns, 15, isAllAction);
                         });
                 }
+                yield return new WaitForSeconds(monsterAniDurationTime);
             }
-
-            yield return new WaitForSeconds(0.5f);
-//            yield return new WaitForSeconds(attacker.state.Data.SkeletonData.Animations.Items[2].duration);
-            Debug.Log(animationDurationTime + "------------这个是时间");
-            Debug.Log(attacker.state.Data.SkeletonData.Animations.Items[2].duration + "------------这个是时间");
+            
+            //战斗动画距离已到
             if (Vector3.Distance(attacker.transform.position, target_roleIns.transform.position) < 161f)
             {
                 if (attackIsRole)
@@ -866,14 +867,16 @@ namespace Demo
                         (ushort) roleconWhole.m_RoleInfo.roleid, recordSkillName, false, false));
                     if (recordSkillName == "skill3a")
                     {
-                        Debug.LogError("等待时间2：--" + animationDurationTime);
+                        Debug.LogError("等待时间2：--" + roleAniDurationTime);
                         // yield return new WaitForSeconds (animationDurationTime - 0.1f);
                         RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
                             (ushort) RoleSpineAniId.attack, (ushort) roleconWhole.m_RoleInfo.roleid, "skill3c"));
                         //todo 改变3技能释放位置
                         SkillEffect.Instance.attack_roleIns.transform.position -= new Vector3(25, 0, 0);
                     }
+                   
                     PassSkiiTargetSendAttackedFromExl(attackIsRole);
+                    yield return new WaitForSeconds(roleAniDurationTime);
                 }
                 else
                 {
@@ -883,29 +886,23 @@ namespace Demo
                             recordSkillName, false, false));
                     if (recordSkillName == "skill3a")
                     {
-                        Debug.LogError("等待时间2：--" + animationDurationTime);
-                        yield return new WaitForSeconds(animationDurationTime - 0.1f);
+                        Debug.LogError("等待时间2：--" + roleAniDurationTime);
+                        yield return new WaitForSeconds(roleAniDurationTime - 0.1f);
                         MonsterSpineAniManager.Instance.SendMsg(
                             ButtonMsg.GetInstance.ChangeInfo((ushort) MonsterSpineAniId.attack, roleconWhole.iddif,
                                 "skill3c"));
                     }
-                    PassSkiiTargetSendAttacked(attackIsRole);
+//                    PassSkiiTargetSendAttacked(attackIsRole);
+                    PassSkiiTargetSendAttackedFromExl(attackIsRole);
+                    yield return new WaitForSeconds(monsterAniDurationTime);
                 }
             }
-
-            Debug.LogError(animationDurationTime);
-            yield return new WaitForSeconds(animationDurationTime);
-            if (animationDurationTime < 0.8f)
-                yield return new WaitForSeconds(0.5f);
-            Debug.LogError(animationDurationTime + "..............................................................");
+            Debug.LogError(roleAniDurationTime + "..............................................................");
+            Debug.LogError(monsterAniDurationTime + "..............................................................");
             if (attackIsRole)
-            {
                 RoleToMonsterDamageCalculate();
-            }
             else
-            {
                 MonsterToRoleDamageCalculate();
-            }
 
             if (attackIsRole)
             {
@@ -916,10 +913,10 @@ namespace Demo
                 FixDistance.Instance.FixDistanceFromFrame(attacker, attackerOldPos, 0.32f, 8);
                 CameraEffects.Instance._cameraScale.RecoverNormal();
 
-                yield return new WaitForSeconds(animationDurationTime);
+                yield return new WaitForSeconds(roleAniDurationTime);
                 RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo((ushort) RoleSpineAniId.idle,
                     (ushort) roleconWhole.m_RoleInfo.roleid, "normal", false, true));
-                PassSkiiTargetSendIdle(attackIsRole);
+//                PassSkiiTargetSendIdle(attackIsRole);
             }
             else
             {
@@ -929,18 +926,15 @@ namespace Demo
                 // DOTween.To (() => attacker.transform.position, a => attacker.transform.position = a,
                 //     attackerOldPos, 0.7f);
                 FixDistance.Instance.FixDistanceFromFrame(attacker, attackerOldPos, 0.32f, 8);
+                CameraEffects.Instance._cameraScale.RecoverNormal();
 
-                yield return new WaitForSeconds(animationDurationTime);
+                yield return new WaitForSeconds(monsterAniDurationTime);
                 MonsterSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
                     (ushort) MonsterSpineAniId.idle,
                     roleconWhole.iddif, "normal", false, true));
-                PassSkiiTargetSendIdle(attackIsRole);
+//                PassSkiiTargetSendIdle(attackIsRole);
             }
-
             attacker.GetComponent<Renderer>().sortingOrder = 0;
-            
-
-
             //TODO 展示眩晕状态
             SkillEffect.Instance.CheckIsNeedChangeDizzinessState();
 
@@ -975,27 +969,27 @@ namespace Demo
             Debug.Log("攻击者：-- " + SkillEffect.Instance.attack_roleIns.name);
             Debug.Log("-- ：-- " + target_roleIns.transform.name);
             Debug.Log(attacker.name);
-            Debug.Log("加血模式下的等待时间：-----------------------------------------------" + animationDurationTime);
-            yield return new WaitForSeconds(animationDurationTime);
+            Debug.Log("加血模式下的等待时间：-----------------------------------------------" + monsterAniDurationTime);
+            yield return new WaitForSeconds(monsterAniDurationTime);
             MonsterSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo((ushort) MonsterSpineAniId.attack,
                 roleconWhole.iddif, recordSkillName));
             Debug.Log((ushort) roleconWhole.m_RoleInfo.roleid);
             Debug.Log(roleconWhole.name);
             Debug.Log(roleconWhole.iddif);
-            Debug.LogError(animationDurationTime);
-            yield return new WaitForSeconds(animationDurationTime);
+            Debug.LogError(monsterAniDurationTime);
+            yield return new WaitForSeconds(monsterAniDurationTime);
 
             if (recordSkillName == "skill3a")
             {
                 RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo((ushort) RoleSpineAniId.attack,
                     (ushort) roleconWhole.m_RoleInfo.roleid, "skill3b"));
-                yield return new WaitForSeconds(animationDurationTime);
+                yield return new WaitForSeconds(monsterAniDurationTime);
                 RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo((ushort) RoleSpineAniId.attack,
                     (ushort) roleconWhole.m_RoleInfo.roleid, "skill3c"));
-                yield return new WaitForSeconds(animationDurationTime);
+                yield return new WaitForSeconds(monsterAniDurationTime);
             }
 
-            Debug.LogError(animationDurationTime);
+            Debug.LogError(monsterAniDurationTime);
             SkillEffect.Instance.BasicRoleSkillDamageNor(whichSkill.gameObject);
 
             if (!isSingle)
@@ -1056,20 +1050,20 @@ namespace Demo
             // yield return new WaitForSeconds (animationDurationTime);
             RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo((ushort) RoleSpineAniId.attack,
                 roleconWhole.id, recordSkillName));
-            Debug.LogError(animationDurationTime);
+            Debug.LogError(roleAniDurationTime);
 
-            yield return new WaitForSeconds(animationDurationTime);
+            yield return new WaitForSeconds(roleAniDurationTime);
             if (recordSkillName == "skill3a")
             {
                 RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo((ushort) RoleSpineAniId.attack,
                     (ushort) roleconWhole.m_RoleInfo.roleid, "skill3b"));
-                yield return new WaitForSeconds(animationDurationTime);
+                yield return new WaitForSeconds(roleAniDurationTime);
                 RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo((ushort) RoleSpineAniId.attack,
                     (ushort) roleconWhole.m_RoleInfo.roleid, "skill3c"));
-                yield return new WaitForSeconds(animationDurationTime);
+                yield return new WaitForSeconds(roleAniDurationTime);
             }
 
-            Debug.LogError(animationDurationTime);
+            Debug.LogError(roleAniDurationTime);
             SkillEffect.Instance.BasicRoleSkillDamageNor(whichSkill.gameObject);
             if (!isSingle)
                 AllAddBlood();
@@ -1161,6 +1155,7 @@ namespace Demo
 
                 DealHeadImage(roleImage);
                 RoleAttackLogic(roleImage);
+                DealAttackingSkillImage();
                 JudgeDistanceShowAni(lastAttacker.gameObject);
 
                 return;
@@ -1172,6 +1167,7 @@ namespace Demo
                 SkillEffect.isAgainAttack = false;
                 DealHeadImage(selectedOutAttackers[0]);
                 TheSameArriveDeal();
+                DealAttackingSkillImage();
                 return;
             }
 

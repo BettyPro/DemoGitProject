@@ -4,7 +4,6 @@ using DG.Tweening;
 using Spine.Unity;
 using UnityEngine;
 using UnityEngine.UI;
-using WinterCamera;
 using WinterTools;
 
 namespace Demo
@@ -22,7 +21,7 @@ namespace Demo
         public bool roleStartAttack = false; //开始射线检测攻击
         private bool isSpecialLoop = true;
         private bool beginSpecialAttack = true; //同时到达特殊攻击开始
-        private bool playNormalAnimation = true; //用于行动动画结束播放normal
+        private bool playNormalAni = true; //用于行动动画结束播放normal
         public bool isSpineEnd = true;
 
         private List<float> savePos_y = new List<float>(); //保存更新位置插值列表
@@ -201,7 +200,7 @@ namespace Demo
 
                         if (addFl - roleCon.transform.localPosition.y >= -destination.localPosition.y)
                         {
-                            ConstrainCamera.instance.target = roleCon.transform;
+                            //ConstrainCamera.instance.target = roleCon.transform;
                             selectedOutAttackers.Add(roleCon);
                             Debug.Log("选出来的攻击者个数：-------------- " + selectedOutAttackers.Count);
                             selectedOutAttackersDic.Add(roleCon, addFl - roleCon.transform.localPosition.y);
@@ -383,27 +382,35 @@ namespace Demo
                 if (roleCon.m_RoleInfo.roleid == ADDUIBattle.instance.roleSpeedImages[j].m_RoleInfo.roleid)
                 {
                     isRole = true;
-                    RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
-                        (ushort) RoleSpineAniId.action,
-                        (ushort) roleconWhole.m_RoleInfo.roleid, "start", false, false));
-                   
-                    
-                    StartCoroutine(DelaySomeTimeToPlay(1));
-                    //BUFF检查计算
+                    StartCoroutine(SetRoleAni());
+                    //StartCoroutine(DelaySomeTimeToPlay(1));
 
                     //TODO 展示技能UI
                     ShowSkillUI(roleCon);
                     //TODO BUFF检查计算
                     CheckBeginBuff();
-                   
-
-                    //给一个默认的技能
+                    //TODO 给一个默认的技能
                     GiveRoleDefaultSkill();
                     //TODO 人物攻击逻辑
 
                     roleStartAttack = true;
                     Debug.Log("该谁进行攻击：-- " + roleCon.m_RoleInfo.roleid);
                 }
+            }
+        }
+
+        IEnumerator SetRoleAni()
+        {
+            RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
+                (ushort) RoleSpineAniId.action,
+                (ushort) roleconWhole.m_RoleInfo.roleid, "start", false, false));
+            playNormalAni = true;
+            yield return new WaitForSeconds(roleAniDurationTime);
+            if (playNormalAni)
+            {
+                RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
+                    (ushort) RoleSpineAniId.idle,
+                    (ushort) roleconWhole.m_RoleInfo.roleid, "normal", false,true));
             }
         }
 
@@ -482,14 +489,9 @@ namespace Demo
                                 "start", false, false));
                         // StartCoroutine (WaitMonsterActionAni (roleCon));
 
-                        // //TODO 展示技能UI
-                        // ShowSkillUI (roleCon, false);
-
-                        // //BUFF检查计算
-                        // CheckBeginBuff ();
-
                         //判断技能优先级,给定技能
                         GiveMonsterPrioritySkill();
+                        DealAttackingSkillImage();
 
                         //TODO 怪物攻击逻辑
                         // GetRoleTargetInfos(roleCon.gameObject);
@@ -562,7 +564,6 @@ namespace Demo
                 cancelLoop = true;
                 firstLoop = true;
                 roleStartAttack = false;
-//            beginFllow = false;
 
                 SkillEffect.Instance.strikeBackOver = false;
             }
@@ -576,7 +577,7 @@ namespace Demo
 
         IEnumerator DelaySomeTimeToPlay(float value = 0f)
         {
-            yield return new WaitForSeconds(animationDurationTime);
+            yield return new WaitForSeconds(roleAniDurationTime);
             if (roleconWhole.m_RoleInfo.roleid == 10001)
                 RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo((ushort) RoleSpineAniId.idle,
                     (ushort) roleconWhole.m_RoleInfo.roleid,

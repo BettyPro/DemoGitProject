@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using UnityEngine;
+﻿using UnityEngine;
 using WinterTools;
 
 public class SetConfig : Singleton<SetConfig>
@@ -88,6 +85,13 @@ public class SetConfig : Singleton<SetConfig>
     public static float isDefenceAdd = 0.6f;
     public static float isDefenceReduce = -0.7f;
     public static float isSpeedReduce = -0.3f;
+    
+    
+    //数值设置
+    public static float cameraScaleValue = 50f;
+    public static float cameraScaleViewValue = 40f;
+    public static float cameraRecoverValue = 50f;
+    public static float cameraRecoverViewValue = 65f;
 
     //测试区
     private static bool testBool = false;

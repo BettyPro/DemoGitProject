@@ -3,6 +3,7 @@ using DG.Tweening;
 using Spine.Unity;
 using UnityEngine;
 using UnityEngine.UI;
+using WinterCamera;
 using WinterTools;
 using WinterTools_Event;
 using Object = UnityEngine.Object;
@@ -578,7 +579,7 @@ namespace Demo
             Transform[] trans = SkillEffect.Instance.FindAttackChilds();
             if (trans == null) return;
             if (trans.Length == 1) return;
-            ColorDebug.Instance.ArrayDebug<Transform>(trans, true);
+            ColorDebug.Instance.ArrayDebug(trans, false);
             for (int i = 1; i < trans.Length; i++)
             {
                 if (trans[i].name.Equals("continueBoutText")) continue;
@@ -587,7 +588,7 @@ namespace Demo
             }
 
             CalculateAfterBuffDamage();
-            ColorDebug.Instance.DicDebug<string, string>(SkillEffect.Instance.attack_beginbuff, true);
+            ColorDebug.Instance.DicDebug(SkillEffect.Instance.attack_beginbuff, false);
         }
 
         void CalculateAfterBuffDamage()

@@ -554,7 +554,7 @@ namespace Demo
                 if (roleCon.m_RoleInfo.isDizziness && roleCon.iddif == 0)
                 {
                     // roleCon.GetComponent<SkeletonAnimation>().AnimationName = "stun";
-                    ske.state.GetCurrent(0).AnimationEnd = 0.3f;
+//                    ske.state.GetCurrent(0).AnimationEnd = 0.3f;
                     MonsterSpineAniManager.Instance.SendMsg(
                         ButtonMsg.GetInstance.ChangeInfo((ushort) RoleSpineAniId.dizziness, roleCon.id, true));
                 }
@@ -567,9 +567,10 @@ namespace Demo
                 else
                 {
                     RoleSpineAniManager.Instance.SendMsg(
-                        ButtonMsg.GetInstance.ChangeInfo((ushort) RoleSpineAniId.idle, roleCon.id, true));
+                        ButtonMsg.GetInstance.ChangeInfo((ushort) RoleSpineAniId.idle, roleCon.id, "normal",false,true));
                     MonsterSpineAniManager.Instance.SendMsg(
-                        ButtonMsg.GetInstance.ChangeInfo((ushort) MonsterSpineAniId.idle, roleCon.iddif, true));
+                        ButtonMsg.GetInstance.ChangeInfo((ushort) MonsterSpineAniId.idle, roleCon.iddif, "normal",false,true));
+//                    
                 }
             }
         }

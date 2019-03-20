@@ -273,7 +273,6 @@ namespace Demo
                     obj.name = re.id.ToString();
                     speedImagesDic.Add(re.id, re);
                 }
-
                 else
                 {
                     obj.name = re.iddif.ToString();
@@ -296,11 +295,6 @@ namespace Demo
                     roleSpeedImages.Add(re);
                 else
                     monsterSpeedImages.Add(re);
-
-                //if (i < 5)
-                //    roleSpeedImages.Add(re);
-                //else
-                //    monsterSpeedImages.Add(re);
             }
         }
 

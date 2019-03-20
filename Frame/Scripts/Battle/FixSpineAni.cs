@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Spine;
+﻿using Spine;
 using Spine.Unity;
 using UnityEngine;
+using WinterCamera;
 using WinterTools;
 
 namespace Demo
@@ -12,10 +11,11 @@ namespace Demo
         private SkeletonAnimation attacker;
 
         private AnimationStateData stateData;
+
         /// <summary>
         /// fix mix
         /// </summary>
-        public void FixAniMix(SkeletonAnimation attacker,RoleConfig role = null)
+        public void FixAniMix(SkeletonAnimation attacker, RoleConfig role = null)
         {
             if (attacker == null) Debug.Log("is null");
             stateData = attacker.skeletonDataAsset.GetAnimationStateData();
@@ -26,9 +26,9 @@ namespace Demo
             stateData.SetMix("normal", "jumpback", 0.01f);
             stateData.SetMix("normal", "start", 0.01f);
             stateData.SetMix("normal", "stun", 0.01f);
-            stateData.SetMix("normal", "skill1", 0.01f);
-            stateData.SetMix("normal", "skill2", 0.01f);
-            stateData.SetMix("normal", "skill3a", 0.01f);
+            stateData.SetMix("normal", "skill1", 0.03f);
+            stateData.SetMix("normal", "skill2", 0.03f);
+            stateData.SetMix("normal", "skill3a", 0.03f);
 
             stateData.SetMix("start", "normal", 0.01f);
             stateData.SetMix("start", "jumpforward", 0.01f);
@@ -39,20 +39,20 @@ namespace Demo
             stateData.SetMix("stun", "hit", 0.01f);
             stateData.SetMix("stun", "normal", 0.01f);
 
-            stateData.SetMix("jumpforward", "skill1", 0.01f);
-            stateData.SetMix("jumpforward", "skill2", 0.01f);
-            stateData.SetMix("jumpforward", "skill3b", 0.01f);
+            stateData.SetMix("jumpforward", "skill1", 0.05f);
+            stateData.SetMix("jumpforward", "skill2", 0.05f);
+            stateData.SetMix("jumpforward", "skill3b", 0.05f);
 
             stateData.SetMix("jumpback", "normal", 0.01f);
             stateData.SetMix("jumpback", "start", 0.01f);
 
-            stateData.SetMix("skill1", "normal", 0.01f);
-            stateData.SetMix("skill1", "jumpback", 0.1f);
-            stateData.SetMix("skill1", "jumpforward", 0.01f);
+            stateData.SetMix("skill1", "normal", 0.03f);
+            stateData.SetMix("skill1", "jumpback", 0.03f);
+            stateData.SetMix("skill1", "jumpforward", 0.03f);
 
-            stateData.SetMix("skill2", "normal", 0.01f);
-            stateData.SetMix("skill2", "jumpback", 0.01f);
-            stateData.SetMix("skill2", "jumpforward", 0.01f);
+            stateData.SetMix("skill2", "normal", 0.03f);
+            stateData.SetMix("skill2", "jumpback", 0.03f);
+            stateData.SetMix("skill2", "jumpforward", 0.03f);
 
             stateData.SetMix("skill3a", "jumpforward", 0.01f);
             stateData.SetMix("skill3a", "skill3b", 0.01f);
@@ -63,7 +63,7 @@ namespace Demo
             stateData.SetMix("skill3c", "jumpback", 0.01f);
 
             stateData.SetMix("hit", "normal", 0.01f);
-            stateData.SetMix("hit", "stun", 0.01f);
+            stateData.SetMix("hit", "stun", 0.7f);
             stateData.SetMix("hit", "normal", 0.01f);
             stateData.SetMix("hit", "stun", 0.01f);
         }
@@ -190,27 +190,47 @@ namespace Demo
             {
                 case "skill1":
                     MyTimerTool.Instance.wtime.AddFrameTask(
-                        (int tid) => { SendMesgToDiffTarget(target_roleIns, attackIsRole, isAllAction); }, 7, 1);
+                        tid =>
+                        {
+                            SendMesgToDiffTarget(target_roleIns, attackIsRole, isAllAction);
+                            CameraEffects.Instance._cameraShake.ChangeCameraShakeDirection();//相机震动
+                        }, 7, 1);
                     break;
                 case "skill2":
                     MyTimerTool.Instance.wtime.AddFrameTask(
-                        (int tid) => { SendMesgToDiffTarget(target_roleIns, attackIsRole, isAllAction); }, 7, 1);
+                        tid =>
+                        {
+                            SendMesgToDiffTarget(target_roleIns, attackIsRole, isAllAction); 
+                            CameraEffects.Instance._cameraShake.ChangeCameraShakeDirection();//相机震动
+                        }, 7, 1);
                     MyTimerTool.Instance.wtime.AddFrameTask(
-                        (int tid) => { SendMesgToDiffTarget(target_roleIns, attackIsRole, isAllAction); }, 15, 1);
+                        tid =>
+                        {
+                            SendMesgToDiffTarget(target_roleIns, attackIsRole, isAllAction); 
+                            CameraEffects.Instance._cameraShake.ChangeCameraShakeDirection();//相机震动
+                        }, 15, 1);
                     MyTimerTool.Instance.wtime.AddFrameTask(
-                        (int tid) => { SendMesgToDiffTarget(target_roleIns, attackIsRole, isAllAction); }, 27, 1);
+                        tid =>
+                        {
+                            SendMesgToDiffTarget(target_roleIns, attackIsRole, isAllAction);
+                            CameraEffects.Instance._cameraShake.ChangeCameraShakeDirection();//相机震动
+                        }, 27, 1);
                     break;
                 case "skill3a":
                     MyTimerTool.Instance.wtime.AddFrameTask(
-                        (int tid) => { SendMesgToDiffTarget(target_roleIns, attackIsRole, isAllAction); }, 7, 1);
+                        tid =>
+                        {
+                            SendMesgToDiffTarget(target_roleIns, attackIsRole, isAllAction);
+                            CameraEffects.Instance._cameraShake.ChangeCameraShakeDirection();//相机震动
+                        }, 7, 1);
                     MyTimerTool.Instance.wtime.AddFrameTask(
-                        (int tid) => { SendMesgToDiffTarget(target_roleIns, attackIsRole, isAllAction); }, 11, 1);
+                        tid => { SendMesgToDiffTarget(target_roleIns, attackIsRole, isAllAction); }, 11, 1);
                     MyTimerTool.Instance.wtime.AddFrameTask(
-                        (int tid) => { SendMesgToDiffTarget(target_roleIns, attackIsRole, isAllAction); }, 15, 1);
+                        tid => { SendMesgToDiffTarget(target_roleIns, attackIsRole, isAllAction); }, 15, 1);
                     MyTimerTool.Instance.wtime.AddFrameTask(
-                        (int tid) => { SendMesgToDiffTarget(target_roleIns, attackIsRole, isAllAction); }, 19, 1);
+                        tid => { SendMesgToDiffTarget(target_roleIns, attackIsRole, isAllAction); }, 19, 1);
                     MyTimerTool.Instance.wtime.AddFrameTask(
-                        (int tid) => { SendMesgToDiffTarget(target_roleIns, attackIsRole, isAllAction); }, 23, 1);
+                        tid => { SendMesgToDiffTarget(target_roleIns, attackIsRole, isAllAction); }, 23, 1);
                     break;
                 default:
                     Debug.Log("null");
@@ -218,7 +238,7 @@ namespace Demo
             }
         }
 
-        
+
         void SendMesgToDiffTarget(RoleConfig target_roleIns, bool attackIsRole = true, bool isAllAction = false)
         {
             if (attackIsRole)
@@ -237,7 +257,7 @@ namespace Demo
         public void FixAniMonsToRoleFrame(RoleConfig target_roleIns, int delayFrame = 2, bool isAllAction = false)
         {
             MyTimerTool.Instance.wtime.AddFrameTask(
-                (int tid) =>
+                tid =>
                 {
                     MonsterSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
                         (ushort) RoleSpineAniId.attack,
@@ -248,7 +268,7 @@ namespace Demo
         public void FixAniRoleToMonsFrame(RoleConfig target_roleIns, int delayFrame = 2, bool isAllAction = false)
         {
             MyTimerTool.Instance.wtime.AddFrameTask(
-                (int tid) =>
+                tid =>
                 {
                     RoleSpineAniManager.Instance.SendMsg(ButtonMsg.GetInstance.ChangeInfo(
                         (ushort) MonsterSpineAniId.attacked, target_roleIns.iddif, "hit", isAllAction, false));
